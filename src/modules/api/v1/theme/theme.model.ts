@@ -1,9 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { Test } from '../test/test.model';
+import { Type } from 'class-transformer';
 
 
-@Schema()
+@Schema({
+    toJSON  : { virtuals: true },
+    toObject: { virtuals: true },
+})
 export class Theme {
     /**
      * ручной ID для поиска по темам по типу 1-1 или 1 или 3-2-5
@@ -34,11 +39,26 @@ export class Theme {
     url: string;
 
     /**
+     * ID родительской темы
+     * @type {mongoose.Schema.Types.ObjectId}
+     */
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Theme.name, default: null })
+    @Type(() => Theme)
+    parentId: string;
+
+    /**
      * Родительская тема
      * @type {Theme}
      */
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Theme.name, default: null })
+    @Type(() => Theme)
     parent: Theme;
+
+    /**
+     * Дочерние темы
+     * @type {Theme[]}
+     */
+    @Type(() => Theme)
+    children: Theme[];
 
     /**
      * Тесты по этой теме
@@ -51,11 +71,16 @@ export class Theme {
 }
 
 export const ThemeSchema = SchemaFactory.createForClass(Theme);
+export type ThemeDocument = HydratedDocument<Theme>;
 
-// TODO: Continue
 ThemeSchema.virtual('children', {
     ref         : Theme.name,
     localField  : '_id',
-    foreignField: 'parent',
-    justOne     : false,
+    foreignField: 'parentId',
+});
+
+ThemeSchema.virtual('parent', {
+    ref         : Theme.name,
+    localField  : 'parentId',
+    foreignField: '_id',
 });

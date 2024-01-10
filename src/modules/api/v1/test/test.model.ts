@@ -1,6 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Question } from '../question/question.model';
+import { Type } from 'class-transformer';
 
 
 @Schema()
@@ -9,7 +10,7 @@ export class Test {
      * Название теста
      * @type {string}
      */
-    @Prop({ type: String })
+    @Prop({ type: String, required: true })
     title: string;
 
     /**
@@ -23,6 +24,10 @@ export class Test {
      * Количество вопросов которые нужно сгенерировать (выбрать) для этого теста
      * @type {number}
      */
-    @Prop({ type: mongoose.Schema.Types.ObjectId, schema: [ Question ] })
+    @Prop({
+        type   : [ { type: mongoose.Schema.Types.ObjectId, ref: Question.name } ],
+        default: [],
+    })
+    @Type(() => Question)
     questions: Question[];
 }

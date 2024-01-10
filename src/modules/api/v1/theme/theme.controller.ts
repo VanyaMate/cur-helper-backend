@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ThemeService } from './theme.service';
 import { CreateThemeDto } from './dto/create-theme.dto';
 
@@ -18,5 +18,10 @@ export class ThemeController {
     @Post('')
     create (@Body() createDto: CreateThemeDto) {
         return this._themeService.create(createDto);
+    }
+
+    @Get(':id')
+    getById (@Param('id') id: string) {
+        return this._themeService.getById(id);
     }
 }
