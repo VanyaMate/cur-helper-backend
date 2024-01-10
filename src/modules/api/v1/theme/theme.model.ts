@@ -25,11 +25,25 @@ export class Theme {
     title: string;
 
     /**
-     * Специальный формат для описания темы
+     * Описание для темы
      * @type {string}
      */
     @Prop({ type: String, default: '' })
     description: string;
+
+    /**
+     * Помарка для темы
+     * @type {string}
+     */
+    @Prop({ type: String, default: '' })
+    additional: string;
+
+    /**
+     * Специальный формат для описания темы
+     * @type {string}
+     */
+    @Prop({ type: String, default: '' })
+    body: string;
 
     /**
      * URL для случаев когда это внешний источник

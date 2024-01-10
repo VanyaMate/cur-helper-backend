@@ -15,6 +15,11 @@ export class ThemeController {
         return this._themeService.getAll();
     }
 
+    @Get('/int')
+    getAllInt () {
+        return this._themeService.getAllService();
+    }
+
     @Post('')
     create (@Body() createDto: CreateThemeDto) {
         return this._themeService.create(createDto);

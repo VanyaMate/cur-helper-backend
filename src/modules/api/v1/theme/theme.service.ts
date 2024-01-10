@@ -3,17 +3,40 @@ import { Theme, ThemeDocument } from './theme.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { CreateThemeDto } from './dto/create-theme.dto';
+import { IThemeService } from '@/domain/theme/theme-service.interface';
+import { IThemesService } from '@/domain/themes/themes-service.interface';
+import {
+    MongoThemeConverter,
+} from '@/domain/theme/implementations/mongo/mongo-theme.converter';
+import {
+    MongoThemeService,
+} from '@/domain/theme/implementations/mongo/mongo-theme.service';
+import { DtoValidator } from '@/domain/dto.validator';
+import {
+    MongoThemesService,
+} from '@/domain/themes/implementations/mongo/mongo-themes.service';
 
 
 @Injectable()
 export class ThemeService {
+    private _themeService: IThemeService;
+    private _themesService: IThemesService;
+
     constructor (
         @InjectModel(Theme.name) private readonly _themeModel: Model<Theme>,
     ) {
+        const converter     = new MongoThemeConverter();
+        const dtoValidator  = new DtoValidator();
+        this._themeService  = new MongoThemeService(this._themeModel, converter, dtoValidator);
+        this._themesService = new MongoThemesService(this._themeModel, converter);
     }
 
     create (createDto: CreateThemeDto) {
         return this._themeModel.create(createDto);
+    }
+
+    async getAllService () {
+        return this._themesService.findMany({}, { limit: 10 });
     }
 
     async getAll () {

@@ -6,7 +6,8 @@ export type Theme =
         id: string;
         title: string;
         description: string;
-        url: string[];
+        additional: string;
+        url: string;
     }
 
 export type ThemeBody =
