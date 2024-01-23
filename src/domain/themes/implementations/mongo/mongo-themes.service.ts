@@ -64,11 +64,6 @@ export class MongoThemesService implements IThemesService {
     }
 
     /**
-     *
-     * 1. Сделать дерево из тем
-     * 2. Дополнить их темами
-     * 3. Дополнить их childrens
-     *
      * @param id
      * @param themes
      * @param theme

@@ -19,6 +19,7 @@ export type Test = {
     title: string;
     description: string;
     timeToPass: number;
+    questionsAmount: number;
 }
 
 /**
