@@ -63,13 +63,6 @@ export class MongoThemesService implements IThemesService {
         return idsList;
     }
 
-    /**
-     * @param id
-     * @param themes
-     * @param theme
-     * @param parent
-     * @private
-     */
     private _makeThemeTree (id: string, themes: Theme[], theme: ThemeWith<[ ThemeParent ]> = null, parent: ThemeWith<[ ThemeParent ]> = null): ThemeWith<[ ThemeParent ]> {
         if (!theme) {
             const start: ThemeWith<[ ThemeParent ]> = {

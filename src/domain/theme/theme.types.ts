@@ -2,10 +2,9 @@ import {
     TestPassing, TestResult,
 } from '../test/test.types';
 import { With } from '@/domain/types';
-import { ThemeDocument } from '@/domain/theme/implementations/mongo/mongo-theme.model';
 
 
-export type ThemeWith<T extends any[]> = With<ThemeDocument, T>;
+export type ThemeWith<T extends any[]> = With<Theme, T>;
 
 export type Theme =
     {
