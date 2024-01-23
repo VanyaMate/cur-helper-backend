@@ -1,5 +1,8 @@
-import { QuestionPassing, QuestionResult } from '../questions/question.types';
+import { Question, QuestionPassing, QuestionResult } from '../questions/question.types';
+import { With } from '@/domain/types';
 
+
+export type TestWith<T extends any[]> = With<Test, T>;
 
 /**
  * Статус теста
@@ -22,46 +25,33 @@ export type Test = {
     questionsAmount: number;
 }
 
-/**
- * Показывает статус теста
- */
-export type TestPassingData =
-    {
-        status: TestStatus;
-        startTime: string;
-    }
-    & Test;
 
-/**
- * Показывает результаты и статус теста
- * @number rightAnswers - Количество правильных ответов. Если тест находится в process - возвращается -1
- * @number questions - Количество вопросов в тесте.
- * @number timeSpent - Количество времени в миллисекундах которое осталось до завершения теста. Если тест закончился - возвращается 0.
- * @string finishTime - Дата когда тест закончился. Если тест находится в process - возвращается пустая строка.
- */
-export type TestResultData =
-    {
-        rightAnswers: number;
-        questions: number;
-        timeSpent: number;
-        finishTime: string;
-    }
-    & TestPassingData;
+export type TestQuestions<QuestionType> = {
+    questions: QuestionType[];
+}
 
-/**
- * Нужен для прохождения теста
- */
-export type TestPassing =
-    {
-        questions: QuestionPassing[];
-    }
-    & TestPassingData;
+export type TestPassing = {
+    passing: TestPassingData;
+}
 
-/**
- * Нужен, чтобы показать результаты теста
- */
-export type TestResult =
-    {
-        questions: QuestionResult[];
-    }
-    & TestResultData;
+export type TestResult = {
+    result: TestResultsData;
+}
+
+export type TestResults = {
+    results: TestResultsData[];
+}
+
+export type TestPassingData = {
+    status: TestStatus;
+    startTime: string;
+    questions: QuestionPassing[];
+}
+
+export type TestResultsData = {
+    status: TestStatus;
+    startTime: string;
+    finishTime: string;
+    rightAnswers: number;
+    questions: QuestionResult[];
+}

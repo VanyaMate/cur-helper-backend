@@ -1,13 +1,11 @@
 import {
-    TestPassing,
-    TestResult,
+    TestPassing, TestResult,
 } from '../test/test.types';
+import { With } from '@/domain/types';
+import { ThemeDocument } from '@/domain/theme/implementations/mongo/mongo-theme.model';
 
 
-export type ThemeWith<T extends any[]> = T extends [ infer First, ...infer Rest ]
-                                         ? First & ThemeWith<Rest>
-                                         : T extends [ infer Only ] ? Only & Theme
-                                                                    : Theme;
+export type ThemeWith<T extends any[]> = With<ThemeDocument, T>;
 
 export type Theme =
     {

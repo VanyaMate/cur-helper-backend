@@ -65,6 +65,6 @@ export class ThemeService {
     }
 
     async getById (id: string) {
-        return this._themesService.getByIds(id);
+        return this._themesService.getById(id);
     }
 }

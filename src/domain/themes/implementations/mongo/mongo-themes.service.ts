@@ -24,7 +24,7 @@ export class MongoThemesService implements IThemesService {
     ) {
     }
 
-    async getByIds (id: string): Promise<(ThemeParent & Theme) | null> {
+    async getById (id: string): Promise<(ThemeParent & Theme) | null> {
         const ids: string[]           = this._splitId(id);
         const themes: ThemeDocument[] = await this._themeModel.find({
             $or: [
@@ -36,19 +36,19 @@ export class MongoThemesService implements IThemesService {
         return this._makeThemeTree(id, themes.map(this._mongoModelConverter.to));
     }
 
-    getByIdsWithAll (id: string): Promise<ThemeParent & ThemeChildren & ThemeTests & ThemeBody & Theme> {
+    getByIdWithAll (id: string): Promise<ThemeParent & ThemeChildren & ThemeTests & ThemeBody & Theme> {
         throw new Error('Method not implemented.');
     }
 
-    getByIdsWithBody (id: string): Promise<ThemeParent & ThemeBody & Theme> {
+    getByIdWithBody (id: string): Promise<ThemeParent & ThemeBody & Theme> {
         throw new Error('Method not implemented.');
     }
 
-    getByIdsWithTests (id: string): Promise<ThemeParent & ThemeTests & Theme> {
+    getByIdWithTests (id: string): Promise<ThemeParent & ThemeTests & Theme> {
         throw new Error('Method not implemented.');
     }
 
-    getByIdsWithChildren (id: string): Promise<ThemeParent & ThemeChildren & Theme> {
+    getByIdWithChildren (id: string): Promise<ThemeParent & ThemeChildren & Theme> {
         throw new Error('Method not implemented.');
     }
 
