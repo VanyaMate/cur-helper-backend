@@ -1,11 +1,18 @@
-import { Filter, MultiplyResponse, Options } from '@/domain/service.types';
-import { Theme, ThemeWithChildren } from '@/domain/theme/theme.types';
+import {
+    ThemeBody,
+    ThemeChildren,
+    ThemeParent, ThemeTests, ThemeWith,
+} from '@/domain/theme/theme.types';
 
 
 export interface IThemesService {
-    findOne ();
+    getByIds (id: string): Promise<ThemeWith<[ ThemeParent ]> | null>;
 
-    findMany (filter: Filter<Theme>, options: Options<Theme>): Promise<MultiplyResponse<Theme>>;
+    getByIdsWithAll (id: string): Promise<ThemeWith<[ ThemeParent, ThemeChildren, ThemeTests, ThemeBody ]> | null>;
 
-    findManyManyWithChildren (filter: Filter<Theme>, options: Options<Theme>): Promise<MultiplyResponse<ThemeWithChildren>>;
+    getByIdsWithBody (id: string): Promise<ThemeWith<[ ThemeParent, ThemeBody ]> | null>;
+
+    getByIdsWithTests (id: string): Promise<ThemeWith<[ ThemeParent, ThemeTests ]> | null>;
+
+    getByIdsWithChildren (id: string): Promise<ThemeWith<[ ThemeParent, ThemeChildren ]> | null>;
 }

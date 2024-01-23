@@ -1,7 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { Answer } from '../answer/answer.model';
+import { Answer } from '../../../answer/implementations/mongo/mongo-answer.model';
 import * as mongoose from 'mongoose';
-import { Theme } from '../theme/theme.model';
+import { Theme } from '../../../theme/implementations/mongo/mongo-theme.model';
 
 
 @Schema()

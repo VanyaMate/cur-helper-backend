@@ -1,6 +1,13 @@
-export type Filter<DataType> =
-    ((data: DataType) => boolean)
-    | (Partial<DataType>);
+export type StringFilterType =
+    'equal'
+    | 'match';
+
+export type Filter<Type> = {
+    [Key in keyof Partial<Type>]: {
+        value: Type[Key],
+        type: Type[Key] extends string ? StringFilterType : 'equal',
+    }
+}
 
 export type Options<DataType> = {
     offset?: number;

@@ -1,15 +1,15 @@
 import { ICRUD } from '../service.types';
 import {
     Theme as ThemeDefault,
-    ThemeData,
-    ThemeWithChildren,
+    ThemeBody,
+    ThemeChildren,
 } from './theme.types';
 
 
 export type Theme =
     ThemeDefault
-    & Partial<ThemeData>
-    & Partial<ThemeWithChildren>;
+    & Partial<ThemeBody>
+    & Partial<ThemeChildren>;
 
 export type CreateThemeData =
     Pick<Theme, 'id' | 'title'>

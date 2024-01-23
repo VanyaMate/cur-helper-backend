@@ -5,14 +5,17 @@ import {
     Theme,
 } from '@/domain/theme/theme-service.interface';
 import { Model } from 'mongoose';
-import { Theme as ThemeModel, ThemeDocument } from '@/modules/api/v1/theme/theme.model';
+import {
+    Theme as ThemeModel,
+    ThemeDocument,
+} from '@/domain/theme/implementations/mongo/mongo-theme.model';
 import { IDtoValidator } from '@/domain/dto.validator';
 
 
 export class MongoThemeService implements IThemeService {
     constructor (
         private readonly _mongoRepository: Model<ThemeModel>,
-        private readonly _converter: IConverter<ThemeModel, Theme>,
+        private readonly _converter: IConverter<ThemeDocument, Theme>,
         private readonly _dtoValidator: IDtoValidator,
     ) {
     }

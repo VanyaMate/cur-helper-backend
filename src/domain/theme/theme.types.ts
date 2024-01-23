@@ -1,5 +1,13 @@
-import { TestResultData } from '../test/test.types';
+import {
+    TestPassing,
+    TestResult,
+} from '../test/test.types';
 
+
+export type ThemeWith<T extends any[]> = T extends [ infer First, ...infer Rest ]
+                                         ? First & ThemeWith<Rest>
+                                         : T extends [ infer Only ] ? Only & Theme
+                                                                    : Theme;
 
 export type Theme =
     {
@@ -8,31 +16,34 @@ export type Theme =
         description: string;
         additional: string;
         url: string;
-    }
+    };
 
 export type ThemeBody =
     {
         body: string;
-    }
+    };
 
-export type ThemeWithTestResult =
+export type ThemeTestResult =
     {
-        test: TestResultData;
-    }
-    & Theme;
+        test: TestResult;
+    };
 
-export type ThemeWithChildren =
+export type ThemeTestPassing =
     {
-        children: Theme[];
-    }
-    & Theme;
+        test: TestPassing;
+    };
 
-export type ThemeWithTests =
+export type ThemeChildren =
     {
-        children: ThemeWithTestResult[];
-    }
-    & ThemeWithTestResult;
+        children: ThemeWith<[ ThemeChildren ]>[];
+    };
 
-export type ThemeData =
-    Theme
-    & ThemeBody;
+export type ThemeTests =
+    {
+        tests: ThemeTestResult[];
+    };
+
+export type ThemeParent =
+    {
+        parent: ThemeWith<[ ThemeParent ]> | null;
+    }

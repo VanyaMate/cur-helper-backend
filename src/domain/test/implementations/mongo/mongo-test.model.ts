@@ -1,7 +1,8 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Question } from '../question/question.model';
+import { Question } from '../../../questions/implementations/mongo/mongo-question.model';
 import { Type } from 'class-transformer';
+import { HydratedDocument } from 'mongoose';
 
 
 @Schema()
@@ -31,3 +32,6 @@ export class Test {
     @Type(() => Question)
     questions: Question[];
 }
+
+export const TestSchema = SchemaFactory.createForClass(Test);
+export type TestDocument = HydratedDocument<Test>;

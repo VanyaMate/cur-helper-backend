@@ -28,8 +28,4 @@ export class CreateThemeDto extends Dto<CreateThemeDto> implements CreateThemeDa
     @IsOptional()
     @IsString()
     url?: string;
-
-    @IsOptional()
-    @IsArray()
-    children?: Theme[];
 }
