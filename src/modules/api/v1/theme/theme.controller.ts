@@ -29,4 +29,9 @@ export class ThemeController {
     getById (@Param('id') id: string) {
         return this._themeService.getById(id);
     }
+
+    @Get('/withChildren/:id')
+    getByIdWithChildren (@Param('id') id: string) {
+        return this._themeService.getByIdWithChildren(id);
+    }
 }

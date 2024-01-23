@@ -67,4 +67,8 @@ export class ThemeService {
     async getById (id: string) {
         return this._themesService.getById(id);
     }
+
+    async getByIdWithChildren (id: string) {
+        return this._themesService.getByIdWithChildren(id);
+    }
 }
