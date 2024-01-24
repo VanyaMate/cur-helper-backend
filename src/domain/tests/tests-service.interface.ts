@@ -9,7 +9,7 @@ import {
 export interface ITestsService {
     getById (id: string): Promise<Test>;
 
-    getByIdWithResults (id: string): Promise<TestWith<[ TestResults ]>>;
+    getByIdWithResults (id: string, userId?: string): Promise<TestWith<[ TestResults ]>>;
 
-    getByIdWithPassing (id: string): Promise<TestWith<[ TestPassing ]>>;
+    getByIdWithPassing (id: string, userId?: string): Promise<TestWith<[ TestPassing ]>>;
 }
