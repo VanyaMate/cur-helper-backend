@@ -22,8 +22,8 @@ export class Test {
     description: string;
 
     /**
-     * Количество вопросов которые нужно сгенерировать (выбрать) для этого теста
-     * @type {number}
+     * Вопросы подключенные к этому тесту
+     * @type {mongoose.Schema.Types.ObjectId[]}
      */
     @Prop({
         type   : [ { type: mongoose.Schema.Types.ObjectId, ref: Question.name } ],
@@ -31,6 +31,25 @@ export class Test {
     })
     @Type(() => Question)
     questions: Question[];
+
+    /**
+     * То что ниже - можно вынести в отдельную модель в будущем
+     * И генерировать тесты основываясь на этих моделях, чтобы генерировать разные тесты разных размеров
+     */
+
+    /**
+     * Время на прохождение теста
+     * @type {number}
+     */
+    @Prop({ type: Number })
+    timeToPass: number;
+
+    /**
+     * Количество вопросов для генерации теста
+     * @type {number}
+     */
+    @Prop({ type: Number })
+    questionsAmount: number;
 }
 
 export const TestSchema = SchemaFactory.createForClass(Test);

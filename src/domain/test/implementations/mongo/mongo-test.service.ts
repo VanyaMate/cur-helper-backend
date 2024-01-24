@@ -17,16 +17,15 @@ export class MongoTestService implements ITestService {
         return this._converter.to(test);
     }
 
-    read (data: Filter<Test>): Promise<Test> {
+    async read (data: Filter<Test>): Promise<Test> {
         throw new Error('Method not implemented.');
     }
 
-    update (id: string, data: Partial<Test>): Promise<Test> {
+    async update (id: string, data: Partial<Test>): Promise<Test> {
         throw new Error('Method not implemented.');
     }
 
-    delete (id: string): Promise<boolean> {
+    async delete (id: string): Promise<boolean> {
         throw new Error('Method not implemented.');
     }
-
 }
