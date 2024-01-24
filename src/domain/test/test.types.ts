@@ -1,4 +1,4 @@
-import { Question, QuestionPassing, QuestionResult } from '../questions/question.types';
+import { Question, QuestionPassing, QuestionResult } from '@/domain/question/question.types';
 import { With } from '@/domain/types';
 
 

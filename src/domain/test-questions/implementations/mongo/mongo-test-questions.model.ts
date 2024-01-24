@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { TestQuestionLink } from '@/domain/test-questions/test-questions.types';
 import { Test } from '@/domain/test/implementations/mongo/mongo-test.model';
-import { Question } from '@/domain/questions/implementations/mongo/mongo-question.model';
+import { Question } from '@/domain/question/implementations/mongo/mongo-question.model';
 
 
 @Schema()

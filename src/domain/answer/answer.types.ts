@@ -1,41 +1,26 @@
-/**
- * Основные данные об ответе
- */
+import { With } from '@/domain/types';
+
+
+export type AnswerWith<T extends any[]> = With<Answer, T>;
+
 export type Answer =
     {
         id: string;
         title: string;
-    }
+    };
 
-/**
- * Данные об ответе нужные для прохождения теста
- */
-export type AnswerPassing =
+export type AnswerSelect =
     {
         selected: boolean;
-    }
-    & Answer;
+    };
 
-/**
- * Данные об ответе нужные для показа результата
- */
-export type AnswerCorrect =
-    {
-        reason: string;
-        isCorrect: boolean;
-    }
-    & Answer;
 
-/**
- * Данные об ответе включая правильность и причину ответа.
- */
-export type AnswerReason =
-    {
-        reason: string;
-        state: boolean;
-    }
-    & Answer;
+export type AnswerResultType = {
+    isCorrect: boolean;
+    reason: string;
+};
 
 export type AnswerResult =
-    AnswerCorrect
-    & AnswerPassing;
+    {
+        result: AnswerResultType;
+    };

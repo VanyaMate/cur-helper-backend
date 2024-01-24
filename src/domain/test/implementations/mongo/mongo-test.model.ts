@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Question } from '../../../questions/implementations/mongo/mongo-question.model';
+import { Question } from '@/domain/question/implementations/mongo/mongo-question.model';
 import { Type } from 'class-transformer';
 import { HydratedDocument } from 'mongoose';
 
