@@ -37,7 +37,7 @@ export type ThemeChildren =
 
 export type ThemeTests =
     {
-        tests: ThemeTestResult[];
+        tests: ThemeWith<[ ThemeTestResult ]>[];
     };
 
 export type ThemeParent =

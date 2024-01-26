@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MONGO_DB_URL } from './consts/config-name';
 import { ThemeModule } from './modules/api/v1/theme/theme.module';
+import { TestModule } from '@/modules/api/v1/test/test.module';
 
 
 @Module({
@@ -18,7 +19,11 @@ import { ThemeModule } from './modules/api/v1/theme/theme.module';
             }),
             inject    : [ ConfigService ],
         }),
+        /**
+         * TODO: Переместить потом
+         */
         ThemeModule,
+        TestModule,
     ],
     controllers: [],
     providers  : [],

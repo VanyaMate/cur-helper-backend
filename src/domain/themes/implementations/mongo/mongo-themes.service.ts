@@ -2,7 +2,7 @@ import {
     Theme,
     ThemeBody,
     ThemeChildren,
-    ThemeParent,
+    ThemeParent, ThemeTestResult,
     ThemeTests,
     ThemeWith,
 } from '@/domain/theme/theme.types';
@@ -12,15 +12,19 @@ import {
     Theme as MongoTheme,
     ThemeDocument,
 } from '@/domain/theme/implementations/mongo/mongo-theme.model';
-import { Test as MongoTest } from '@/domain/test/implementations/mongo/mongo-test.model';
+import {
+    Test as MongoTest,
+    TestDocument,
+} from '@/domain/test/implementations/mongo/mongo-test.model';
 import { IConverter } from '@/domain/service.types';
+import { Test, TestResults, TestWith } from '@/domain/test/test.types';
 
 
 export class MongoThemesService implements IThemesService {
     constructor (
         private readonly _themeModel: Model<MongoTheme>,
         private readonly _testModel: Model<MongoTest>,
-        private readonly _mongoModelConverter: IConverter<ThemeDocument, Theme>,
+        private readonly _mongoThemeModelConverter: IConverter<ThemeDocument, Theme>,
     ) {
     }
 
@@ -32,7 +36,7 @@ export class MongoThemesService implements IThemesService {
             ],
         });
 
-        return this._makeThemeParentsTree(id, themes.map(this._mongoModelConverter.to));
+        return this._makeThemeParentsTree(id, themes.map(this._mongoThemeModelConverter.to));
     }
 
     async getByIdWithAll (id: string): Promise<ThemeParent & ThemeChildren & ThemeTests & ThemeBody & Theme> {
@@ -56,7 +60,7 @@ export class MongoThemesService implements IThemesService {
             ],
         });
 
-        const convertedThemes: Theme[] = themes.map(this._mongoModelConverter.to);
+        const convertedThemes: Theme[] = themes.map(this._mongoThemeModelConverter.to);
 
         return {
             ...this._makeThemeParentsTree(id, convertedThemes),
@@ -96,6 +100,23 @@ export class MongoThemesService implements IThemesService {
         } else {
             return parent;
         }
+    }
+
+    private _makeThemeTestTree (id: string, themes: Theme[], tests: TestWith<[ TestResults ]>[]): ThemeWith<[ ThemeTestResult ]>[] {
+        return themes.map((theme) => {
+            const withTest: ThemeWith<[ ThemeTestResult ]> = { ...theme, test: null };
+            let lastTest: TestWith<[ TestResults ]>        = null;
+
+            for (let i = 0; i < tests.length; i++) {
+                if (tests[i].id === theme.id) {
+                    if (!lastTest || (tests[i].results[0] && tests[i].results[0].finishTime > lastTest.results[0].finishTime)) {
+                        lastTest.results = [ tests[i].results[0] ];
+                    }
+                }
+            }
+
+            return withTest;
+        });
     }
 
     private _makeThemeChildrenTree (id: string, themes: Theme[], theme: ThemeWith<[ ThemeChildren ]> = null): ThemeWith<[ ThemeChildren ]> {
