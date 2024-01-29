@@ -3,3 +3,8 @@ export enum Complexity {
     MEDIUM,
     DIFFICULT
 }
+
+export enum Status {
+    PROCESS,
+    FINISHED
+}
