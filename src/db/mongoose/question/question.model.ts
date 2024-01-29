@@ -4,7 +4,7 @@ import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { Complexity } from '@/db/mongoose/enums';
 
 
-export class QuestionAnswer {
+export class QuestionAnswerModel {
     @Prop({ type: String, required: true })
     title: string;
 
@@ -17,7 +17,7 @@ export class QuestionAnswer {
 
 @Schema()
 export class QuestionModel {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: ThemeModel.name })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
     themeId: string;
 
     @Prop({ type: Boolean, default: false })
@@ -38,8 +38,8 @@ export class QuestionModel {
     @Prop({ type: Number, default: 0 })
     points: number;
 
-    @Prop({ type: [ QuestionAnswer ], default: [] })
-    answers: QuestionAnswer[];
+    @Prop({ type: [ QuestionAnswerModel ], default: [] })
+    answers: QuestionAnswerModel[];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(QuestionModel);

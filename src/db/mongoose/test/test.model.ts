@@ -3,11 +3,18 @@ import * as mongoose from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { QuestionModel } from '@/db/mongoose/question/question.model';
 import { HydratedDocument } from 'mongoose';
+import {
+    QuestionToTestModel,
+} from '@/db/mongoose/question-to-test/question-to-test.model';
 
 
-@Schema()
+@Schema({
+    toJSON: {
+        virtuals: true,
+    },
+})
 export class TestModel {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: ThemeModel.name })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
     themeId: string | null;
 
     @Prop({ type: Boolean, default: false })
@@ -33,10 +40,14 @@ export class TestModel {
 
     @Prop({ type: Number, default: 0 })
     perfectScore: number;
-
-    @Prop({ type: [ { type: mongoose.Schema.Types.ObjectId, ref: QuestionModel.name } ] })
-    questionsIds: string[];
 }
 
-export const TestSchame = SchemaFactory.createForClass(TestModel);
+export const TestSchema = SchemaFactory.createForClass(TestModel);
 export type TestDocument = HydratedDocument<TestModel>;
+
+TestSchema.virtual('questions', {
+    ref         : 'QuestionToTestModel',
+    localField  : '_id',
+    foreignField: 'testId',
+    justOne     : false,
+});
