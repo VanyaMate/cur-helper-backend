@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { Model } from 'mongoose';
 import {
-    QuestionAnswerModel,
     QuestionModel,
 } from '@/db/mongoose/question/question.model';
 import { TestModel } from '@/db/mongoose/test/test.model';
