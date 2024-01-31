@@ -12,6 +12,9 @@ import {
 } from '@/modules/services/dto-validator/dto-validator.service';
 import { ThemeCreateDto } from '@/domain/theme/dto/theme-create.dto';
 import { ThemeUpdateDto } from '@/domain/theme/dto/theme-update.dto';
+import {
+    MongoThemeConverter,
+} from '@/domain/theme/implementations/mongoose/mongo-theme.converter';
 
 
 @Injectable()
@@ -22,7 +25,7 @@ export class ThemeService {
         @InjectModel('ThemeModel') private readonly _themeModel: Model<ThemeModel>,
         private readonly _dtoValidator: DtoValidatorService,
     ) {
-        this._themeService = new MongoThemeService(this._themeModel);
+        this._themeService = new MongoThemeService(this._themeModel, new MongoThemeConverter());
     }
 
     async createTheme (createData: ThemeCreateType) {
