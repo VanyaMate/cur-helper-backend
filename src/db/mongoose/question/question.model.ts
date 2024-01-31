@@ -17,8 +17,11 @@ export class QuestionAnswerModel {
 
 @Schema()
 export class QuestionModel {
+    /**
+     * TODO: Сделать чтобы вопрос мог ссылаться на несколько тем, а не на одну
+     */
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
-    themeId: string;
+    themeId: mongoose.Schema.Types.ObjectId | null;
 
     @Prop({ type: Boolean, default: false })
     enabled: boolean;
