@@ -6,7 +6,7 @@ import { Dto } from '@/domain/dto';
 export class ThemeCreateDto extends Dto<ThemeCreateType> implements ThemeCreateType {
     @IsString()
     @IsNotEmpty()
-    id: string;
+    publicId: string;
 
     @IsString()
     @IsNotEmpty()

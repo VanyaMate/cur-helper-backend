@@ -5,7 +5,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class ThemeModel {
     @Prop({ type: String, required: true, unique: true })
-    id: string;
+    publicId: string;
 
     @Prop({ type: Boolean, default: false })
     enabled: boolean;

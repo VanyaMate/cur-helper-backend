@@ -3,6 +3,7 @@ import { Create } from '@/domain/types';
 
 export type ThemeType = {
     id: string;
+    publicId: string;
     enabled: boolean;
     title: string;
     description: string;
@@ -11,6 +12,6 @@ export type ThemeType = {
     url: string;
 }
 
-export type ThemeCreateType = Create<ThemeType, 'id' | 'title'>;
+export type ThemeCreateType = Create<ThemeType, 'publicId' | 'title'>;
 export type ThemeUpdateType = Partial<ThemeType>;
-export type ThemeShortType = Pick<ThemeType, 'id' | 'title' | 'url'>;
+export type ThemeShortType = Pick<ThemeType, 'publicId' | 'title' | 'url'>;

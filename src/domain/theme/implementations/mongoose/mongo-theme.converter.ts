@@ -6,7 +6,8 @@ import { ThemeType } from '@/domain/theme/theme.types';
 export class MongoThemeConverter implements IConverter<ThemeDocument, ThemeType> {
     to (from: ThemeDocument): ThemeType {
         return {
-            id         : from.id,
+            id         : from._id.toString(),
+            publicId   : from.publicId,
             enabled    : from.enabled,
             body       : from.body,
             title      : from.title,

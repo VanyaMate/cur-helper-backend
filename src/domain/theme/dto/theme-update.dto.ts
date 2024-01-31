@@ -6,7 +6,7 @@ import { Dto } from '@/domain/dto';
 export class ThemeUpdateDto extends Dto<ThemeUpdateType> implements ThemeUpdateType {
     @IsString()
     @IsOptional()
-    id?: string;
+    publicId?: string;
 
     @IsString()
     @IsOptional()

@@ -8,18 +8,18 @@ import { NOT_FOUND } from '@/domain/exceptions/errors';
 
 export class MongoThemeService implements IThemeService {
     constructor (
-        private readonly _mongoThemeModel: Model<ThemeModel>,
-        private readonly _dataConverter: IConverter<ThemeDocument, ThemeType>,
-        private readonly _filterConverter: IConverter<Filter<ThemeType>, FilterQuery<ThemeModel>>,
+        private readonly _mongoThemeRepository: Model<ThemeModel>,
+        private readonly _documentToPublicConverter: IConverter<ThemeDocument, ThemeType>,
+        private readonly _filterMongoConverter: IConverter<Filter<ThemeType>, FilterQuery<ThemeModel>>,
     ) {
     }
 
     async create (data: ThemeCreateType): Promise<ThemeType> {
         try {
             // create doc
-            const doc: ThemeDocument = await this._mongoThemeModel.create(data);
+            const doc: ThemeDocument = await this._mongoThemeRepository.create(data);
             // return formatted data
-            return this._dataConverter.to(doc);
+            return this._documentToPublicConverter.to(doc);
         } catch (e) {
             throw e;
         }
@@ -27,9 +27,9 @@ export class MongoThemeService implements IThemeService {
 
     async read (data: Filter<ThemeType>): Promise<ThemeType> {
         try {
-            const doc: ThemeDocument = await this._mongoThemeModel.findOne(this._filterConverter.to(data));
+            const doc: ThemeDocument = await this._mongoThemeRepository.findOne(this._filterMongoConverter.to(data));
             if (doc) {
-                return this._dataConverter.to(doc);
+                return this._documentToPublicConverter.to(doc);
             } else {
                 throw NOT_FOUND;
             }
@@ -40,10 +40,10 @@ export class MongoThemeService implements IThemeService {
 
     async update (id: string, data: ThemeUpdateType): Promise<ThemeType> {
         try {
-            const doc: ThemeDocument = await this._mongoThemeModel.findOne({ id });
+            const doc: ThemeDocument = await this._mongoThemeRepository.findOne({ _id: id });
             if (doc) {
                 await doc.updateOne(data);
-                return this._dataConverter.to({ ...doc, ...data } as ThemeDocument);
+                return this._documentToPublicConverter.to(Object.assign(doc, data));
             } else {
                 throw NOT_FOUND;
             }
@@ -54,7 +54,7 @@ export class MongoThemeService implements IThemeService {
 
     async delete (id: string): Promise<boolean> {
         try {
-            const doc: mongo.DeleteResult = await this._mongoThemeModel.deleteOne({ id });
+            const doc: mongo.DeleteResult = await this._mongoThemeRepository.deleteOne({ _id: id });
             return !!doc.deletedCount;
         } catch (e) {
             throw e;

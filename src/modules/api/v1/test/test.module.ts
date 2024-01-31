@@ -21,6 +21,7 @@ import { ServicesModule } from '@/modules/services/services.module';
     imports    : [
         MongooseModule.forFeature([
             { name: 'TestModel', schema: TestSchema },
+            { name: 'ThemeModel', schema: ThemeModel },
         ]),
         ServicesModule,
     ],

@@ -16,6 +16,7 @@ import {
 import { TestCreateType, TestUpdateType } from '@/domain/test/test.types';
 import { TestCreateDto } from '@/domain/test/dto/test-create.dto';
 import { TestUpdateDto } from '@/domain/test/dto/test-update.dto';
+import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 
 
 @Injectable()
@@ -24,11 +25,13 @@ export class TestService {
 
     constructor (
         @InjectModel('TestModel') private readonly _testModel: Model<TestModel>,
+        @InjectModel('ThemeModel') private readonly _themeModel: Model<ThemeModel>,
         private readonly _dtoValidator: DtoValidatorService,
         private readonly _mongoFilterConverter: MongoFilterConverterService,
     ) {
         this._testService = new MongoTestService(
             this._testModel,
+            this._themeModel,
             new MongoTestConverter(),
             this._mongoFilterConverter,
         );

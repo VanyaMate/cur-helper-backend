@@ -8,9 +8,9 @@ export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery
 
         Object.entries(from).forEach(([ key, value ]) => {
             if (value.type === 'match') {
-                filter[key] = { $regexp: new RegExp(`${ value.value }`) };
+                filter[key === 'id' ? '_id' : key] = { $regexp: new RegExp(`${ value.value }`) };
             } else {
-                filter[key] = value.value;
+                filter[key === 'id' ? '_id' : key] = value.value;
             }
         });
 
