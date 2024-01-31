@@ -15,7 +15,7 @@ import {
 })
 export class TestModel {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
-    themeId: string | null;
+    themeId: mongoose.Schema.Types.ObjectId | null;
 
     @Prop({ type: Boolean, default: false })
     enabled: boolean;

@@ -7,9 +7,12 @@ export class MongoThemeConverter implements IConverter<ThemeDocument, ThemeType>
     to (from: ThemeDocument): ThemeType {
         return {
             id         : from.id,
+            enabled    : from.enabled,
             body       : from.body,
             title      : from.title,
+            additional : from.additional,
             description: from.description,
+            url        : from.url,
         };
     }
 
