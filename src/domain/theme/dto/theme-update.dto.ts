@@ -1,28 +1,34 @@
-import { IsOptional, IsString } from 'class-validator';
-import { ThemeCreateType, ThemeUpdateType } from '@/domain/theme/theme.types';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { ThemeUpdateType } from '@/domain/theme/theme.types';
+import { Dto } from '@/domain/dto';
 
 
-export class ThemeUpdateDto implements ThemeUpdateType {
-    constructor (_data: ThemeUpdateType) {
-        this.id          = _data.id;
-        this.title       = _data.title;
-        this.description = _data.description;
-        this.body        = _data.body;
-    }
+export class ThemeUpdateDto extends Dto<ThemeUpdateType> implements ThemeUpdateType {
+    @IsString()
+    @IsOptional()
+    id?: string;
 
     @IsString()
     @IsOptional()
-    id: string;
+    title?: string;
+
+    @IsBoolean()
+    @IsOptional()
+    enabled?: boolean;
 
     @IsString()
     @IsOptional()
-    title: string;
+    description?: string;
 
     @IsString()
     @IsOptional()
-    description: string;
+    additional?: string;
 
     @IsString()
     @IsOptional()
-    body: string;
+    body?: string;
+
+    @IsString()
+    @IsOptional()
+    url?: string;
 }

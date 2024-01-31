@@ -9,7 +9,8 @@ import { NOT_FOUND } from '@/domain/exceptions/errors';
 export class MongoThemeService implements IThemeService {
     constructor (
         private readonly _mongoThemeModel: Model<ThemeModel>,
-        private readonly _converter: IConverter<ThemeDocument, ThemeType>,
+        private readonly _dataConverter: IConverter<ThemeDocument, ThemeType>,
+        private readonly _filterConverter: IConverter<Filter<ThemeType>, FilterQuery<ThemeModel>>,
     ) {
     }
 
@@ -18,7 +19,7 @@ export class MongoThemeService implements IThemeService {
             // create doc
             const doc: ThemeDocument = await this._mongoThemeModel.create(data);
             // return formatted data
-            return this._converter.to(doc);
+            return this._dataConverter.to(doc);
         } catch (e) {
             throw e;
         }
@@ -26,9 +27,9 @@ export class MongoThemeService implements IThemeService {
 
     async read (data: Filter<ThemeType>): Promise<ThemeType> {
         try {
-            const doc: ThemeDocument = await this._mongoThemeModel.findOne(this._convertToMongoFilter(data));
+            const doc: ThemeDocument = await this._mongoThemeModel.findOne(this._filterConverter.to(data));
             if (doc) {
-                return this._converter.to(doc);
+                return this._dataConverter.to(doc);
             } else {
                 throw NOT_FOUND;
             }
@@ -42,7 +43,7 @@ export class MongoThemeService implements IThemeService {
             const doc: ThemeDocument = await this._mongoThemeModel.findOne({ id });
             if (doc) {
                 await doc.updateOne(data);
-                return this._converter.to({ ...doc, ...data } as ThemeDocument);
+                return this._dataConverter.to({ ...doc, ...data } as ThemeDocument);
             } else {
                 throw NOT_FOUND;
             }
@@ -58,19 +59,5 @@ export class MongoThemeService implements IThemeService {
         } catch (e) {
             throw e;
         }
-    }
-
-    private _convertToMongoFilter (data: Filter<ThemeType>): FilterQuery<ThemeModel> {
-        const filter: FilterQuery<ThemeModel> = {};
-
-        Object.entries(data).forEach(([ key, value ]) => {
-            if (value.type === 'match') {
-                filter[key] = { $regexp: new RegExp(`${ value.value }`) };
-            } else {
-                filter[key] = value.value;
-            }
-        });
-
-        return filter;
     }
 }

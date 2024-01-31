@@ -15,6 +15,9 @@ import { ThemeUpdateDto } from '@/domain/theme/dto/theme-update.dto';
 import {
     MongoThemeConverter,
 } from '@/domain/theme/implementations/mongoose/mongo-theme.converter';
+import {
+    MongoFilterConverterService,
+} from '@/modules/services/mongo/mongo-filter-converter.service';
 
 
 @Injectable()
@@ -24,8 +27,13 @@ export class ThemeService {
     constructor (
         @InjectModel('ThemeModel') private readonly _themeModel: Model<ThemeModel>,
         private readonly _dtoValidator: DtoValidatorService,
+        private readonly _mongoFilterConverter: MongoFilterConverterService,
     ) {
-        this._themeService = new MongoThemeService(this._themeModel, new MongoThemeConverter());
+        this._themeService = new MongoThemeService(
+            this._themeModel,
+            new MongoThemeConverter(),
+            this._mongoFilterConverter,
+        );
     }
 
     async createTheme (createData: ThemeCreateType) {

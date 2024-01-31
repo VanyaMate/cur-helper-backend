@@ -8,6 +8,7 @@ import { QuestionModel, QuestionSchema } from '@/db/mongoose/question/question.m
 import {
     QuestionToTestModel, QuestionToTestSchema,
 } from '@/db/mongoose/question-to-test/question-to-test.model';
+import { ServicesModule } from '@/modules/services/services.module';
 
 
 @Module({
@@ -18,7 +19,10 @@ import {
         TestService,
     ],
     imports    : [
-        MongooseModule.forFeature([]),
+        MongooseModule.forFeature([
+            { name: 'TestModel', schema: TestSchema },
+        ]),
+        ServicesModule,
     ],
 })
 export class TestModule {

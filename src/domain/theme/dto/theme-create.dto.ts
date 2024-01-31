@@ -1,15 +1,9 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ThemeCreateType } from '@/domain/theme/theme.types';
+import { Dto } from '@/domain/dto';
 
 
-export class ThemeCreateDto implements ThemeCreateType {
-    constructor (_data: ThemeCreateType) {
-        this.id          = _data.id;
-        this.title       = _data.title;
-        this.description = _data.description;
-        this.body        = _data.body;
-    }
-
+export class ThemeCreateDto extends Dto<ThemeCreateType> implements ThemeCreateType {
     @IsString()
     @IsNotEmpty()
     id: string;
@@ -18,11 +12,23 @@ export class ThemeCreateDto implements ThemeCreateType {
     @IsNotEmpty()
     title: string;
 
-    @IsString()
+    @IsBoolean()
     @IsOptional()
-    description: string;
+    enabled?: boolean;
 
     @IsString()
     @IsOptional()
-    body: string;
+    description?: string;
+
+    @IsString()
+    @IsOptional()
+    additional?: string;
+
+    @IsString()
+    @IsOptional()
+    body?: string;
+
+    @IsString()
+    @IsOptional()
+    url?: string;
 }
