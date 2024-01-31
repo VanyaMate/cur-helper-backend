@@ -5,6 +5,7 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PORT } from './consts/config-name';
 import * as process from 'process';
+import { HttpExceptionFilter } from '@/modules/filters/exceptions/http-exception.filter';
 
 
 async function bootstrap () {
@@ -23,6 +24,7 @@ async function bootstrap () {
     const port: string                 = configService.get<string>(PORT);
 
     app.use(cookieParser());
+    app.useGlobalFilters(new HttpExceptionFilter());
     await app.listen(port, () => console.log(`server started on: ${ port }`));
 }
 

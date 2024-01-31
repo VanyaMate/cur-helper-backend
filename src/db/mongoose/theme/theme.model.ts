@@ -4,11 +4,11 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class ThemeModel {
+    @Prop({ type: String, required: true, unique: true })
+    id: string;
+
     @Prop({ type: Boolean, default: false })
     enabled: boolean;
-
-    @Prop({ type: String, required: true, unique: true })
-    showedId: string;
 
     @Prop({ type: String, required: true })
     title: string;

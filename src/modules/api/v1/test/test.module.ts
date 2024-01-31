@@ -18,12 +18,7 @@ import {
         TestService,
     ],
     imports    : [
-        MongooseModule.forFeature([
-            { name: TestModel.name, schema: TestSchema },
-            { name: ThemeModel.name, schema: ThemeSchema },
-            { name: QuestionModel.name, schema: QuestionSchema },
-            { name: QuestionToTestModel.name, schema: QuestionToTestSchema },
-        ]),
+        MongooseModule.forFeature([]),
     ],
 })
 export class TestModule {

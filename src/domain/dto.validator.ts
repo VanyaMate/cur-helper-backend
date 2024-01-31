@@ -1,22 +1,21 @@
-import { Dto } from '@/domain/dto';
 import { validate, ValidationError } from 'class-validator';
 
 
 export interface IDtoValidator {
-    validate (data: Dto<any>): Promise<boolean>;
+    validate<DtoType extends object> (data: DtoType): Promise<boolean>;
 }
 
 export class DtoValidator implements IDtoValidator {
-    async validate (data: Dto<any>): Promise<boolean> {
+    async validate<DtoType extends object> (data: DtoType): Promise<boolean> {
         try {
             const errors: ValidationError[] = await validate(data);
             if (errors.length) {
-                throw new Error('No valid data');
+                throw errors;
             } else {
                 return true;
             }
         } catch (e) {
-            throw new Error('No valid data');
+            throw e;
         }
     }
 }

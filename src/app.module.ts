@@ -4,6 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MONGO_DB_URL } from './consts/config-name';
 import { ThemeModule } from './modules/api/v1/theme/theme.module';
 import { TestModule } from '@/modules/api/v1/test/test.module';
+import {
+    DtoValidatorService,
+} from '@/modules/services/dto-validator/dto-validator.service';
+import { ModulesModule } from '@/modules/modules.module';
 
 
 @Module({
@@ -19,14 +23,9 @@ import { TestModule } from '@/modules/api/v1/test/test.module';
             }),
             inject    : [ ConfigService ],
         }),
-        /**
-         * TODO: Переместить потом
-         */
-        ThemeModule,
-        TestModule,
+        ModulesModule,
     ],
     controllers: [],
-    providers  : [],
 })
 export class AppModule {
 }
