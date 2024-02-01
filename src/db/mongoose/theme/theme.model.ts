@@ -1,5 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import {
+    QuestionToThemeModel,
+} from '@/db/mongoose/question-to-theme/question-to-theme.model';
+import { TestModel } from '@/db/mongoose/test/test.model';
 
 
 @Schema({
@@ -28,6 +32,9 @@ export class ThemeModel {
 
     @Prop({ type: String, default: '' })
     url: string;
+
+    questions?: QuestionToThemeModel[];
+    tests?: TestModel[];
 }
 
 export const ThemeSchema = SchemaFactory.createForClass(ThemeModel);

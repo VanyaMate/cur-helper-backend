@@ -40,6 +40,9 @@ export class TestModel {
 
     @Prop({ type: Number, default: 0 })
     perfectScore: number;
+
+    questions?: QuestionToTestModel[];
+    theme?: ThemeModel;
 }
 
 export const TestSchema = SchemaFactory.createForClass(TestModel);
