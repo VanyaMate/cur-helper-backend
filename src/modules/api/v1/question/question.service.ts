@@ -9,19 +9,22 @@ import {
 import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
-import { IQuestionService } from '@/domain/question/question-service.interface';
+import { IQuestionService } from '@/domain/services/question/question-service.interface';
 import {
-    MongoQuestionService,
-} from '@/domain/question/implementations/mongo/mongo-question-service';
+    MongoQuestionService
+} from '@/domain/services/question/implementations/mongo/mongo-question-service';
 import {
-    MongoQuestionConverter,
-} from '@/domain/question/implementations/mongo/mongo-question.converter';
-import { QuestionCreateType, QuestionUpdateType } from '@/domain/question/question.types';
-import { QuestionCreateDto } from '@/domain/question/dto/question-create.dto';
+    MongoQuestionConverter
+} from '@/domain/services/question/implementations/mongo/mongo-question.converter';
 import {
-    MongoQuestionAnswerConverter,
-} from '@/domain/answer/implementations/mongo/mongo-question-answer.converter';
-import { QuestionUpdateDto } from '@/domain/question/dto/question-update.dto';
+    MongoQuestionAnswerConverter
+} from '@/domain/services/answer/implementations/mongo/mongo-question-answer.converter';
+import {
+    QuestionCreateType,
+    QuestionUpdateType,
+} from '@/domain/services/question/question.types';
+import { QuestionCreateDto } from '@/domain/services/question/dto/question-create.dto';
+import { QuestionUpdateDto } from '@/domain/services/question/dto/question-update.dto';
 
 
 @Injectable()

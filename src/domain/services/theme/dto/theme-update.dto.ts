@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
-import { ThemeUpdateType } from '@/domain/theme/theme.types';
 import { Dto } from '@/domain/dto';
+import { ThemeUpdateType } from '@/domain/services/theme/theme.types';
 
 
 export class ThemeUpdateDto extends Dto<ThemeUpdateType> implements ThemeUpdateType {

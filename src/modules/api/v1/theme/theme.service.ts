@@ -1,23 +1,23 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ThemeCreateType, ThemeUpdateType } from '@/domain/theme/theme.types';
+import { IThemeService } from '@/domain/services/theme/theme-service.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
-import { IThemeService } from '@/domain/theme/theme-service.interface';
 import {
-    MongoThemeService,
-} from '@/domain/theme/implementations/mongoose/mongo-theme-service';
-import {
-    DtoValidatorService,
+    DtoValidatorService
 } from '@/modules/services/dto-validator/dto-validator.service';
-import { ThemeCreateDto } from '@/domain/theme/dto/theme-create.dto';
-import { ThemeUpdateDto } from '@/domain/theme/dto/theme-update.dto';
 import {
-    MongoThemeConverter,
-} from '@/domain/theme/implementations/mongoose/mongo-theme.converter';
-import {
-    MongoFilterConverterService,
+    MongoFilterConverterService
 } from '@/modules/services/mongo/mongo-filter-converter.service';
+import {
+    MongoThemeService
+} from '@/domain/services/theme/implementations/mongoose/mongo-theme-service';
+import {
+    MongoThemeConverter
+} from '@/domain/services/theme/implementations/mongoose/mongo-theme.converter';
+import { ThemeCreateType, ThemeUpdateType } from '@/domain/services/theme/theme.types';
+import { ThemeCreateDto } from '@/domain/services/theme/dto/theme-create.dto';
+import { ThemeUpdateDto } from '@/domain/services/theme/dto/theme-update.dto';
 
 
 @Injectable()

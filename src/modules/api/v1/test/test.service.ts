@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ITestService } from '@/domain/test/test-service.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TestModel } from '@/db/mongoose/test/test.model';
@@ -9,14 +8,17 @@ import {
 import {
     MongoFilterConverterService,
 } from '@/modules/services/mongo/mongo-filter-converter.service';
-import { MongoTestService } from '@/domain/test/implementations/mongo/mongo-test-service';
-import {
-    MongoTestConverter,
-} from '@/domain/test/implementations/mongo/mongo-test.converter';
-import { TestCreateType, TestUpdateType } from '@/domain/test/test.types';
-import { TestCreateDto } from '@/domain/test/dto/test-create.dto';
-import { TestUpdateDto } from '@/domain/test/dto/test-update.dto';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
+import { ITestService } from '@/domain/services/test/test-service.interface';
+import {
+    MongoTestService
+} from '@/domain/services/test/implementations/mongo/mongo-test-service';
+import {
+    MongoTestConverter
+} from '@/domain/services/test/implementations/mongo/mongo-test.converter';
+import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
+import { TestCreateDto } from '@/domain/services/test/dto/test-create.dto';
+import { TestUpdateDto } from '@/domain/services/test/dto/test-update.dto';
 
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Dto } from '@/domain/dto';
-import { TestUpdateType } from '@/domain/test/test.types';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { TestUpdateType } from '@/domain/services/test/test.types';
 
 
 export class TestUpdateDto extends Dto<TestUpdateType> implements TestUpdateType {

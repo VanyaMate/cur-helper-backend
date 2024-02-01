@@ -2,7 +2,7 @@ import { IConverter } from '@/domain/service.types';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
-import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
+import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
 
 
 export class MongoQuestionAnswerConverter implements IConverter<QuestionAnswerDocument, QuestionAnswerType> {

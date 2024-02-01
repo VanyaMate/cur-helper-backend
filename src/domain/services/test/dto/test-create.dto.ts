@@ -1,6 +1,6 @@
 import { Dto } from '@/domain/dto';
-import { TestCreateType } from '@/domain/test/test.types';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { TestCreateType } from '@/domain/services/test/test.types';
 
 
 export class TestCreateDto extends Dto<TestCreateType> implements TestCreateType {

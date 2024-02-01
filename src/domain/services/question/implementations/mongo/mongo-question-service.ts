@@ -1,11 +1,10 @@
-import { IQuestionService } from '@/domain/question/question-service.interface';
 import { Filter, IConverter } from '@/domain/service.types';
 import { QuestionCreateType, QuestionType } from '../../question.types';
 import { FilterQuery, Model, mongo } from 'mongoose';
 import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
 import { QuestionAnswerModel } from '@/db/mongoose/question-answer/question-answer.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
-import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
+import { IQuestionService } from '../../question-service.interface';
 
 
 export class MongoQuestionService implements IQuestionService {

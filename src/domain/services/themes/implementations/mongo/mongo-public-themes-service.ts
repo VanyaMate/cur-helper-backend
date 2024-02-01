@@ -1,5 +1,4 @@
 import { IThemesService } from '@/domain/services/themes/themes-service.interface';
-import { ThemeType } from '@/domain/theme/theme.types';
 import {
     ThemeChildren,
     ThemeTests,
@@ -8,6 +7,7 @@ import {
 } from '../../themes.types';
 import { Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
+import { ThemeType } from '@/domain/services/theme/theme.types';
 
 
 export class MongoPublicThemesService implements IThemesService {

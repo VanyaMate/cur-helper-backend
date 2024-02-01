@@ -1,6 +1,6 @@
-import { ThemeShortType, ThemeType } from '@/domain/theme/theme.types';
 import { With } from '@/domain/types';
-import { TestType } from '@/domain/test/test.types';
+import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
+import { TestType } from '@/domain/services/test/test.types';
 
 
 export type ThemeWith<T extends any[]> = With<ThemeType, T>;

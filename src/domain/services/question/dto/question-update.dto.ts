@@ -1,5 +1,4 @@
 import { Dto } from '@/domain/dto';
-import { QuestionCreateType, QuestionUpdateType } from '@/domain/question/question.types';
 import { Complexity } from '@/domain/enums';
 import {
     IsArray,
@@ -15,7 +14,8 @@ import {
 import {
     IsQuestionComplexity,
 } from '@/domain/validators/class-validator/is-question-complexity.validator';
-import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
+import { QuestionUpdateType } from '@/domain/services/question/question.types';
+import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
 
 
 export class QuestionUpdateDto extends Dto<QuestionUpdateType> implements QuestionUpdateType {

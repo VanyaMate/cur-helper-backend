@@ -1,9 +1,9 @@
 import { Filter, IConverter } from '@/domain/service.types';
-import { IThemeService } from '@/domain/theme/theme-service.interface';
 import { ThemeCreateType, ThemeType, ThemeUpdateType } from '../../theme.types';
 import { FilterQuery, Model, mongo } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
+import { IThemeService } from '@/domain/services/theme/theme-service.interface';
 
 
 export class MongoThemeService implements IThemeService {

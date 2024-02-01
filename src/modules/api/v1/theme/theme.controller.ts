@@ -7,7 +7,7 @@ import {
     Post,
 } from '@nestjs/common';
 import { ThemeService } from '@/modules/api/v1/theme/theme.service';
-import { ThemeCreateType, ThemeUpdateType } from '@/domain/theme/theme.types';
+import { ThemeCreateType, ThemeUpdateType } from '@/domain/services/theme/theme.types';
 
 
 @Controller('/api/v1/theme')

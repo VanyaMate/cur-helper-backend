@@ -1,6 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { QuestionService } from '@/modules/api/v1/question/question.service';
-import { QuestionCreateType, QuestionUpdateType } from '@/domain/question/question.types';
+import {
+    QuestionCreateType,
+    QuestionUpdateType,
+} from '@/domain/services/question/question.types';
 
 
 @Controller('/api/v1/question')
