@@ -17,7 +17,10 @@ export class MongoPublicThemesService implements IThemesService {
     }
 
     async getThemeFullDataByPublicId (publicId: string): Promise<ThemeChildren & ThemeTests & ThemeQuestions & ThemeBreadcrumb & ThemeType> {
-        const doc: ThemeDocument = await this._mongoThemeRepository.findOne({ publicId }, {}, {
+        /**
+         * TODO: Refactor
+         */
+        const doc: ThemeDocument            = await this._mongoThemeRepository.findOne({ publicId }, {}, {
             populate: [
                 {
                     path   : 'tests',
@@ -36,6 +39,23 @@ export class MongoPublicThemesService implements IThemesService {
                 },
             ],
         });
+        const childrenDocs: ThemeDocument[] = await this._mongoThemeRepository.find({
+            publicId: {
+                $regex: new RegExp(`^${publicId}.+`),
+            },
+        });
+        const ids: string[]                 = publicId.split('-');
+        const parentIds: string[]           = ids
+            .splice(1, ids.length - 1)
+            .reduce((acc, id) => {
+                acc.push(`${ acc[acc.length - 1] }-${ id }`);
+                return acc;
+            }, [ ids[0] ]);
+        const breadcrumbs: ThemeDocument[]  = await this._mongoThemeRepository.find({
+            publicId: {
+                $in: parentIds.slice(0, parentIds.length - 1),
+            },
+        });
         /**
          * TODO: Заменить ан конвертеры
          */
@@ -47,6 +67,7 @@ export class MongoPublicThemesService implements IThemesService {
             additional : doc.additional,
             body       : doc.body,
             url        : doc.url,
+            enabled    : doc.enabled,
             questions  : doc.questions
                 .filter((question) => question.question)
                 .map((questionDoc) => ({
@@ -59,7 +80,6 @@ export class MongoPublicThemesService implements IThemesService {
                     complexity : questionDoc.question.complexity,
                     points     : questionDoc.question.points,
                 })),
-            enabled    : doc.enabled,
             tests      : doc.tests
                 .map((testDoc) => ({
                     id                 : testDoc._id.toString(),
@@ -73,8 +93,22 @@ export class MongoPublicThemesService implements IThemesService {
                     timeToPass         : testDoc.timeToPass,
                     themeId            : testDoc.themeId.toString(),
                 })),
-            breadcrumb : [],
-            children   : [],
+            breadcrumb : breadcrumbs.map((breadcrumb) => ({
+                publicId: breadcrumb.publicId,
+                title   : breadcrumb.title,
+                url     : breadcrumb.url,
+            })),
+            children   : childrenDocs.map((childrenDoc) => ({
+                id         : childrenDoc._id.toString(),
+                publicId   : childrenDoc.publicId,
+                title      : childrenDoc.title,
+                description: childrenDoc.description,
+                additional : childrenDoc.additional,
+                body       : childrenDoc.body,
+                url        : childrenDoc.url,
+                enabled    : childrenDoc.enabled,
+                children   : [],
+            })),
         };
     }
 
