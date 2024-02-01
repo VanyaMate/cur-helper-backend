@@ -2,7 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 
-@Schema()
+@Schema({
+    toJSON: {
+        virtuals: true,
+    },
+})
 export class ThemeModel {
     @Prop({ type: String, required: true, unique: true })
     publicId: string;
@@ -31,6 +35,13 @@ export type ThemeDocument = HydratedDocument<ThemeModel>;
 
 ThemeSchema.virtual('questions', {
     ref         : 'QuestionToThemeModel',
+    localField  : '_id',
+    foreignField: 'themeId',
+    justOne     : false,
+});
+
+ThemeSchema.virtual('tests', {
+    ref         : 'TestModel',
     localField  : '_id',
     foreignField: 'themeId',
     justOne     : false,

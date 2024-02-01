@@ -51,3 +51,10 @@ TestSchema.virtual('questions', {
     foreignField: 'testId',
     justOne     : false,
 });
+
+TestSchema.virtual('theme', {
+    ref         : 'ThemeModel',
+    localField  : 'themeId',
+    foreignField: '_id',
+    justOne     : false,
+});

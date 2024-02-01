@@ -3,6 +3,10 @@ import { HydratedDocument } from 'mongoose';
 import { Complexity } from '@/db/mongoose/enums';
 
 
+/**
+ * TODO: Проверить как это будет работать
+ */
+@Schema()
 export class QuestionAnswerModel {
     @Prop({ type: String, required: true })
     title: string;
@@ -14,7 +18,11 @@ export class QuestionAnswerModel {
     correct: boolean;
 }
 
-@Schema()
+@Schema({
+    toJSON: {
+        virtuals: true,
+    },
+})
 export class QuestionModel {
     @Prop({ type: Boolean, default: false })
     enabled: boolean;
