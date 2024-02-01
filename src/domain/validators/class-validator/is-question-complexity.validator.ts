@@ -9,7 +9,6 @@ import { Complexity } from '@/domain/enums';
 @ValidatorConstraint({ name: 'IsQuestionAnswers', async: false })
 export class IsQuestionComplexity implements ValidatorConstraintInterface {
     validate (value: any, validationArguments?: ValidationArguments): Promise<boolean> | boolean {
-        console.log(value);
         switch (value) {
             case Complexity.EASY:
             case Complexity.MEDIUM:

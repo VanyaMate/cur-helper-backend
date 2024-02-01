@@ -16,7 +16,7 @@ export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery
 
         return filter;
     }
-
+;
     from (to: FilterQuery<any>): Filter<any> {
         throw new Error('Method not implemented.');
     }

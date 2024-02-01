@@ -1,9 +1,11 @@
 import { IQuestionService } from '@/domain/question/question-service.interface';
 import { Filter, IConverter } from '@/domain/service.types';
 import { QuestionCreateType, QuestionType } from '../../question.types';
-import { FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model, mongo } from 'mongoose';
 import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
 import { QuestionAnswerModel } from '@/db/mongoose/question-answer/question-answer.model';
+import { NOT_FOUND } from '@/domain/exceptions/errors';
+import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
 
 
 export class MongoQuestionService implements IQuestionService {
@@ -30,18 +32,43 @@ export class MongoQuestionService implements IQuestionService {
     async read (data: Filter<QuestionType>): Promise<QuestionType> {
         try {
             const doc: QuestionDocument = await this._questionModelRepository.findOne(this._filterMongoConverter.to(data), {}, { populate: 'answers' });
-            return this._documentToPublicConverter.to(doc);
+            if (doc) {
+                return this._documentToPublicConverter.to(doc);
+            }
+            throw NOT_FOUND;
         } catch (e) {
             throw e;
         }
     }
 
-    update (id: string, data: Partial<QuestionType>): Promise<QuestionType> {
-        throw new Error('Method not implemented.');
+    async update (id: string, data: Partial<QuestionType>): Promise<QuestionType> {
+        try {
+            const doc: QuestionDocument = await this._questionModelRepository.findOne({ _id: id }, {}, { populate: 'answers' });
+            if (doc) {
+                await doc.updateOne(data);
+                return this._documentToPublicConverter.to(Object.assign(doc, data));
+            }
+            throw NOT_FOUND;
+        } catch (e) {
+            throw e;
+        }
     }
 
-    delete (id: string): Promise<boolean> {
-        throw new Error('Method not implemented.');
+    async delete (id: string): Promise<boolean> {
+        try {
+            const doc: QuestionDocument = await this._questionModelRepository.findOne({ _id: id });
+            if (doc) {
+                await this._questionAnswerModelRepository.deleteMany({
+                    _id: {
+                        $in: doc.answersIds,
+                    },
+                });
+                return !!(await doc.deleteOne()).deletedCount;
+            }
+            return false;
+        } catch (e) {
+            throw e;
+        }
     }
 
 }

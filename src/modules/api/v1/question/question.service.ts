@@ -16,8 +16,12 @@ import {
 import {
     MongoQuestionConverter,
 } from '@/domain/question/implementations/mongo/mongo-question.converter';
-import { QuestionCreateType } from '@/domain/question/question.types';
+import { QuestionCreateType, QuestionUpdateType } from '@/domain/question/question.types';
 import { QuestionCreateDto } from '@/domain/question/dto/question-create.dto';
+import {
+    MongoQuestionAnswerConverter,
+} from '@/domain/answer/implementations/mongo/mongo-question-answer.converter';
+import { QuestionUpdateDto } from '@/domain/question/dto/question-update.dto';
 
 
 @Injectable()
@@ -33,7 +37,7 @@ export class QuestionService {
         this._questionService = new MongoQuestionService(
             this._questionModelRepository,
             this._questionAnswerModelRepository,
-            new MongoQuestionConverter(),
+            new MongoQuestionConverter(new MongoQuestionAnswerConverter()),
             this._filterMongoConverter,
         );
     }
@@ -43,7 +47,6 @@ export class QuestionService {
             await this._dtoValidator.validate(new QuestionCreateDto(createData));
             return await this._questionService.create(createData);
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -51,6 +54,23 @@ export class QuestionService {
     async getById (id: string) {
         try {
             return await this._questionService.read({ id: { value: id, type: 'equal' } });
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async updateById (id: string, updateData: QuestionUpdateType) {
+        try {
+            await this._dtoValidator.validate(new QuestionUpdateDto(updateData));
+            return await this._questionService.update(id, updateData);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async deleteById (id: string) {
+        try {
+            return await this._questionService.delete(id);
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }

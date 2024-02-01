@@ -1,5 +1,5 @@
 import { Dto } from '@/domain/dto';
-import { QuestionCreateType } from '@/domain/question/question.types';
+import { QuestionCreateType, QuestionUpdateType } from '@/domain/question/question.types';
 import { Complexity } from '@/domain/enums';
 import {
     IsArray,
@@ -18,14 +18,16 @@ import {
 import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
 
 
-export class QuestionCreateDto extends Dto<QuestionCreateType> implements QuestionCreateType {
+export class QuestionUpdateDto extends Dto<QuestionUpdateType> implements QuestionUpdateType {
     @IsString()
+    @IsOptional()
     @IsNotEmpty()
-    title: string;
+    title?: string;
 
     @IsArray()
+    @IsOptional()
     @Validate(IsQuestionAnswers)
-    answers: QuestionAnswerType[];
+    answers?: QuestionAnswerType[];
 
     @IsBoolean()
     @IsOptional()

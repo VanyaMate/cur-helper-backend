@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { DtoValidator, IDtoValidator } from '@/domain/dto.validator';
+import { DtoValidator, IValidator } from '@/domain/dto.validator';
 
 
 @Injectable()
-export class DtoValidatorService implements IDtoValidator {
+export class DtoValidatorService implements IValidator {
     private readonly _validator = new DtoValidator();
 
     async validate<DtoType extends object> (data: DtoType): Promise<boolean> {

@@ -25,7 +25,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
             default:
         }
 
-
         response
             .status(status)
             .json({

@@ -1,13 +1,7 @@
 import { Complexity } from '@/domain/enums';
 import { Create } from '@/domain/types';
+import { QuestionAnswerType } from '@/domain/answer/question-answer.types';
 
-
-export type QuestionAnswerType = {
-    id: string;
-    title: string;
-    description: string;
-    correct: boolean;
-}
 
 export type QuestionType = {
     id: string;
