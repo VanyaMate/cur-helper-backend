@@ -5,9 +5,13 @@ import {
 import {
     MongoFilterConverterService,
 } from '@/modules/services/mongo/mongo-filter-converter.service';
+import { MongoModelsModule } from '@/modules/services/mongo/mongo-models.module';
 
 
 @Module({
+    imports  : [
+        MongoModelsModule,
+    ],
     providers: [
         DtoValidatorService,
         MongoFilterConverterService,
@@ -15,6 +19,7 @@ import {
     exports  : [
         DtoValidatorService,
         MongoFilterConverterService,
+        MongoModelsModule,
     ],
 })
 export class ServicesModule {

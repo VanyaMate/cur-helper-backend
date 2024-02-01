@@ -7,7 +7,11 @@ import { TestModel } from '@/db/mongoose/test/test.model';
 
 
 @Schema({
-    toJSON: {
+    toJSON  : {
+        virtuals: true,
+    },
+    virtuals: true,
+    toObject: {
         virtuals: true,
     },
 })

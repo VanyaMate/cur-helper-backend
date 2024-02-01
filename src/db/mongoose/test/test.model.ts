@@ -9,7 +9,11 @@ import {
 
 
 @Schema({
-    toJSON: {
+    toJSON  : {
+        virtuals: true,
+    },
+    virtuals: true,
+    toObject: {
         virtuals: true,
     },
 })

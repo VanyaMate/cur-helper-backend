@@ -26,14 +26,14 @@ export class QuestionToThemeModel {
 export const QuestionToThemeSchema = SchemaFactory.createForClass(QuestionToThemeModel);
 export type QuestionToThemeDocument = HydratedDocument<QuestionToThemeModel>;
 
-QuestionToTestSchema.virtual('theme', {
+QuestionToThemeSchema.virtual('theme', {
     ref         : 'ThemeModel',
     localField  : 'themeId',
     foreignField: '_id',
     justOne     : true,
 });
 
-QuestionToTestSchema.virtual('question', {
+QuestionToThemeSchema.virtual('question', {
     ref         : 'QuestionModel',
     localField  : 'questionId',
     foreignField: '_id',
