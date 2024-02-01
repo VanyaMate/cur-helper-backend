@@ -28,3 +28,10 @@ export class ThemeModel {
 
 export const ThemeSchema = SchemaFactory.createForClass(ThemeModel);
 export type ThemeDocument = HydratedDocument<ThemeModel>;
+
+ThemeSchema.virtual('questions', {
+    ref         : 'QuestionToThemeModel',
+    localField  : '_id',
+    foreignField: 'themeId',
+    justOne     : false,
+});

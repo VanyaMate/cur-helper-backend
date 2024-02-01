@@ -3,13 +3,13 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 
 @Schema()
-export class QuestionToTestModel {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'TestModel' })
+export class QuestionToThemeModel {
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
     testId: mongoose.Schema.Types.ObjectId;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionModel' })
     questionId: mongoose.Schema.Types.ObjectId;
 }
 
-export const QuestionToTestSchema = SchemaFactory.createForClass(QuestionToTestModel);
-export type QuestionToTestDocument = HydratedDocument<QuestionToTestModel>;
+export const QuestionToThemeSchema = SchemaFactory.createForClass(QuestionToThemeModel);
+export type QuestionToThemeDocument = HydratedDocument<QuestionToThemeModel>;

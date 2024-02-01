@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { ThemeModel } from '@/db/mongoose/theme/theme.model';
+import { HydratedDocument } from 'mongoose';
 import { Complexity } from '@/db/mongoose/enums';
 
 
@@ -17,12 +16,6 @@ export class QuestionAnswerModel {
 
 @Schema()
 export class QuestionModel {
-    /**
-     * TODO: Сделать чтобы вопрос мог ссылаться на несколько тем, а не на одну
-     */
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThemeModel' })
-    themeId: mongoose.Schema.Types.ObjectId | null;
-
     @Prop({ type: Boolean, default: false })
     enabled: boolean;
 
@@ -47,3 +40,17 @@ export class QuestionModel {
 
 export const QuestionSchema = SchemaFactory.createForClass(QuestionModel);
 export type QuestionDocument = HydratedDocument<QuestionModel>;
+
+QuestionSchema.virtual('tests', {
+    ref         : 'QuestionToTestModel',
+    localField  : '_id',
+    foreignField: 'questionId',
+    justOne     : false,
+});
+
+QuestionSchema.virtual('themes', {
+    ref         : 'QuestionToThemeModel',
+    localField  : '_id',
+    foreignField: 'questionId',
+    justOne     : false,
+});
