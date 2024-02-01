@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { ThemeModel } from '@/db/mongoose/theme/theme.model';
+import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { QuestionModel } from '@/db/mongoose/question/question.model';
 import { HydratedDocument } from 'mongoose';
 import {
+    QuestionToTestDocument,
     QuestionToTestModel,
 } from '@/db/mongoose/question-to-test/question-to-test.model';
 
@@ -45,8 +46,8 @@ export class TestModel {
     @Prop({ type: Number, default: 0 })
     perfectScore: number;
 
-    questions?: QuestionToTestModel[];
-    theme?: ThemeModel;
+    questions?: QuestionToTestDocument[];
+    theme?: ThemeDocument;
 }
 
 export const TestSchema = SchemaFactory.createForClass(TestModel);

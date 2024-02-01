@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { TestModel } from '@/db/mongoose/test/test.model';
-import { QuestionModel } from '@/db/mongoose/question/question.model';
+import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
+import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
 
 
 @Schema({
@@ -16,8 +16,8 @@ export class QuestionToTestModel {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionModel' })
     questionId: mongoose.Schema.Types.ObjectId;
 
-    test?: TestModel;
-    question?: QuestionModel;
+    test?: TestDocument;
+    question?: QuestionDocument;
 }
 
 export const QuestionToTestSchema = SchemaFactory.createForClass(QuestionToTestModel);

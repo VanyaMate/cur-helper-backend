@@ -3,8 +3,8 @@ import mongoose, { HydratedDocument } from 'mongoose';
 import {
     QuestionToTestSchema,
 } from '@/db/mongoose/question-to-test/question-to-test.model';
-import { QuestionModel } from '@/db/mongoose/question/question.model';
-import { ThemeModel } from '@/db/mongoose/theme/theme.model';
+import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
+import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 
 
 @Schema({
@@ -19,8 +19,8 @@ export class QuestionToThemeModel {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionModel' })
     questionId: mongoose.Schema.Types.ObjectId;
 
-    theme?: ThemeModel;
-    question?: QuestionModel;
+    theme?: ThemeDocument;
+    question?: QuestionDocument;
 }
 
 export const QuestionToThemeSchema = SchemaFactory.createForClass(QuestionToThemeModel);

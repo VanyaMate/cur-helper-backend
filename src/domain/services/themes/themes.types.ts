@@ -1,11 +1,12 @@
 import { With } from '@/domain/types';
 import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
 import { TestType } from '@/domain/services/test/test.types';
+import { QuestionType } from '@/domain/services/question/question.types';
 
 
 export type ThemeWith<T extends any[]> = With<ThemeType, T>;
 export type ThemeChildren = {
-    children: ThemeWith<[ ThemeChildren ]>
+    children: ThemeWith<[ ThemeChildren ]>[]
 }
 
 export type ThemeBreadcrumb = {
@@ -17,5 +18,5 @@ export type ThemeTests = {
 }
 
 export type ThemeQuestions = {
-    questions: ThemeQuestions[];
+    questions: QuestionType[];
 }
