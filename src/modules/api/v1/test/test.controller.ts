@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { TestService } from '@/modules/api/v1/test/test.service';
 import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
 
-
+// test railway auto deploy
 @Controller('/api/v1/test')
 export class TestController {
     constructor (private readonly _testService: TestService) {
