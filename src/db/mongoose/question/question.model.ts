@@ -1,22 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { Complexity } from '@/db/mongoose/enums';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Complexity } from '@/domain/enums';
+import { QuestionAnswerModel } from '@/db/mongoose/question-answer/question-answer.model';
+import {
+    QuestionToTestModel,
+} from '@/db/mongoose/question-to-test/question-to-test.model';
+import {
+    QuestionToThemeModel,
+} from '@/db/mongoose/question-to-theme/question-to-theme.model';
 
-
-/**
- * TODO: Проверить как это будет работать
- */
-@Schema()
-export class QuestionAnswerModel {
-    @Prop({ type: String, required: true })
-    title: string;
-
-    @Prop({ type: String, default: '' })
-    description: string;
-
-    @Prop({ type: Boolean, required: true })
-    correct: boolean;
-}
 
 @Schema({
     toJSON: {
@@ -42,8 +34,15 @@ export class QuestionModel {
     @Prop({ type: Number, default: 0 })
     points: number;
 
-    @Prop({ type: [ QuestionAnswerModel ], default: [] })
-    answers: QuestionAnswerModel[];
+    @Prop({
+        type   : [ { type: mongoose.Schema.Types.ObjectId, ref: 'QuestionAnswerModel' } ],
+        default: [],
+    })
+    answersIds: mongoose.Schema.Types.ObjectId[];
+
+    tests?: QuestionToTestModel[];
+    themes?: QuestionToThemeModel[];
+    answers?: QuestionAnswerModel[];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(QuestionModel);
@@ -60,5 +59,12 @@ QuestionSchema.virtual('themes', {
     ref         : 'QuestionToThemeModel',
     localField  : '_id',
     foreignField: 'questionId',
+    justOne     : false,
+});
+
+QuestionSchema.virtual('answers', {
+    ref         : 'QuestionAnswerModel',
+    localField  : 'answersIds',
+    foreignField: '_id',
     justOne     : false,
 });

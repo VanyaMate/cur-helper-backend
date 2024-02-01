@@ -2,17 +2,17 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { TestModel } from '@/db/mongoose/test/test.model';
 import { QuestionModel } from '@/db/mongoose/question/question.model';
-import { Status } from '@/db/mongoose/enums';
+import { Status } from '@/domain/enums';
 
 
 export class TestPassingQuestion {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, name: QuestionModel.name })
-    questionId: string;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'QuestionModel' })
+    questionId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: String, default: '' })
-    answerId: string;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'AnswerModel' })
+    answerId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: Number, default: '' })
+    @Prop({ type: Number, default: 0 })
     answerTime: number;
 
     @Prop({ type: Number, default: 0 })
@@ -25,13 +25,13 @@ export class TestPassingModel {
     isPrivate: boolean;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'user', required: true })
-    userId: string;
+    userId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, name: TestModel.name, required: true })
-    testId: string;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'TestModel', required: true })
+    testId: mongoose.Schema.Types.ObjectId;
 
     @Prop({ type: [ TestPassingQuestion ], default: [] })
-    questions: TestPassingQuestion[];
+    questionsIds: TestPassingQuestion[];
 
     @Prop({ type: Status, default: Status.PROCESS })
     status: Status;
