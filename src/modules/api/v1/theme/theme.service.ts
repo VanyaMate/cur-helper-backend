@@ -14,7 +14,7 @@ import {
 } from '@/domain/services/theme/implementations/mongoose/mongo-theme-service';
 import {
     MongoThemeConverter
-} from '@/domain/services/theme/implementations/mongoose/mongo-theme.converter';
+} from '@/domain/converters/mongo/mongo-theme.converter';
 import { ThemeCreateType, ThemeUpdateType } from '@/domain/services/theme/theme.types';
 import { ThemeCreateDto } from '@/domain/services/theme/dto/theme-create.dto';
 import { ThemeUpdateDto } from '@/domain/services/theme/dto/theme-update.dto';

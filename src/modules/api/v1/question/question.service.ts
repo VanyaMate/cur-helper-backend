@@ -15,10 +15,10 @@ import {
 } from '@/domain/services/question/implementations/mongo/mongo-question-service';
 import {
     MongoQuestionConverter
-} from '@/domain/services/question/implementations/mongo/mongo-question.converter';
+} from '@/domain/converters/mongo/mongo-question.converter';
 import {
     MongoQuestionAnswerConverter
-} from '@/domain/services/answer/implementations/mongo/mongo-question-answer.converter';
+} from '@/domain/converters/mongo/mongo-question-answer.converter';
 import {
     QuestionCreateType,
     QuestionUpdateType,

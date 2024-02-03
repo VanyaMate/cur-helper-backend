@@ -3,23 +3,32 @@ import {
     ThemeChildren,
     ThemeTests,
     ThemeQuestions,
-    ThemeBreadcrumb,
+    ThemeBreadcrumb, ThemeWith,
 } from '../../themes.types';
 import { Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { ThemeType } from '@/domain/services/theme/theme.types';
+import { IConverter } from '@/domain/service.types';
+import { QuestionDocument } from '@/db/mongoose/question/question.model';
+import { QuestionType } from '@/domain/services/question/question.types';
+import { TestDocument } from '@/db/mongoose/test/test.model';
+import { TestType } from '@/domain/services/test/test.types';
+import {
+    ThemeChildrenConverterType,
+} from '@/domain/converters/mongo/mongo-themes-children.converter';
 
 
 export class MongoPublicThemesService implements IThemesService {
     constructor (
         private readonly _mongoThemeRepository: Model<ThemeModel>,
+        private readonly _questionToPublicConverter: IConverter<QuestionDocument, QuestionType>,
+        private readonly _testToPublicConverter: IConverter<TestDocument, TestType>,
+        private readonly _themeToPublicConverter: IConverter<ThemeDocument, ThemeType>,
+        private readonly _themeChildrenToPublicConverter: IConverter<ThemeChildrenConverterType, ThemeWith<[ ThemeChildren ]>[]>,
     ) {
     }
 
     async getThemeFullDataByPublicId (publicId: string): Promise<ThemeChildren & ThemeTests & ThemeQuestions & ThemeBreadcrumb & ThemeType> {
-        /**
-         * TODO: Refactor
-         */
         const doc: ThemeDocument            = await this._mongoThemeRepository.findOne({ publicId }, {}, {
             populate: [
                 {
@@ -60,55 +69,20 @@ export class MongoPublicThemesService implements IThemesService {
          * TODO: Заменить ан конвертеры
          */
         return {
-            id         : doc._id.toString(),
-            publicId   : doc.publicId,
-            title      : doc.title,
-            description: doc.description,
-            additional : doc.additional,
-            body       : doc.body,
-            url        : doc.url,
-            enabled    : doc.enabled,
-            questions  : doc.questions
+            ...this._themeToPublicConverter.to(doc),
+            questions : doc.questions
                 .filter((question) => question.question)
-                .map((questionDoc) => ({
-                    id         : questionDoc.question._id.toString(),
-                    title      : questionDoc.question.title,
-                    description: questionDoc.question.description,
-                    body       : questionDoc.question.body,
-                    answers    : [],
-                    enabled    : questionDoc.question.enabled,
-                    complexity : questionDoc.question.complexity,
-                    points     : questionDoc.question.points,
-                })),
-            tests      : doc.tests
-                .map((testDoc) => ({
-                    id                 : testDoc._id.toString(),
-                    title              : testDoc.title,
-                    description        : testDoc.description,
-                    enabled            : testDoc.enabled,
-                    unsatisfactoryScore: testDoc.unsatisfactoryScore,
-                    satisfactoryScore  : testDoc.satisfactoryScore,
-                    perfectScore       : testDoc.perfectScore,
-                    questionsAmount    : testDoc.questionsAmount,
-                    timeToPass         : testDoc.timeToPass,
-                    themeId            : testDoc.themeId.toString(),
-                })),
-            breadcrumb : breadcrumbs.map((breadcrumb) => ({
+                .map((questionDoc) => this._questionToPublicConverter.to(questionDoc.question)),
+            tests     : doc.tests
+                .map((testDoc) => this._testToPublicConverter.to(testDoc)),
+            breadcrumb: breadcrumbs.map((breadcrumb) => ({
                 publicId: breadcrumb.publicId,
                 title   : breadcrumb.title,
                 url     : breadcrumb.url,
             })),
-            children   : childrenDocs.map((childrenDoc) => ({
-                id         : childrenDoc._id.toString(),
-                publicId   : childrenDoc.publicId,
-                title      : childrenDoc.title,
-                description: childrenDoc.description,
-                additional : childrenDoc.additional,
-                body       : childrenDoc.body,
-                url        : childrenDoc.url,
-                enabled    : childrenDoc.enabled,
-                children   : [],
-            })),
+            children  : this._themeChildrenToPublicConverter.to({
+                children: childrenDocs, currentId: doc.publicId,
+            }),
         };
     }
 

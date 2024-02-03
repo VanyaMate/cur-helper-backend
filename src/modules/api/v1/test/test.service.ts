@@ -15,7 +15,7 @@ import {
 } from '@/domain/services/test/implementations/mongo/mongo-test-service';
 import {
     MongoTestConverter
-} from '@/domain/services/test/implementations/mongo/mongo-test.converter';
+} from '@/domain/converters/mongo/mongo-test.converter';
 import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
 import { TestCreateDto } from '@/domain/services/test/dto/test-create.dto';
 import { TestUpdateDto } from '@/domain/services/test/dto/test-update.dto';
