@@ -9,10 +9,20 @@ export class ThemesController {
     }
 
 
-    @Get('/full/:id')
+    @Get('/:id')
     getFullByPublicId (
         @Param('id') id: string,
     ) {
         return this._themesService.getFullDataByPublicId(id);
+    }
+
+    @Get('/list')
+    getList () {
+
+    }
+
+    @Get('/list/:id')
+    getListById (@Param('id') id: string) {
+
     }
 }

@@ -4,20 +4,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import {
-    DtoValidatorService
+    DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
 import {
-    MongoFilterConverterService
-} from '@/modules/services/mongo/mongo-filter-converter.service';
-import {
-    MongoThemeService
+    MongoThemeService,
 } from '@/domain/services/theme/implementations/mongoose/mongo-theme-service';
-import {
-    MongoThemeConverter
-} from '@/domain/converters/mongo/mongo-theme.converter';
 import { ThemeCreateType, ThemeUpdateType } from '@/domain/services/theme/theme.types';
 import { ThemeCreateDto } from '@/domain/services/theme/dto/theme-create.dto';
 import { ThemeUpdateDto } from '@/domain/services/theme/dto/theme-update.dto';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Injectable()
@@ -27,12 +22,12 @@ export class ThemeService {
     constructor (
         @InjectModel('ThemeModel') private readonly _themeModel: Model<ThemeModel>,
         private readonly _dtoValidator: DtoValidatorService,
-        private readonly _mongoFilterConverter: MongoFilterConverterService,
+        private readonly _mongoConverter: MongoConverterService,
     ) {
         this._themeService = new MongoThemeService(
             this._themeModel,
-            new MongoThemeConverter(),
-            this._mongoFilterConverter,
+            this._mongoConverter.theme,
+            this._mongoConverter.filter,
         );
     }
 

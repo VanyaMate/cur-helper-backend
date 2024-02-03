@@ -4,27 +4,19 @@ import { Model } from 'mongoose';
 import { QuestionModel } from '@/db/mongoose/question/question.model';
 import { QuestionAnswerModel } from '@/db/mongoose/question-answer/question-answer.model';
 import {
-    MongoFilterConverterService,
-} from '@/modules/services/mongo/mongo-filter-converter.service';
-import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
 import { IQuestionService } from '@/domain/services/question/question-service.interface';
 import {
-    MongoQuestionService
+    MongoQuestionService,
 } from '@/domain/services/question/implementations/mongo/mongo-question-service';
-import {
-    MongoQuestionConverter
-} from '@/domain/converters/mongo/mongo-question.converter';
-import {
-    MongoQuestionAnswerConverter
-} from '@/domain/converters/mongo/mongo-question-answer.converter';
 import {
     QuestionCreateType,
     QuestionUpdateType,
 } from '@/domain/services/question/question.types';
 import { QuestionCreateDto } from '@/domain/services/question/dto/question-create.dto';
 import { QuestionUpdateDto } from '@/domain/services/question/dto/question-update.dto';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Injectable()
@@ -34,14 +26,14 @@ export class QuestionService {
     constructor (
         @InjectModel('QuestionModel') private readonly _questionModelRepository: Model<QuestionModel>,
         @InjectModel('QuestionAnswerModel') private readonly _questionAnswerModelRepository: Model<QuestionAnswerModel>,
-        private readonly _filterMongoConverter: MongoFilterConverterService,
+        private readonly _mongoConverter: MongoConverterService,
         private readonly _dtoValidator: DtoValidatorService,
     ) {
         this._questionService = new MongoQuestionService(
             this._questionModelRepository,
             this._questionAnswerModelRepository,
-            new MongoQuestionConverter(new MongoQuestionAnswerConverter()),
-            this._filterMongoConverter,
+            this._mongoConverter.question,
+            this._mongoConverter.filter,
         );
     }
 

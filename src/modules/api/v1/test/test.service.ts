@@ -5,20 +5,15 @@ import { TestModel } from '@/db/mongoose/test/test.model';
 import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
-import {
-    MongoFilterConverterService,
-} from '@/modules/services/mongo/mongo-filter-converter.service';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { ITestService } from '@/domain/services/test/test-service.interface';
 import {
-    MongoTestService
+    MongoTestService,
 } from '@/domain/services/test/implementations/mongo/mongo-test-service';
-import {
-    MongoTestConverter
-} from '@/domain/converters/mongo/mongo-test.converter';
 import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
 import { TestCreateDto } from '@/domain/services/test/dto/test-create.dto';
 import { TestUpdateDto } from '@/domain/services/test/dto/test-update.dto';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Injectable()
@@ -29,13 +24,13 @@ export class TestService {
         @InjectModel('TestModel') private readonly _testModel: Model<TestModel>,
         @InjectModel('ThemeModel') private readonly _themeModel: Model<ThemeModel>,
         private readonly _dtoValidator: DtoValidatorService,
-        private readonly _mongoFilterConverter: MongoFilterConverterService,
+        private readonly _mongoConverter: MongoConverterService,
     ) {
         this._testService = new MongoTestService(
             this._testModel,
             this._themeModel,
-            new MongoTestConverter(),
-            this._mongoFilterConverter,
+            this._mongoConverter.test,
+            this._mongoConverter.filter,
         );
     }
 

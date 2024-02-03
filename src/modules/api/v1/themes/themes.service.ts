@@ -6,17 +6,7 @@ import { IThemesService } from '@/domain/services/themes/themes-service.interfac
 import {
     MongoPublicThemesService,
 } from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
-import {
-    MongoQuestionConverter,
-} from '@/domain/converters/mongo/mongo-question.converter';
-import {
-    MongoQuestionAnswerConverter,
-} from '@/domain/converters/mongo/mongo-question-answer.converter';
-import { MongoTestConverter } from '@/domain/converters/mongo/mongo-test.converter';
-import { MongoThemeConverter } from '@/domain/converters/mongo/mongo-theme.converter';
-import {
-    MongoThemesChildrenConverter,
-} from '@/domain/converters/mongo/mongo-themes-children.converter';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Injectable()
@@ -25,13 +15,14 @@ export class ThemesService {
 
     constructor (
         @InjectModel('ThemeModel') private readonly _mongoThemeRepository: Model<ThemeModel>,
+        private readonly _mongoConverter: MongoConverterService,
     ) {
         this._themesService = new MongoPublicThemesService(
             this._mongoThemeRepository,
-            new MongoQuestionConverter(new MongoQuestionAnswerConverter()),
-            new MongoTestConverter(),
-            new MongoThemeConverter(),
-            new MongoThemesChildrenConverter(new MongoThemeConverter()),
+            this._mongoConverter.question,
+            this._mongoConverter.test,
+            this._mongoConverter.theme,
+            this._mongoConverter.themesChildren,
         );
     }
 

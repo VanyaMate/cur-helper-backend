@@ -2,10 +2,8 @@ import { Module } from '@nestjs/common';
 import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
-import {
-    MongoFilterConverterService,
-} from '@/modules/services/mongo/mongo-filter-converter.service';
 import { MongoModelsModule } from '@/modules/services/mongo/mongo-models.module';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Module({
@@ -14,12 +12,12 @@ import { MongoModelsModule } from '@/modules/services/mongo/mongo-models.module'
     ],
     providers: [
         DtoValidatorService,
-        MongoFilterConverterService,
+        MongoConverterService,
     ],
     exports  : [
         DtoValidatorService,
-        MongoFilterConverterService,
         MongoModelsModule,
+        MongoConverterService,
     ],
 })
 export class ServicesModule {
