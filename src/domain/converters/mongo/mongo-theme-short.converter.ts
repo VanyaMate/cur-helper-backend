@@ -1,0 +1,18 @@
+import { IConverter } from '@/domain/service.types';
+import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
+import { ThemeShortType } from '@/domain/services/theme/theme.types';
+
+
+export class MongoThemeShortConverter implements IConverter<ThemeDocument, ThemeShortType> {
+    to (from: ThemeDocument): ThemeShortType {
+        return {
+            publicId: from.publicId,
+            title   : from.title,
+            url     : from.url,
+        };
+    }
+
+    from (to: ThemeShortType): ThemeDocument {
+        throw new Error('Method not implemented.');
+    }
+}

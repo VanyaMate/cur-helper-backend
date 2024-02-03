@@ -6,7 +6,7 @@ import {
 } from '@/domain/implementations/mongo/mongo-filter.converter';
 import { MongoThemeConverter } from '@/domain/converters/mongo/mongo-theme.converter';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeType } from '@/domain/services/theme/theme.types';
+import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
 import { MongoTestConverter } from '@/domain/converters/mongo/mongo-test.converter';
 import {
     MongoQuestionAnswerConverter,
@@ -26,12 +26,16 @@ import {
     MongoThemesChildrenConverter, ThemeChildrenConverterType,
 } from '@/domain/converters/mongo/mongo-themes-children.converter';
 import { ThemeChildren, ThemeWith } from '@/domain/services/themes/themes.types';
+import {
+    MongoThemeShortConverter,
+} from '@/domain/converters/mongo/mongo-theme-short.converter';
 
 
 @Injectable()
 export class MongoConverterService {
     public readonly filter: IConverter<Filter<any>, FilterQuery<any>>;
     public readonly theme: IConverter<ThemeDocument, ThemeType>;
+    public readonly themeShort: IConverter<ThemeDocument, ThemeShortType>;
     public readonly test: IConverter<TestDocument, TestType>;
     public readonly question: IConverter<QuestionDocument, QuestionType>;
     public readonly questionAnswer: IConverter<QuestionAnswerDocument, QuestionAnswerType>;
@@ -40,6 +44,7 @@ export class MongoConverterService {
     constructor () {
         this.filter         = new MongoFilterConverter();
         this.theme          = new MongoThemeConverter();
+        this.themeShort     = new MongoThemeShortConverter();
         this.test           = new MongoTestConverter();
         this.questionAnswer = new MongoQuestionAnswerConverter();
         this.question       = new MongoQuestionConverter(this.questionAnswer);
