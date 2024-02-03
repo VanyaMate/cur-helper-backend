@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
@@ -23,10 +23,31 @@ export class ThemesService {
             this._mongoConverter.test,
             this._mongoConverter.theme,
             this._mongoConverter.themesChildren,
+            this._mongoConverter.themeShort,
         );
     }
 
     async getFullDataByPublicId (publicId: string) {
-        return this._themesService.getThemeFullDataByPublicId(publicId);
+        try {
+            return await this._themesService.getThemeFullDataByPublicId(publicId);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async getListById (publicId: string) {
+        try {
+            return await this._themesService.getThemeListById(publicId);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async getList () {
+        try {
+            return await this._themesService.getThemesList();
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 }

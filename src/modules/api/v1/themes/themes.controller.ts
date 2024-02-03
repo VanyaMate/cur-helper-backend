@@ -9,20 +9,20 @@ export class ThemesController {
     }
 
 
-    @Get('/:id')
-    getFullByPublicId (
+    @Get('list')
+    async getList () {
+        return this._themesService.getList();
+    }
+
+    @Get('list/:id')
+    async getListById (@Param('id') id: string) {
+        return await this._themesService.getListById(id);
+    }
+
+    @Get(':id')
+    async getFullByPublicId (
         @Param('id') id: string,
     ) {
         return this._themesService.getFullDataByPublicId(id);
-    }
-
-    @Get('/list')
-    getList () {
-
-    }
-
-    @Get('/list/:id')
-    getListById (@Param('id') id: string) {
-
     }
 }

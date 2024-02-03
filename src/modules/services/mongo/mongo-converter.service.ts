@@ -25,10 +25,14 @@ import { QuestionType } from '@/domain/services/question/question.types';
 import {
     MongoThemesChildrenConverter, ThemeChildrenConverterType,
 } from '@/domain/converters/mongo/mongo-themes-children.converter';
-import { ThemeChildren, ThemeWith } from '@/domain/services/themes/themes.types';
+import {
+    ThemeChildren,
+    ThemeRecursiveChildren,
+} from '@/domain/services/themes/themes.types';
 import {
     MongoThemeShortConverter,
 } from '@/domain/converters/mongo/mongo-theme-short.converter';
+import { With } from '@/domain/types';
 
 
 @Injectable()
@@ -39,7 +43,7 @@ export class MongoConverterService {
     public readonly test: IConverter<TestDocument, TestType>;
     public readonly question: IConverter<QuestionDocument, QuestionType>;
     public readonly questionAnswer: IConverter<QuestionAnswerDocument, QuestionAnswerType>;
-    public readonly themesChildren: IConverter<ThemeChildrenConverterType, ThemeWith<[ ThemeChildren ]>[]>;
+    public readonly themesChildren: IConverter<ThemeChildrenConverterType, With<ThemeShortType, [ ThemeRecursiveChildren ]>[]>;
 
     constructor () {
         this.filter         = new MongoFilterConverter();
@@ -48,6 +52,6 @@ export class MongoConverterService {
         this.test           = new MongoTestConverter();
         this.questionAnswer = new MongoQuestionAnswerConverter();
         this.question       = new MongoQuestionConverter(this.questionAnswer);
-        this.themesChildren = new MongoThemesChildrenConverter(this.theme);
+        this.themesChildren = new MongoThemesChildrenConverter(this.themeShort);
     }
 }

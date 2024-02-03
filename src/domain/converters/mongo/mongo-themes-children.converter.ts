@@ -1,7 +1,10 @@
 import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeChildren, ThemeWith } from '@/domain/services/themes/themes.types';
-import { ThemeType } from '@/domain/services/theme/theme.types';
+import {
+    ThemeRecursiveChildren,
+} from '@/domain/services/themes/themes.types';
+import { ThemeShortType } from '@/domain/services/theme/theme.types';
+import { With } from '@/domain/types';
 
 
 export type ThemeChildrenConverterType = {
@@ -9,18 +12,18 @@ export type ThemeChildrenConverterType = {
     children: ThemeDocument[];
 }
 
-export class MongoThemesChildrenConverter implements IConverter<ThemeChildrenConverterType, ThemeWith<[ ThemeChildren ]>[]> {
-    constructor (private readonly _themeConverter: IConverter<ThemeDocument, ThemeType>) {
+export class MongoThemesChildrenConverter implements IConverter<ThemeChildrenConverterType, With<ThemeShortType, [ ThemeRecursiveChildren ]>[]> {
+    constructor (private readonly _themeConverter: IConverter<ThemeDocument, ThemeShortType>) {
     }
 
-    to (from: ThemeChildrenConverterType): (ThemeChildren & ThemeType)[] {
+    to (from: ThemeChildrenConverterType): (ThemeRecursiveChildren & ThemeShortType)[] {
         return this._findChildren(from.children, from.currentId).map((child) => ({
             ...this._themeConverter.to(child),
             children: this.to({ children: from.children, currentId: child.publicId }),
         }));
     }
 
-    from (to: (ThemeChildren & ThemeType)[]): ThemeChildrenConverterType {
+    from (to: (ThemeRecursiveChildren & ThemeShortType)[]): ThemeChildrenConverterType {
         throw new Error('Method not implemented.');
     }
 
