@@ -12,17 +12,36 @@ import {
 import {
     QuestionToThemeSchema,
 } from '@/db/mongoose/question-to-theme/question-to-theme.model';
+import { UserSchema } from '@/db/mongoose/user/user.model';
+import { RoleSchema } from '@/db/mongoose/role/role.model';
+import {
+    TestPassingSchema,
+} from '@/db/mongoose/test-passing/test-passing.model';
+import {
+    TestRunningSchema,
+} from '@/db/mongoose/test-running/test-running.model';
+import {
+    UserVerificationCodeSchema,
+} from '@/db/mongoose/user-verification-code/user-verification-code.model';
 
 
 @Module({
     imports: [
         MongooseModule.forFeature([
             { name: 'ThemeModel', schema: ThemeSchema },
+
             { name: 'TestModel', schema: TestSchema },
+            { name: 'TestPassingModel', schema: TestPassingSchema },
+            { name: 'TestRunningModel', schema: TestRunningSchema },
+
             { name: 'QuestionModel', schema: QuestionSchema },
             { name: 'QuestionAnswerModel', schema: QuestionAnswerSchema },
             { name: 'QuestionToTestModel', schema: QuestionToTestSchema },
             { name: 'QuestionToThemeModel', schema: QuestionToThemeSchema },
+
+            { name: 'UserModel', schema: UserSchema },
+            { name: 'UserVerificationCodeModel', schema: UserVerificationCodeSchema },
+            { name: 'RoleModel', schema: RoleSchema },
         ]),
     ],
     exports: [

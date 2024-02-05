@@ -12,12 +12,13 @@ async function bootstrap () {
     const app: INestApplication = await NestFactory.create(
         AppModule,
         {
-            cors: {
+            cors  : {
                 origin     : (origin, callback) => {
                     callback(null, origin);
                 },
                 credentials: true,
             },
+            logger: [ 'log', 'fatal', 'error', 'warn', 'debug', 'verbose' ],
         });
 
     const configService: ConfigService = app.get<ConfigService>(ConfigService);

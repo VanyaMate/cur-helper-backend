@@ -14,5 +14,14 @@ export type QuestionType = {
     answers: QuestionAnswerType[];
 }
 
+export type QuestionSelect = {
+    select: string;
+}
+
+export type QuestionSelectResult = {
+    timeSpent: number;
+
+}
+
 export type QuestionCreateType = Create<QuestionType, 'title' | 'answers'>;
 export type QuestionUpdateType = Partial<QuestionType>;

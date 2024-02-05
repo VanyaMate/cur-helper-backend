@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
 import { ThemesService } from '@/modules/api/v1/themes/themes.service';
 
 
@@ -7,7 +7,6 @@ export class ThemesController {
     constructor (private readonly _themesService: ThemesService) {
 
     }
-
 
     @Get('list')
     async getList () {

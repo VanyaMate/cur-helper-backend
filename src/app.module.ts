@@ -8,6 +8,7 @@ import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
 import { ModulesModule } from '@/modules/modules.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -24,6 +25,7 @@ import { ModulesModule } from '@/modules/modules.module';
             inject    : [ ConfigService ],
         }),
         ModulesModule,
+        ScheduleModule.forRoot(),
     ],
     controllers: [],
 })
