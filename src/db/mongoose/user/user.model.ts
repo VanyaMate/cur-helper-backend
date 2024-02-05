@@ -12,26 +12,23 @@ export class UserModel {
     @Prop({ type: String, required: true, unique: true })
     login: string;
 
-    @Prop({ type: String })
+    @Prop({ type: String, default: '' })
     avatarUrl: string;
 
     @Prop({ type: String, required: true })
     password: string;
 
-    @Prop({ type: String })
+    @Prop({ type: String, default: '' })
     firstName: string;
 
-    @Prop({ type: String })
+    @Prop({ type: String, default: '' })
     lastName: string;
 
-    @Prop({ type: String })
+    @Prop({ type: String, required: true })
     email: string;
 
-    @Prop({ type: Boolean })
-    verified: boolean;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RoleModel' })
-    roleId: mongoose.Schema.Types.ObjectId;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RoleModel', default: null })
+    roleId: mongoose.Schema.Types.ObjectId | null;
 
     role?: RoleDocument;
 }

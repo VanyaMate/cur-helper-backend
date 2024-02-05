@@ -4,11 +4,11 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class RoleModel {
-    @Prop({ type: String })
+    @Prop({ type: String, required: true })
     title: string;
 
-    @Prop({ type: Number })
-    rules: number;
+    @Prop({ type: Number, required: true })
+    rights: number;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(RoleModel);

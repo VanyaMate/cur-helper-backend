@@ -1,0 +1,1 @@
+export type HashFunction = (data: string | Buffer, saltOrRounds: string | number, callback: (err: (Error | undefined), encrypted: string) => any) => void;
