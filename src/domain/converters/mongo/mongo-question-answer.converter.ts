@@ -9,6 +9,7 @@ export class MongoQuestionAnswerConverter implements IConverter<QuestionAnswerDo
     to (from: QuestionAnswerDocument): QuestionAnswerType {
         return {
             id         : from._id.toString(),
+            enabled    : from.enabled,
             title      : from.title,
             description: from.description,
             correct    : from.correct,

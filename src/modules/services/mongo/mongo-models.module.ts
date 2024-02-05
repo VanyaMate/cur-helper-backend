@@ -23,6 +23,9 @@ import {
 import {
     UserVerificationCodeSchema,
 } from '@/db/mongoose/user-verification-code/user-verification-code.model';
+import {
+    TestPassingQuestionSchema,
+} from '@/db/mongoose/test-passing-question/test-passing-question.model';
 
 
 @Module({
@@ -33,6 +36,7 @@ import {
             { name: 'TestModel', schema: TestSchema },
             { name: 'TestPassingModel', schema: TestPassingSchema },
             { name: 'TestRunningModel', schema: TestRunningSchema },
+            { name: 'TestPassingQuestionModel', schema: TestPassingQuestionSchema },
 
             { name: 'QuestionModel', schema: QuestionSchema },
             { name: 'QuestionAnswerModel', schema: QuestionAnswerSchema },

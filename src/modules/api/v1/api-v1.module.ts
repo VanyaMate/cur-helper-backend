@@ -9,6 +9,7 @@ import {
 import {
     QuestionToThemeModule,
 } from '@/modules/api/v1/question-to-theme/question-to-theme.module';
+import { TestPassingModule } from '@/modules/api/v1/test-passing/test-passing.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import {
         ThemesModule,
         QuestionToTestModule,
         QuestionToThemeModule,
+        TestPassingModule,
     ],
 })
 export class ApiV1Module {

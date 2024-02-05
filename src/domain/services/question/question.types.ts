@@ -15,12 +15,12 @@ export type QuestionType = {
 }
 
 export type QuestionSelect = {
-    select: string;
+    selectId: string;
 }
 
-export type QuestionSelectResult = {
+export type QuestionResult = {
     timeSpent: number;
-
+    answerTime: number;
 }
 
 export type QuestionCreateType = Create<QuestionType, 'title' | 'answers'>;

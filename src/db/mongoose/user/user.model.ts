@@ -9,8 +9,11 @@ import { RoleDocument } from '@/db/mongoose/role/role.model';
     },
 })
 export class UserModel {
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true, unique: true })
     login: string;
+
+    @Prop({ type: String })
+    avatarUrl: string;
 
     @Prop({ type: String, required: true })
     password: string;

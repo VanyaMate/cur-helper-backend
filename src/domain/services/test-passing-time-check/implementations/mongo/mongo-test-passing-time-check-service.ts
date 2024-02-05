@@ -20,7 +20,7 @@ export class MongoTestPassingTimeCheckService implements ITestPassingTimeCheckSe
     async check () {
         const runningTests: TestRunningDocument[] = await this._testPassingRunningRepository.find({
             finishTime: {
-                $gt: Date.now(),
+                $lt: Date.now(),
             },
         });
         const updated: UpdateWriteOpResult        = await this._testPassingRepository.updateMany({
@@ -30,6 +30,11 @@ export class MongoTestPassingTimeCheckService implements ITestPassingTimeCheckSe
         }, {
             finishTime: new Date(),
             status    : Status.FINISHED,
+        });
+        await this._testPassingRunningRepository.deleteMany({
+            _id: {
+                $in: runningTests.map((test) => test._id),
+            },
         });
 
         return updated.matchedCount;

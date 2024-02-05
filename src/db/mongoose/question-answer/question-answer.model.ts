@@ -7,6 +7,9 @@ export class QuestionAnswerModel {
     @Prop({ type: String, required: true })
     title: string;
 
+    @Prop({ type: Boolean, default: false })
+    enabled: boolean;
+
     @Prop({ type: String, default: '' })
     description: string;
 
