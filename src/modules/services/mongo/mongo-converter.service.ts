@@ -33,12 +33,24 @@ import {
     MongoThemeShortConverter,
 } from '@/domain/converters/mongo/mongo-theme-short.converter';
 import { With } from '@/domain/types';
+import { UserDocument } from '@/db/mongoose/user/user.model';
+import { UserType } from '@/domain/services/user/user.types';
+import { RoleDocument } from '@/db/mongoose/role/role.model';
+import { RoleType } from '@/domain/services/role/role.types';
+import {
+    MongoUserTypeConverter,
+} from '@/domain/services/user/implementations/mongo/mongo-user-type.converter';
+import {
+    MongoRoleConverter,
+} from '@/domain/services/role/implementations/mongo/mongo-role.converter';
 
 
 @Injectable()
 export class MongoConverterService {
     public readonly filter: IConverter<Filter<any>, FilterQuery<any>>;
     public readonly theme: IConverter<ThemeDocument, ThemeType>;
+    public readonly user: IConverter<UserDocument, UserType>;
+    public readonly role: IConverter<RoleDocument, RoleType>;
     public readonly themeShort: IConverter<ThemeDocument, ThemeShortType>;
     public readonly test: IConverter<TestDocument, TestType>;
     public readonly question: IConverter<QuestionDocument, QuestionType>;
@@ -53,5 +65,7 @@ export class MongoConverterService {
         this.questionAnswer = new MongoQuestionAnswerConverter();
         this.question       = new MongoQuestionConverter(this.questionAnswer);
         this.themesChildren = new MongoThemesChildrenConverter(this.themeShort);
+        this.role           = new MongoRoleConverter();
+        this.user           = new MongoUserTypeConverter(this.role);
     }
 }

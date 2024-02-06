@@ -26,6 +26,7 @@ import {
 import {
     TestPassingQuestionSchema,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
+import { UserJwtCodeSchema } from '@/db/mongoose/user-jwt-code/user-jwt-code.model';
 
 
 @Module({
@@ -45,6 +46,7 @@ import {
 
             { name: 'UserModel', schema: UserSchema },
             { name: 'UserVerificationCodeModel', schema: UserVerificationCodeSchema },
+            { name: 'UserJwtCodeModel', schema: UserJwtCodeSchema },
             { name: 'RoleModel', schema: RoleSchema },
         ]),
     ],

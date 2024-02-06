@@ -7,6 +7,7 @@ import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.
 import {
     MongoTestPassingTimeCheckSchedule,
 } from '@/modules/services/mongo/schedule/mongo-test-passing-time-check-schedule';
+import { HashService } from '@/modules/services/hash/hash.service';
 
 
 @Module({
@@ -17,11 +18,13 @@ import {
         DtoValidatorService,
         MongoConverterService,
         MongoTestPassingTimeCheckSchedule,
+        HashService,
     ],
     exports  : [
         DtoValidatorService,
         MongoModelsModule,
         MongoConverterService,
+        HashService,
     ],
 })
 export class ServicesModule {
