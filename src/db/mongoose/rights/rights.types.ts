@@ -4,3 +4,6 @@ export const RIGHTS_SUPER_MODERATOR = 0b1111111111111100;
 export const RIGHTS_MODERATOR       = 0b1111111111111000;
 export const RIGHTS_VERIFIED_USER   = 0b1100000000000000;
 export const RIGHTS_USER            = 0b1000000000000000;
+/**
+ * ------------------------------------------------------------
+ */

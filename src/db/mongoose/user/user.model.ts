@@ -12,6 +12,9 @@ export class UserModel {
     @Prop({ type: String, required: true, unique: true })
     login: string;
 
+    @Prop({ type: String, required: true, unique: true })
+    email: string;
+
     @Prop({ type: String, default: '' })
     avatarUrl: string;
 
@@ -23,9 +26,6 @@ export class UserModel {
 
     @Prop({ type: String, default: '' })
     lastName: string;
-
-    @Prop({ type: String, required: true })
-    email: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RoleModel', default: null })
     roleId: mongoose.Schema.Types.ObjectId | null;

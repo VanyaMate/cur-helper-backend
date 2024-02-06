@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class RoleModel {
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true, unique: true })
     title: string;
 
     @Prop({ type: Number, required: true })
