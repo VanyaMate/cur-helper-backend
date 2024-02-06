@@ -10,10 +10,8 @@ export type UserType = {
     login: string;
     avatarUrl: string;
     email: string;
-    info: {
-        firstName: string;
-        lastName: string;
-    },
+    firstName: string;
+    lastName: string;
     role: RoleType | null;
 }
 
@@ -22,7 +20,6 @@ export type UserTestPassing = {
 }
 
 export type UserCreateType =
-    Create<UserType, 'login'>
+    Create<Omit<UserType, 'role'>, 'login'>
     & { password: string };
-export type UserUpdateType =
-    Partial<UserType>;
+export type UserUpdateType = Partial<Omit<UserType, 'role'>>;

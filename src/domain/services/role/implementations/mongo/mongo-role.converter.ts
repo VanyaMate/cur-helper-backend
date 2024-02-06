@@ -5,11 +5,15 @@ import { RoleType } from '@/domain/services/role/role.types';
 
 export class MongoRoleConverter implements IConverter<RoleDocument, RoleType> {
     to (from: RoleDocument): RoleType {
-        return {
-            id    : from._id.toString(),
-            title : from.title,
-            rights: from.rights,
-        };
+        if (from) {
+            return {
+                id    : from._id.toString(),
+                title : from.title,
+                rights: from.rights,
+            };
+        } else {
+            return null;
+        }
     }
 
     from (to: RoleType): RoleDocument {
