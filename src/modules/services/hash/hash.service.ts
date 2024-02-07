@@ -4,7 +4,6 @@ import {
 } from '@/domain/services/hash/implementations/bcrypt/bcrypt-hash.service';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { hash } from 'bcrypt';
 
 
 @Injectable()
@@ -16,11 +15,14 @@ export class HashService implements IHashService {
     ) {
         this._hashService = new BcryptHashService(
             this._config.get('HASH_SECRET_KEY'),
-            hash,
         );
     }
 
     hash (payload: string): Promise<string> {
         return this._hashService.hash(payload);
+    }
+
+    validate (token: string, hash: string): Promise<boolean> {
+        return this._hashService.validate(token, hash);
     }
 }

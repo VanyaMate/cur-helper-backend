@@ -64,8 +64,8 @@ export class MongoAuthenticationService implements IAuthenticationService {
             throw 'Такого пользователя не существует';
         }
 
-        const hashPassword: string = await this._hashService.hash(loginData.password);
-        if (user.password === hashPassword) {
+        const valid: boolean = await this._hashService.validate(loginData.password, user.password);
+        if (valid) {
             return this._userConverter.to(user);
         } else {
             throw 'Неправильный пароль';

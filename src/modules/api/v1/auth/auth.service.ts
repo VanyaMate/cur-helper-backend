@@ -21,7 +21,9 @@ import {
 import { RegistrationDto } from '@/domain/services/authentication/dto/registration.dto';
 import { LoginDto } from '@/domain/services/authentication/dto/login.dto';
 import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
-import { Response, Request, response } from 'express';
+import { Response } from 'express';
+import { JwtService } from '@/modules/api/v1/auth/jwt.service';
+import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service';
 
 
 @Injectable()
@@ -34,6 +36,8 @@ export class AuthService {
         private readonly _converter: MongoConverterService,
         private readonly _dtoValidator: DtoValidatorService,
         private readonly _cookieService: CookieAuthService,
+        private readonly _jwtService: JwtService,
+        private readonly _userJwtCodeService: UserJwtCodeService,
     ) {
         this._authService = new MongoAuthenticationService(
             this._userRepository,
@@ -46,11 +50,15 @@ export class AuthService {
         try {
             await this._dtoValidator.validate(new RegistrationDto(registrationData));
             const user: UserType = await this._authService.registration(registrationData);
-            // create code
-            // create jwt token
-            this._cookieService.set(response, '');
+            const code: string   = await this._userJwtCodeService.createFor(user.id);
+            const jwt: string    = await this._jwtService.encode({
+                userId: user.id,
+                code,
+            });
+            this._cookieService.set(response, jwt);
             return user;
         } catch (e) {
+            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -59,13 +67,20 @@ export class AuthService {
         try {
             await this._dtoValidator.validate(new LoginDto(loginData));
             const user: UserType = await this._authService.login(loginData);
-            // get code
-            // create jwt token
-            this._cookieService.set(response, '');
+            const code: string   = await this._userJwtCodeService.createFor(user.id);
+            const jwt: string    = await this._jwtService.encode({
+                userId: user.id,
+                code,
+            });
+            this._cookieService.set(response, jwt);
             return user;
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
 
+    async logout (response: Response): Promise<boolean> {
+        await this._cookieService.remove(response);
+        return true;
+    }
 }

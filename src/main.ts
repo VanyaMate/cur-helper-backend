@@ -4,7 +4,6 @@ import * as cookieParser from 'cookie-parser';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PORT } from './consts/config-name';
-import * as process from 'process';
 import { HttpExceptionFilter } from '@/modules/filters/exceptions/http-exception.filter';
 
 

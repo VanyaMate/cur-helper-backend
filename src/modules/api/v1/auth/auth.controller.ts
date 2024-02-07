@@ -31,8 +31,8 @@ export class AuthController {
     }
 
     @Post('logout')
-    logout () {
-
+    logout (@Res({ passthrough: true }) response: Response) {
+        return this._authService.logout(response);
     }
 
     @Post('refresh')

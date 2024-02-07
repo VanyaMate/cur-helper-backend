@@ -13,6 +13,7 @@ export class MongoUserTypeConverter implements IConverter<UserDocument, UserType
 
     to (from: UserDocument): UserType {
         return {
+            id       : from._id.toString(),
             login    : from.login,
             email    : from.email,
             firstName: from.firstName,

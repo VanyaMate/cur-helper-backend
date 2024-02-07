@@ -7,6 +7,7 @@ import { RoleType } from '@/domain/services/role/role.types';
 
 
 export type UserType = {
+    id: string;
     login: string;
     avatarUrl: string;
     email: string;
