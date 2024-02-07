@@ -2,7 +2,7 @@ import { IHashService } from '@/domain/services/hash/hash-service.interface';
 import {
     BcryptHashService,
 } from '@/domain/services/hash/implementations/bcrypt/bcrypt-hash.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 
@@ -18,11 +18,19 @@ export class HashService implements IHashService {
         );
     }
 
-    hash (payload: string): Promise<string> {
-        return this._hashService.hash(payload);
+    async hash (payload: string): Promise<string> {
+        try {
+            return await this._hashService.hash(payload);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
-    validate (token: string, hash: string): Promise<boolean> {
-        return this._hashService.validate(token, hash);
+    async validate (token: string, hash: string): Promise<boolean> {
+        try {
+            return await this._hashService.validate(token, hash);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.UNAUTHORIZED);
+        }
     }
 }
