@@ -20,7 +20,6 @@ export class CookieAuthService implements ICookieAuthService {
     }
 
     get (request: Request): string {
-        console.log(request.cookies);
         const data: string | undefined = request.cookies[this._COOKIE_NAME];
         return data ? data : '';
     }

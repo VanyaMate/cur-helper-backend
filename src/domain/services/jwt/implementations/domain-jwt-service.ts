@@ -15,7 +15,7 @@ export class DomainJwtService implements IJwtService {
 
     async encode (payload: any): Promise<string> {
         return this._signFunction(payload, this._secretKey, {
-            expiresIn: '10s',
+            expiresIn: '14d',
         });
     }
 

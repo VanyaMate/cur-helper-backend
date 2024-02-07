@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IJwtService } from '@/domain/services/jwt/jwt-service.interface';
 import {
     DomainJwtService as DomainJwtService,
@@ -23,10 +23,18 @@ export class JwtService {
     }
 
     async encode (payload: any): Promise<string> {
-        return this._jwtService.encode(payload);
+        try {
+            return await this._jwtService.encode(payload);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     async decode<T> (token: string): Promise<T> {
-        return this._jwtService.decode<T>(token);
+        try {
+            return await this._jwtService.decode<T>(token);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 }

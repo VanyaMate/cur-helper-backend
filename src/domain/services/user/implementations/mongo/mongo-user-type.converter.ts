@@ -18,6 +18,7 @@ export class MongoUserTypeConverter implements IConverter<UserDocument, UserType
             email    : from.email,
             firstName: from.firstName,
             lastName : from.lastName,
+            verified : from.verified,
             role     : this._roleConverter.to(from.role),
             avatarUrl: from.avatarUrl,
         };

@@ -30,6 +30,9 @@ export class UserModel {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RoleModel', default: null })
     roleId: mongoose.Schema.Types.ObjectId | null;
 
+    @Prop({ type: Boolean, default: false })
+    verified: boolean;
+
     role?: RoleDocument;
 }
 

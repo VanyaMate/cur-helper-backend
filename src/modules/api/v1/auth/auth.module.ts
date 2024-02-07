@@ -24,6 +24,8 @@ import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service'
     ],
     exports    : [
         JwtService,
+        CookieAuthService,
+        UserJwtCodeService,
     ],
 })
 export class AuthModule {

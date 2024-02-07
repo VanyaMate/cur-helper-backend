@@ -13,6 +13,7 @@ export type UserType = {
     email: string;
     firstName: string;
     lastName: string;
+    verified: boolean;
     role: RoleType | null;
 }
 
