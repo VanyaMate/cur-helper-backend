@@ -71,8 +71,8 @@ export class MongoPublicThemesService implements IThemesService {
             tests     : doc.tests.map(this._testConverter.to),
             breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
             children  : childrenDocs.map(this._themeShortConverter.to),
-            next      : null,   // ссылка на 1 дочернюю тему или следующую или после текущего родителя (рекурсивно)
-            prev      : null,   // ссылка на предыдущую тему или родителя
+            next      : null,   // TODO: ссылка на 1 дочернюю тему или следующую или после текущего родителя (рекурсивно)
+            prev      : null,   // TODO: ссылка на предыдущую тему или родителя
         };
     }
 
@@ -114,16 +114,17 @@ export class MongoPublicThemesService implements IThemesService {
     }
 
     async getThemesList (): Promise<(ThemeRecursiveChildren & ThemeShortType)[]> {
-        const docs: ThemeDocument[]       = await this._mongoThemeRepository.find();
-        const parentDocs: ThemeDocument[] = docs.filter((doc) => doc.publicId.match(/^\d+$/));
-        const sorted: ThemeDocument[]     = docs.sort((a, b) => {
-            return parseInt(a.publicId.match(/\d/gi).join('')) - parseInt(b.publicId.match(/\d/gi).join(''));
+        const docs: ThemeDocument[]       = await this._mongoThemeRepository.find({
+            publicId: {
+                $regex: /^\d/,
+            },
         });
+        const parentDocs: ThemeDocument[] = docs.filter((doc) => doc.publicId.match(/^\d+$/));
 
-        return parentDocs.sort((a, b) => parseInt(a.publicId) - parseInt(b.publicId)).map((doc) => ({
+        return parentDocs.map((doc) => ({
             ...this._themeShortConverter.to(doc),
             children: this._themeRecursiveChildrenConverter.to({
-                children : sorted,
+                children : docs,
                 currentId: doc.publicId,
             }),
         }));

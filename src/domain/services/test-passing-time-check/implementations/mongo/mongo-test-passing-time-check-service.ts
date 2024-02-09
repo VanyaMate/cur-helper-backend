@@ -8,6 +8,7 @@ import {
 } from '@/db/mongoose/test-running/test-running.model';
 import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
 import { Status } from '@/domain/enums';
+import { TestPassingState } from '@/domain/services/test-passing/test-passing.types';
 
 
 export class MongoTestPassingTimeCheckService implements ITestPassingTimeCheckService {
@@ -28,8 +29,8 @@ export class MongoTestPassingTimeCheckService implements ITestPassingTimeCheckSe
                 $in: runningTests.map((test) => test.testPassingId),
             },
         }, {
-            finishTime: new Date(),
-            status    : Status.FINISHED,
+            finishTime: Date.now(),
+            status    : 'finished' as TestPassingState,
         });
         await this._testPassingRunningRepository.deleteMany({
             _id: {

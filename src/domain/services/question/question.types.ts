@@ -25,3 +25,4 @@ export type QuestionResult = {
 
 export type QuestionCreateType = Create<QuestionType, 'title' | 'answers'>;
 export type QuestionUpdateType = Partial<QuestionType>;
+export type QuestionShortType = Pick<QuestionType, 'id'>;

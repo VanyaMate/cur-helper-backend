@@ -33,6 +33,7 @@ export class MongoTestPassingService implements ITestPassingService {
     }
 
     async start (userId: string, testId: string): Promise<TestPassingProcess & TestPassingType> {
+        // TODO: Add converters
         const runningTest: TestRunningDocument = await this._testRunningRepository.findOne({
             userId,
             testId,
@@ -82,7 +83,7 @@ export class MongoTestPassingService implements ITestPassingService {
                 remainingTime: runningTest.testPassing.startTime - Date.now() + runningTest.testPassing.test.timeToPass,
             };
         } else {
-            const testDocument: TestDocument = await this._testRepository.findOne({ _id: testId }, {}, {
+            const testDocument: TestDocument                            = await this._testRepository.findOne({ _id: testId }, {}, {
                 populate: {
                     path    : 'questions',
                     populate: {
@@ -93,30 +94,25 @@ export class MongoTestPassingService implements ITestPassingService {
                     },
                 },
             });
-            console.log('TEST_DOCUMENT', testDocument);
             // TODO: Validate : Если достаточно вопросов и всё такое
-            const generatedQuestions: QuestionDocument[] = testDocument.questions.map((question) => question.question);
-            console.log('generatedQuestions', generatedQuestions);
+            const generatedQuestions: QuestionDocument[]                = testDocument.questions.map((question) => question.question);
             const generatedTestQuestions: TestPassingQuestionDocument[] = await this._testPassingQuestionRepository.create(generatedQuestions.map((question) => ({
                 questionId: question._id,
                 answerId  : null,
             })));
-            console.log('generatedTestQuestions', generatedTestQuestions);
-            const testPassing: TestPassingDocument = await this._testPassingRepository.create({
+            const testPassing: TestPassingDocument                      = await this._testPassingRepository.create({
                 userId,
                 testId,
                 startTime   : Date.now(),
                 questionsIds: generatedTestQuestions.map((question) => question._id),
             });
-            console.log('testPassing', testPassing);
             // TODO: Дополнительно дается 5 секунд ко времени
-            const testRunning: TestRunningDocument = await this._testRunningRepository.create({
+            const testRunning: TestRunningDocument                      = await this._testRunningRepository.create({
                 testPassingId: testPassing._id,
                 userId       : userId,
                 testId       : testId,
                 finishTime   : Date.now() + testDocument.timeToPass + 5000,
             });
-            console.log('testRunning', testRunning);
             return {
                 id           : testPassing._id.toString(),
                 isPrivate    : testPassing.isPrivate,

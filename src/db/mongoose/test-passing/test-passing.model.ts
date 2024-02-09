@@ -8,6 +8,10 @@ import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question
 import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
+import {
+    TestPassingResult,
+    TestPassingState,
+} from '@/domain/services/test-passing/test-passing.types';
 
 
 @Schema()
@@ -24,8 +28,8 @@ export class TestPassingModel {
     @Prop({ type: [ { type: mongoose.Schema.Types.ObjectId, name: 'QuestionModel' } ] })
     questionsIds: mongoose.Schema.Types.ObjectId[];
 
-    @Prop({ type: String, default: Status.PROCESS })
-    status: Status;
+    @Prop({ type: String, default: 'process' as TestPassingState })
+    status: TestPassingState;
 
     @Prop({ type: Number, default: Date.now() })
     startTime: number;

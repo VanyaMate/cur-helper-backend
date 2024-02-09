@@ -4,7 +4,7 @@ import { With } from '@/domain/types';
 import {
     QuestionSelect,
     QuestionResult,
-    QuestionType,
+    QuestionType, QuestionShortType,
 } from '@/domain/services/question/question.types';
 import { Status } from '@/domain/enums';
 
@@ -22,7 +22,7 @@ export type TestPassingState =
 export type TestPassingType = {
     id: string;
     isPrivate: boolean;
-    status: Status;
+    status: TestPassingState;
     startTime: number;
 }
 
@@ -38,6 +38,12 @@ export type TestPassingResults = {
     questions: With<QuestionType, [ QuestionSelect, QuestionResult ]>[];
 }
 
+export type TestPassingResultsShort = {
+    result: TestPassingResult;
+    rightAnswers: number;
+    questions: QuestionShortType[];
+}
+
 export type TestPassingTestShort = {
     test: TestShortType;
 }
@@ -45,3 +51,7 @@ export type TestPassingTestShort = {
 export type TestPassingUserShort = {
     user: UserType;
 }
+
+export type TestPassingShortInfo =
+    Pick<TestPassingType, 'id' | 'status'>
+    & TestPassingResultsShort;
