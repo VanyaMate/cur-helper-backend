@@ -12,6 +12,7 @@ import {
 import { TestPassingModule } from '@/modules/api/v1/test-passing/test-passing.module';
 import { AuthModule } from '@/modules/api/v1/auth/auth.module';
 import { UserModule } from '@/modules/api/v1/user/user.module';
+import { TestsModule } from '@/modules/api/v1/tests/tests.module';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { UserModule } from '@/modules/api/v1/user/user.module';
         TestPassingModule,
         AuthModule,
         UserModule,
+        TestsModule,
     ],
 })
 export class ApiV1Module {

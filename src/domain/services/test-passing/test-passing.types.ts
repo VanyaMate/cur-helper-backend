@@ -41,6 +41,7 @@ export type TestPassingResults = {
 export type TestPassingResultsShort = {
     result: TestPassingResult;
     rightAnswers: number;
+    finishTime: number;
     questions: QuestionShortType[];
 }
 

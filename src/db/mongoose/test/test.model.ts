@@ -7,6 +7,7 @@ import {
     QuestionToTestDocument,
     QuestionToTestModel,
 } from '@/db/mongoose/question-to-test/question-to-test.model';
+import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
 
 
 @Schema({
