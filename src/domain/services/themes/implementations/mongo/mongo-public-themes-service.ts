@@ -3,7 +3,7 @@ import {
     ThemeChildren,
     ThemeTests,
     ThemeBreadcrumb,
-    ThemeRecursiveChildren,
+    ThemeRecursiveChildren, ThemeNext, ThemePrev,
 } from '../../themes.types';
 import { Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
@@ -31,25 +31,9 @@ export class MongoPublicThemesService implements IThemesService {
     ) {
     }
 
-    async getThemeFullDataByPublicId (publicId: string): Promise<ThemeChildren & ThemeTests & ThemeBreadcrumb & ThemeType> {
+    async getThemeFullDataByPublicId (publicId: string): Promise<ThemeChildren & ThemeTests & ThemeBreadcrumb & ThemeType & ThemeNext & ThemePrev> {
         // TODO: Оптимизация запросов
         // TODO: Оптимизация кода
-        const doc: ThemeDocument            = await this._mongoThemeRepository.findOne({ publicId }, {}, {
-            populate: [
-                {
-                    path   : 'tests',
-                    options: {
-                        limit: 3,
-                    },
-                },
-            ],
-        });
-        const childrenDocs: ThemeDocument[] = await this._mongoThemeRepository.find({
-            publicId: {
-                $regex: new RegExp(`^${publicId}-\\d+$`),
-            },
-        });
-
         const ids: string[]       = publicId.split('-');
         const parentIds: string[] = ids
             .splice(1, ids.length - 1)
@@ -57,18 +41,38 @@ export class MongoPublicThemesService implements IThemesService {
                 acc.push(`${ acc[acc.length - 1] }-${ id }`);
                 return acc;
             }, [ ids[0] ]);
+        const parentId: string    = parentIds[parentIds.length - 1];
 
-        const breadcrumbs: ThemeDocument[] = await this._mongoThemeRepository.find({
-            publicId: {
-                $in: parentIds.slice(0, parentIds.length - 1),
-            },
-        });
+        const [ doc, childrenDocs, breadcrumbs ]: [ ThemeDocument, ThemeDocument[], ThemeDocument[] ] = await Promise.all([
+            this._mongoThemeRepository.findOne({ publicId }, {}, {
+                populate: [
+                    {
+                        path   : 'tests',
+                        options: {
+                            limit: 3,
+                        },
+                    },
+                ],
+            }),
+            this._mongoThemeRepository.find({
+                publicId: {
+                    $regex: new RegExp(`^${publicId}-\\d+$`),
+                },
+            }),
+            this._mongoThemeRepository.find({
+                publicId: {
+                    $in: parentIds.slice(0, parentIds.length - 1),
+                },
+            }),
+        ]);
 
         return {
             ...this._themeConverter.to(doc),
             tests     : doc.tests.map(this._testConverter.to),
             breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
             children  : childrenDocs.map(this._themeShortConverter.to),
+            next      : null,   // ссылка на 1 дочернюю тему или следующую или после текущего родителя (рекурсивно)
+            prev      : null,   // ссылка на предыдущую тему или родителя
         };
     }
 
@@ -112,11 +116,15 @@ export class MongoPublicThemesService implements IThemesService {
     async getThemesList (): Promise<(ThemeRecursiveChildren & ThemeShortType)[]> {
         const docs: ThemeDocument[]       = await this._mongoThemeRepository.find();
         const parentDocs: ThemeDocument[] = docs.filter((doc) => doc.publicId.match(/^\d+$/));
+        const sorted: ThemeDocument[]     = docs.sort((a, b) => {
+            return parseInt(a.publicId.match(/\d/gi).join('')) - parseInt(b.publicId.match(/\d/gi).join(''));
+        });
 
-        return parentDocs.map((doc) => ({
+        return parentDocs.sort((a, b) => parseInt(a.publicId) - parseInt(b.publicId)).map((doc) => ({
             ...this._themeShortConverter.to(doc),
             children: this._themeRecursiveChildrenConverter.to({
-                children: docs, currentId: doc.publicId,
+                children : sorted,
+                currentId: doc.publicId,
             }),
         }));
     }

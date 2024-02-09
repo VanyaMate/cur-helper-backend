@@ -8,6 +8,14 @@ export type ThemeChildren = {
     children: ThemeShortType[]
 }
 
+export type ThemeNext = {
+    next: ThemeShortType | null;
+}
+
+export type ThemePrev = {
+    prev: ThemeShortType | null;
+}
+
 export type ThemeRecursiveChildren = {
     children: With<ThemeShortType, [ ThemeRecursiveChildren ]>[]
 }
