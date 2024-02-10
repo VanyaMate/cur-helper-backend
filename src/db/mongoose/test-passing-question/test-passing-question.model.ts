@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
+import {
+    QuestionAnswerDocument,
+} from '@/db/mongoose/question-answer/question-answer.model';
 
 
 @Schema()
@@ -17,6 +20,7 @@ export class TestPassingQuestionModel {
     @Prop({ type: Number, default: -1 })
     timeSpent: number;
 
+    answer?: QuestionAnswerDocument;
     question?: QuestionDocument;
 }
 
@@ -26,6 +30,13 @@ export type TestPassingQuestionDocument = HydratedDocument<TestPassingQuestionMo
 TestPassingQuestionSchema.virtual('question', {
     ref         : 'QuestionModel',
     localField  : 'questionId',
+    foreignField: '_id',
+    justOne     : true,
+});
+
+TestPassingQuestionSchema.virtual('answer', {
+    ref         : 'QuestionAnswerModel',
+    localField  : 'answerId',
     foreignField: '_id',
     justOne     : true,
 });

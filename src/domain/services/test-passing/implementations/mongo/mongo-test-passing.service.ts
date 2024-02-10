@@ -57,29 +57,32 @@ export class MongoTestPassingService implements ITestPassingService {
             },
         });
 
+        // TODO: Converter
         if (runningTest) {
             return {
                 id           : runningTest.testPassing._id.toString(),
                 isPrivate    : runningTest.testPassing.isPrivate,
                 status       : runningTest.testPassing.status,
                 startTime    : runningTest.testPassing.startTime,
-                questions    : runningTest.testPassing.questions.map(({ question: testQuestion }) => ({
-                    id         : testQuestion._id.toString(),
-                    title      : testQuestion.title,
-                    description: testQuestion.description,
-                    body       : testQuestion.body,
-                    complexity : testQuestion.complexity,
-                    answers    : testQuestion.answers.map((answer) => ({
-                        id         : answer.id,
-                        title      : answer.title,
-                        enabled    : answer.enabled,
-                        description: '',
-                        correct    : false,
-                    })),
-                    enabled    : testQuestion.enabled,
-                    points     : testQuestion.points,
-                    selectId   : null,
-                })),
+                questions    : runningTest.testPassing.questions.map(
+                    ({ question: testQuestion, answerId }) => ({
+                        id         : testQuestion._id.toString(),
+                        title      : testQuestion.title,
+                        description: testQuestion.description,
+                        body       : testQuestion.body,
+                        complexity : testQuestion.complexity,
+                        answers    : testQuestion.answers.map((answer) => ({
+                            id         : answer.id,
+                            title      : answer.title,
+                            enabled    : answer.enabled,
+                            description: '',
+                            correct    : false,
+                        })),
+                        enabled    : testQuestion.enabled,
+                        points     : testQuestion.points,
+                        selectId   : answerId ? answerId.toString() : null,
+                    }),
+                ),
                 remainingTime: runningTest.testPassing.startTime - Date.now() + runningTest.testPassing.test.timeToPass,
             };
         } else {
@@ -96,10 +99,12 @@ export class MongoTestPassingService implements ITestPassingService {
             });
             // TODO: Validate : Если достаточно вопросов и всё такое
             const generatedQuestions: QuestionDocument[]                = testDocument.questions.map((question) => question.question);
-            const generatedTestQuestions: TestPassingQuestionDocument[] = await this._testPassingQuestionRepository.create(generatedQuestions.map((question) => ({
-                questionId: question._id,
-                answerId  : null,
-            })));
+            const generatedTestQuestions: TestPassingQuestionDocument[] = await this._testPassingQuestionRepository.create(
+                generatedQuestions.map((question) => ({
+                    questionId: question._id,
+                    answerId  : null,
+                })),
+            );
             const testPassing: TestPassingDocument                      = await this._testPassingRepository.create({
                 userId,
                 testId,

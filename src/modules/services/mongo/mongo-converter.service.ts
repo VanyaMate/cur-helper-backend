@@ -3,7 +3,7 @@ import { Filter, IConverter } from '@/domain/service.types';
 import { FilterQuery } from 'mongoose';
 import {
     MongoFilterConverter,
-} from '@/domain/implementations/mongo/mongo-filter.converter';
+} from '@/domain/converters/mongo/mongo-filter.converter';
 import { MongoThemeConverter } from '@/domain/converters/mongo/mongo-theme.converter';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';

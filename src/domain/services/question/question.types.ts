@@ -1,6 +1,7 @@
 import { Complexity } from '@/domain/enums';
 import { Create } from '@/domain/types';
 import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
+import { ThemeShortType } from '@/domain/services/theme/theme.types';
 
 
 export type QuestionType = {
@@ -21,6 +22,10 @@ export type QuestionSelect = {
 export type QuestionResult = {
     timeSpent: number;
     answerTime: number;
+}
+
+export type QuestionThemes = {
+    themes: ThemeShortType[];
 }
 
 export type QuestionCreateType = Create<QuestionType, 'title' | 'answers'>;

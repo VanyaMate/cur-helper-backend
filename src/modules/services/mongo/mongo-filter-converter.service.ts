@@ -3,7 +3,7 @@ import { Filter, IConverter } from '@/domain/service.types';
 import { FilterQuery } from 'mongoose';
 import {
     MongoFilterConverter,
-} from '@/domain/implementations/mongo/mongo-filter.converter';
+} from '@/domain/converters/mongo/mongo-filter.converter';
 
 
 @Injectable()

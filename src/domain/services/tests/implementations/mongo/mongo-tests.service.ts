@@ -1,6 +1,10 @@
 import { TestType } from '@/domain/services/test/test.types';
 import { ITestsService } from '@/domain/services/tests/tests-service.interface';
-import { TestShortResult } from '../../tests.types';
+import {
+    TestQuestionsThemesShort,
+    TestShortResult,
+    TestThemeShort,
+} from '../../tests.types';
 import mongoose, { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
@@ -90,13 +94,25 @@ export class MongoTestsService implements ITestsService {
         }));
     }
 
-    async getOneTestByIds (themeId: string, testId: string, userId?: string): Promise<TestType & TestShortResult> {
+    async getOneTestByIds (themeId: string, testId: string, userId?: string): Promise<TestType & TestShortResult & TestQuestionsThemesShort & TestThemeShort> {
         const themeDocument: ThemeDocument | null = await this._themeRepository.findOne({
             publicId: themeId,
         }, {}, {
             populate: [
                 {
-                    path: 'tests',
+                    path    : 'tests',
+                    populate: {
+                        path    : 'questions',
+                        populate: {
+                            path    : 'question',
+                            populate: {
+                                path    : 'themes',
+                                populate: {
+                                    path: 'theme',
+                                },
+                            },
+                        },
+                    },
                 },
             ],
         });
@@ -118,13 +134,28 @@ export class MongoTestsService implements ITestsService {
                 testId: testDocument._id,
             }, {}, { populate: [ 'questions', 'test' ] }).sort({ finishTime: -1 }).exec();
 
-            // TODO: Add converter
+            // TODO: Delete ctrl c ctrl v
             return {
                 ...this._testConverter.to(testDocument),
                 shortResult: this._testPassingShortConverter.to(testPassings),
+                theme      : this._themeShortConverter.to(themeDocument),
+                themes     : testDocument.questions.reduce((acc, question) => {
+                    acc = acc.concat(question.question.themes.map((themeToQuestion) => this._themeShortConverter.to(themeToQuestion.theme)));
+                    return acc;
+                }, []),
             };
         } else {
-            return Object.assign(this._testConverter.to(testDocument), { shortResult: null });
+            return Object.assign(
+                this._testConverter.to(testDocument),
+                {
+                    shortResult: null,
+                    theme      : this._themeShortConverter.to(themeDocument),
+                    themes     : testDocument.questions.reduce((acc, question) => {
+                        acc = acc.concat(question.question.themes.map((themeToQuestion) => this._themeShortConverter.to(themeToQuestion.theme)));
+                        return acc;
+                    }, []),
+                },
+            );
         }
     }
 }
