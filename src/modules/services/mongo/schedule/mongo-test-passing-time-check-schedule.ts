@@ -32,6 +32,6 @@ export class MongoTestPassingTimeCheckSchedule {
         this._checker
             .check()
             .then((data) => this._logger.debug(`Update running tests ${ data }`))
-            .catch((error) => this._logger.error(`Update running tests ${ error }`));
+            .catch((error) => this._logger.error(`Cant update running tests ${ error }`));
     }
 }

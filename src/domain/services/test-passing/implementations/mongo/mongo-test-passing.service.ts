@@ -5,6 +5,10 @@ import {
     TestPassingProcess,
     TestPassingType,
     TestPassingResult,
+    TestPassingResults,
+    TestPassingTestShort,
+    TestPassingThemes,
+    TestPassingUserShort,
 } from '../../test-passing.types';
 import { Model } from 'mongoose';
 import {
@@ -145,11 +149,19 @@ export class MongoTestPassingService implements ITestPassingService {
         }
     }
 
-    async finish (userId: string, testId: string): Promise<TestPassingResult & TestPassingType> {
+    async finish (userId: string, testPassingId: string): Promise<TestPassingResult & TestPassingType> {
         throw new Error('Method not implemented.');
     }
 
-    async setAnswer (userId: string, testId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+        throw new Error('Method not implemented.');
+    }
+
+    async getById (userId: string, testPassingId: string): Promise<TestPassingProcess & TestPassingType> {
+        throw new Error('Method not implemented.');
+    }
+
+    async getResultById (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
         throw new Error('Method not implemented.');
     }
 }

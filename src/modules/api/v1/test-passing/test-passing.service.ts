@@ -17,6 +17,10 @@ import {
     TestPassingProcess,
     TestPassingType,
     TestPassingResult,
+    TestPassingResults,
+    TestPassingTestShort,
+    TestPassingThemes,
+    TestPassingUserShort,
 } from '@/domain/services/test-passing/test-passing.types';
 
 
@@ -51,6 +55,14 @@ export class TestPassingService implements ITestPassingService {
     }
 
     setAnswer (userId: string, testId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+        throw new Error('Method not implemented.');
+    }
+
+    getById (userId: string, testPassingId: string): Promise<TestPassingProcess & TestPassingType> {
+        throw new Error('Method not implemented.');
+    }
+
+    getResultById (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
         throw new Error('Method not implemented.');
     }
 }

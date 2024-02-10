@@ -39,7 +39,7 @@ import { RoleDocument } from '@/db/mongoose/role/role.model';
 import { RoleType } from '@/domain/services/role/role.types';
 import {
     MongoUserTypeConverter,
-} from '@/domain/services/user/implementations/mongo/mongo-user-type.converter';
+} from '@/domain/converters/mongo/mongo-user-type.converter';
 import {
     MongoRoleConverter,
 } from '@/domain/services/role/implementations/mongo/mongo-role.converter';

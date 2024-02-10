@@ -41,7 +41,6 @@ export class MongoPublicThemesService implements IThemesService {
                 acc.push(`${ acc[acc.length - 1] }-${ id }`);
                 return acc;
             }, [ ids[0] ]);
-        const parentId: string    = parentIds[parentIds.length - 1];
 
         const [ doc, childrenDocs, breadcrumbs ]: [ ThemeDocument, ThemeDocument[], ThemeDocument[] ] = await Promise.all([
             this._mongoThemeRepository.findOne({ publicId }, {}, {

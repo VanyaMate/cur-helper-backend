@@ -1,7 +1,4 @@
 import { IHashService } from '@/domain/services/hash/hash-service.interface';
-import {
-    HashFunction,
-} from '@/domain/services/hash/implementations/bcrypt/bcrypt-hash.type';
 import * as bc from 'bcrypt';
 
 
