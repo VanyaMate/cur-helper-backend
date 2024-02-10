@@ -9,6 +9,7 @@ export class TestPassingController {
     constructor (private readonly _testPassingService: TestPassingService) {
     }
 
+    // TODO: Возможно перенести в :params
     @Post()
     @UseGuards(ForVerifiedUser)
     create (
@@ -16,5 +17,14 @@ export class TestPassingController {
         @Req() request: Request,
     ) {
         return this._testPassingService.start(request['user'].id, testPassingCreateData.testId);
+    }
+
+    @Post('finish')
+    @UseGuards(ForVerifiedUser)
+    finish (
+        @Body() testPassingCreateData: { testPassingId: string },
+        @Req() request: Request,
+    ) {
+        return this._testPassingService.finish(request['user'].id, testPassingCreateData.testPassingId);
     }
 }

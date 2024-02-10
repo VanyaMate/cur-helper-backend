@@ -25,6 +25,10 @@ import {
     TestPassingQuestionDocument,
     TestPassingQuestionModel,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
+import { NOT_FOUND } from '@/domain/exceptions/errors';
+import {
+    QuestionAnswerDocument,
+} from '@/db/mongoose/question-answer/question-answer.model';
 
 
 export class MongoTestPassingService implements ITestPassingService {
@@ -149,8 +153,60 @@ export class MongoTestPassingService implements ITestPassingService {
         }
     }
 
-    async finish (userId: string, testPassingId: string): Promise<TestPassingResult & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async finish (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
+        const runningTest: TestRunningDocument = await this._testRunningRepository.findOne({
+            userId,
+            testPassingId: testPassingId,
+        }, {}, {
+            populate: {
+                path    : 'testPassing',
+                populate: [
+                    {
+                        path    : 'questions',
+                        populate: {
+                            path    : 'question',
+                            populate: {
+                                path: 'answers',
+                            },
+                        },
+                    },
+                ],
+            },
+        });
+        if (!runningTest) {
+            throw NOT_FOUND;
+        }
+        const finishTime: number = Date.now();
+        let rightAnswers: number = 0;
+
+        // Перебрать все ответы, узнать сколько правильно
+        runningTest.testPassing.questions.forEach((questionPassing) => {
+            const answer: QuestionAnswerDocument | undefined = questionPassing.question.answers.find(
+                (answer) => questionPassing.answerId?.toString() === answer._id.toString(),
+            );
+            if (answer) {
+                if (answer.correct) {
+                    rightAnswers += 1;
+                }
+            }
+        });
+
+        // Удалить runningDocument
+        await runningTest.deleteOne();
+
+
+        // Переписать testPassing
+        const testPassing: TestPassingDocument | null = await this._testPassingRepository.findOne({
+            _id: runningTest.testPassingId,
+        });
+        await testPassing.updateOne({
+            rightAnswers,
+            finishTime,
+            status: 'finished',
+        });
+
+        // Подготовить данные
+        return runningTest.testPassing as unknown as TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType;
     }
 
     async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {

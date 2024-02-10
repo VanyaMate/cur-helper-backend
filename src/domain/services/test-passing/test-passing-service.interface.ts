@@ -13,7 +13,7 @@ import { With } from '@/domain/types';
 export interface ITestPassingService {
     start (userId: string, testId: string): Promise<With<TestPassingType, [ TestPassingProcess ]>>;
 
-    finish (userId: string, testPassingId: string): Promise<With<TestPassingType, [ TestPassingResult ]>>;
+    finish (userId: string, testPassingId: string): Promise<With<TestPassingType, [ TestPassingResults, TestPassingUserShort, TestPassingThemes, TestPassingTestShort ]>>;
 
     getById (userId: string, testPassingId: string): Promise<With<TestPassingType, [ TestPassingProcess ]>>;
 

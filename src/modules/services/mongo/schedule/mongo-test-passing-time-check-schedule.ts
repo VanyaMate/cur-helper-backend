@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,6 +10,7 @@ import {
 import {
     MongoTestPassingTimeCheckService,
 } from '@/domain/services/test-passing-time-check/implementations/mongo/mongo-test-passing-time-check-service';
+import { TestPassingService } from '@/modules/api/v1/test-passing/test-passing.service';
 
 
 @Injectable()
@@ -20,10 +21,11 @@ export class MongoTestPassingTimeCheckSchedule {
     constructor (
         @InjectModel('TestPassingModel') private readonly _testPassingRepository: Model<TestPassingModel>,
         @InjectModel('TestRunningModel') private readonly _testRunningRepository: Model<TestRunningModel>,
+        private readonly _testPassingService: TestPassingService,
     ) {
         this._checker = new MongoTestPassingTimeCheckService(
             this._testRunningRepository,
-            this._testPassingRepository,
+            this._testPassingService,
         );
     }
 

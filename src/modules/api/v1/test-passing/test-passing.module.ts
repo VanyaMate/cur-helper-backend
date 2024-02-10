@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import {
     TestPassingController,
 } from '@/modules/api/v1/test-passing/test-passing.controller';
@@ -19,6 +19,9 @@ import { UserModule } from '@/modules/api/v1/user/user.module';
         ServicesModule,
         AuthModule,
         UserModule,
+    ],
+    exports    : [
+        TestPassingService,
     ],
 })
 export class TestPassingModule {

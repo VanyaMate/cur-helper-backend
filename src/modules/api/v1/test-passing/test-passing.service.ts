@@ -50,11 +50,16 @@ export class TestPassingService implements ITestPassingService {
         }
     }
 
-    finish (userId: string, testId: string): Promise<TestPassingResult & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async finish (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
+        try {
+            return await this._testPassingService.finish(userId, testPassingId);
+        } catch (e) {
+            console.log(e);
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
-    setAnswer (userId: string, testId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+    setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
         throw new Error('Method not implemented.');
     }
 
