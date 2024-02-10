@@ -43,6 +43,11 @@ import {
 import {
     MongoRoleConverter,
 } from '@/domain/services/role/implementations/mongo/mongo-role.converter';
+import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
+import { TestPassingShortInfo } from '@/domain/services/test-passing/test-passing.types';
+import {
+    MongoTestPassingShortConverter,
+} from '@/domain/converters/mongo/mongo-test-passing-short.converter';
 
 
 @Injectable()
@@ -56,16 +61,18 @@ export class MongoConverterService {
     public readonly question: IConverter<QuestionDocument, QuestionType>;
     public readonly questionAnswer: IConverter<QuestionAnswerDocument, QuestionAnswerType>;
     public readonly themesChildren: IConverter<ThemeChildrenConverterType, With<ThemeShortType, [ ThemeRecursiveChildren ]>[]>;
+    public readonly testPassingShort: IConverter<TestPassingDocument, TestPassingShortInfo>;
 
     constructor () {
-        this.filter         = new MongoFilterConverter();
-        this.theme          = new MongoThemeConverter();
-        this.themeShort     = new MongoThemeShortConverter();
-        this.test           = new MongoTestConverter();
-        this.questionAnswer = new MongoQuestionAnswerConverter();
-        this.question       = new MongoQuestionConverter(this.questionAnswer);
-        this.themesChildren = new MongoThemesChildrenConverter(this.themeShort);
-        this.role           = new MongoRoleConverter();
-        this.user           = new MongoUserTypeConverter(this.role);
+        this.filter           = new MongoFilterConverter();
+        this.theme            = new MongoThemeConverter();
+        this.themeShort       = new MongoThemeShortConverter();
+        this.test             = new MongoTestConverter();
+        this.questionAnswer   = new MongoQuestionAnswerConverter();
+        this.question         = new MongoQuestionConverter(this.questionAnswer);
+        this.themesChildren   = new MongoThemesChildrenConverter(this.themeShort);
+        this.role             = new MongoRoleConverter();
+        this.user             = new MongoUserTypeConverter(this.role);
+        this.testPassingShort = new MongoTestPassingShortConverter();
     }
 }

@@ -15,4 +15,20 @@ export class TestsController {
     ) {
         return this._testsService.getById(ids.themeId, ids.testId, request['user-jwt-data']?.userId);
     }
+
+    @Get(':themeId')
+    getByThemeId (
+        @Param('themeId') themeId: string,
+        @Req() request: Request,
+    ) {
+        return this._testsService.getListById(themeId, request['user-jwt-data']?.userId);
+    }
+
+
+    @Get()
+    getList (
+        @Req() request: Request,
+    ) {
+        return this._testsService.getListById('', request['user-jwt-data']?.userId);
+    }
 }

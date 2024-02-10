@@ -1,13 +1,16 @@
-import { TestShortType, TestType } from '@/domain/services/test/test.types';
+import { TestType } from '@/domain/services/test/test.types';
 import { With } from '@/domain/types';
 import {
-    TestChildrenWithResults,
     TestShortResult,
 } from '@/domain/services/tests/tests.types';
+import { ThemeShortType } from '@/domain/services/theme/theme.types';
+import {
+    ThemeTestsWithShortResults,
+} from '@/domain/services/themes/themes.types';
 
 
 export interface ITestsService {
-    getById (themeId: string, testId: string, userId?: string): Promise<With<TestType, [ TestShortResult ]>>;
+    getOneTestByIds (themeId: string, testId: string, userId?: string): Promise<With<TestType, [ TestShortResult ]>>;
 
-    getListById (themeId: string, userId?: string): Promise<With<TestShortType, [ TestChildrenWithResults, TestShortResult ]>>;
+    getTestListByThemeId (themeId: string, userId?: string): Promise<With<ThemeShortType, [ ThemeTestsWithShortResults ]>[]>;
 }

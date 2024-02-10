@@ -18,6 +18,7 @@ export class UserMiddleware implements NestMiddleware {
             const token: string = this._cookieAuthService.get(request);
             if (!token) {
                 next();
+                return;
             }
             const data: JwtUserType  = await this._jwtService.decode<JwtUserType>(token);
             request['user-jwt-data'] = data;

@@ -25,13 +25,24 @@ export class TestsService {
             this._themeRepository,
             this._testPassingRepository,
             this._converter.test,
+            this._converter.testPassingShort,
+            this._converter.themeShort,
         );
     }
 
     async getById (themeId: string, testId: string, userId?: string): Promise<TestType & TestShortResult> {
         try {
-            return await this._testsService.getById(themeId, testId, userId);
+            return await this._testsService.getOneTestByIds(themeId, testId, userId);
         } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async getListById (themeId: string, userId?: string) {
+        try {
+            return await this._testsService.getTestListByThemeId(themeId, userId);
+        } catch (e) {
+            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
