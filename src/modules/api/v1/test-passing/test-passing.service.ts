@@ -22,6 +22,9 @@ import {
     TestPassingThemes,
     TestPassingUserShort,
 } from '@/domain/services/test-passing/test-passing.types';
+import {
+    getTestPassingResult,
+} from '@/domain/converters/test-passing-result/implementations/getTestPassingResult';
 
 
 @Injectable()
@@ -39,6 +42,7 @@ export class TestPassingService implements ITestPassingService {
             this._testRunningRepository,
             this._testPassingQuestionRepository,
             this._testRepository,
+            getTestPassingResult,
         );
     }
 
@@ -59,15 +63,27 @@ export class TestPassingService implements ITestPassingService {
         }
     }
 
-    setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+        try {
+            return await this._testPassingService.setAnswer(userId, testPassingId, questionId, answerId);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
-    getById (userId: string, testPassingId: string): Promise<TestPassingProcess & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async getById (userId: string, testPassingId: string): Promise<TestPassingProcess & TestPassingType> {
+        try {
+            return await this._testPassingService.getById(userId, testPassingId);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
-    getResultById (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async getResultById (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
+        try {
+            return await this._testPassingService.getResultById(userId, testPassingId);
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 }

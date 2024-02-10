@@ -9,15 +9,26 @@ import {
 } from '@/domain/services/test-passing/test-passing.types';
 import { Document, Types } from 'mongoose';
 import { TestDocument } from '@/db/mongoose/test/test.model';
+import {
+    GetTestPassingResult,
+} from '@/domain/converters/test-passing-result/test-passing-result.types';
 
 
 export class MongoTestPassingShortConverter implements IConverter<TestPassingDocument, TestPassingShortInfo> {
+    constructor (private readonly _resultGetter: GetTestPassingResult,
+    ) {
+    }
+
     to (from: TestPassingDocument): TestPassingShortInfo {
         return from ? {
             id          : from._id.toString(),
             status      : from.status,
             rightAnswers: from.rightAnswers,
-            result      : this._calculateResult(from.rightAnswers, from.test),
+            result      : this._resultGetter(from.rightAnswers, {
+                perfect: from.test.perfectScore,
+                satis  : from.test.satisfactoryScore,
+                unsatis: from.test.unsatisfactoryScore,
+            }),
             finishTime  : from.finishTime,
             questions   : from.questionsIds?.map((question) => ({ id: question.toString() })) ?? [],
         } : null;
@@ -25,17 +36,5 @@ export class MongoTestPassingShortConverter implements IConverter<TestPassingDoc
 
     from (to: TestPassingShortInfo): TestPassingDocument {
         throw new Error('Method not implemented.');
-    }
-
-    private _calculateResult (right: number, test: TestDocument): TestPassingResult {
-        if (right >= test.perfectScore) {
-            return 'perfect';
-        } else if (right >= test.satisfactoryScore) {
-            return 'satis';
-        } else if (right >= test.unsatisfactoryScore) {
-            return 'unsatis';
-        } else {
-            return 'unsatis';
-        }
     }
 }

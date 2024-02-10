@@ -48,6 +48,9 @@ import { TestPassingShortInfo } from '@/domain/services/test-passing/test-passin
 import {
     MongoTestPassingShortConverter,
 } from '@/domain/converters/mongo/mongo-test-passing-short.converter';
+import {
+    getTestPassingResult,
+} from '@/domain/converters/test-passing-result/implementations/getTestPassingResult';
 
 
 @Injectable()
@@ -73,6 +76,6 @@ export class MongoConverterService {
         this.themesChildren   = new MongoThemesChildrenConverter(this.themeShort);
         this.role             = new MongoRoleConverter();
         this.user             = new MongoUserTypeConverter(this.role);
-        this.testPassingShort = new MongoTestPassingShortConverter();
+        this.testPassingShort = new MongoTestPassingShortConverter(getTestPassingResult);
     }
 }
