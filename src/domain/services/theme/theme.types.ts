@@ -14,4 +14,4 @@ export type ThemeType = {
 
 export type ThemeCreateType = Create<ThemeType, 'publicId' | 'title'>;
 export type ThemeUpdateType = Partial<ThemeType>;
-export type ThemeShortType = Pick<ThemeType, 'publicId' | 'title' | 'url'>;
+export type ThemeShortType = Pick<ThemeType, 'publicId' | 'title' | 'url' | 'additional'>;

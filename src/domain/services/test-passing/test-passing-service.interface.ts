@@ -19,5 +19,5 @@ export interface ITestPassingService {
 
     getResultById (userId: string, testPassingId: string): Promise<With<TestPassingType, [ TestPassingResults, TestPassingUserShort, TestPassingThemes, TestPassingTestShort ]>>;
 
-    setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<With<TestPassingType, [ TestPassingProcess ]>>;
+    setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<boolean>;
 }

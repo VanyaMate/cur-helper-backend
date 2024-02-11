@@ -70,10 +70,11 @@ export class TestPassingService implements ITestPassingService {
         }
     }
 
-    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
+    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<boolean> {
         try {
             return await this._testPassingService.setAnswer(userId, testPassingId, questionId, answerId);
         } catch (e) {
+            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }

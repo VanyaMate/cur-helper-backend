@@ -8,12 +8,12 @@ export class TestsController {
     constructor (private readonly _testsService: TestsService) {
     }
 
-    @Get(':themeId/:testId')
+    @Get(':id')
     getById (
-        @Param() ids: { themeId: string, testId: string },
+        @Param('id') id: string,
         @Req() request: Request,
     ) {
-        return this._testsService.getById(ids.themeId, ids.testId, request['user-jwt-data']?.userId);
+        return this._testsService.getById(id, request['user-jwt-data']?.userId);
     }
 
     @Get(':themeId')

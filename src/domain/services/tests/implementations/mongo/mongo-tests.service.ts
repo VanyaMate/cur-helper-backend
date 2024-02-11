@@ -9,7 +9,7 @@ import mongoose, { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
-import { TestDocument } from '@/db/mongoose/test/test.model';
+import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
 import {
     TestPassingDocument,
     TestPassingModel,
@@ -25,6 +25,7 @@ import { ThemeTestsWithShortResults } from '@/domain/services/themes/themes.type
 export class MongoTestsService implements ITestsService {
     constructor (
         private readonly _themeRepository: Model<ThemeModel>,
+        private readonly _testRepository: Model<TestModel>,
         private readonly _testPassingRepository: Model<TestPassingModel>,
         private readonly _testConverter: IConverter<TestDocument, TestType>,
         private readonly _testPassingShortConverter: IConverter<TestPassingDocument, TestPassingShortInfo>,
@@ -52,6 +53,7 @@ export class MongoTestsService implements ITestsService {
             throw NOT_FOUND;
         }
         const testsIds: mongoose.Types.ObjectId[] = themeDocuments.map((theme) => theme.tests).flat(1).map((test) => test._id);
+
         if (userId) {
             const latestTestResults: {
                 _id: ObjectId,
@@ -69,10 +71,11 @@ export class MongoTestsService implements ITestsService {
                 _id: ObjectId,
                 latestTestResult: TestPassingDocument | null
             }[];
+
             return themeDocuments.map((themeDocument) => ({
                 ...this._themeShortConverter.to(themeDocument),
                 tests: themeDocument.tests.map((testDocument) => {
-                    const latestResult: TestPassingDocument | null = latestTestResults.find((result) => result._id.toString() === testDocument._id.toString()).latestTestResult;
+                    const latestResult: TestPassingDocument | null = latestTestResults.find((result) => result._id.toString() === testDocument._id.toString())?.latestTestResult;
                     return {
                         ...this._testConverter.to(testDocument),
                         shortResult:
@@ -94,38 +97,39 @@ export class MongoTestsService implements ITestsService {
         }));
     }
 
-    async getOneTestByIds (themeId: string, testId: string, userId?: string): Promise<TestType & TestShortResult & TestQuestionsThemesShort & TestThemeShort> {
-        const themeDocument: ThemeDocument | null = await this._themeRepository.findOne({
-            publicId: themeId,
+    async getOneTestByIds (testId: string, userId?: string): Promise<TestType & TestShortResult & TestQuestionsThemesShort & TestThemeShort> {
+        const testDocument: TestDocument | null = await this._testRepository.findOne({
+            _id: testId,
         }, {}, {
             populate: [
                 {
-                    path    : 'tests',
+                    path    : 'questions',
                     populate: {
-                        path    : 'questions',
+                        path    : 'question',
                         populate: {
-                            path    : 'question',
+                            path    : 'themes',
                             populate: {
-                                path    : 'themes',
-                                populate: {
-                                    path: 'theme',
-                                },
+                                path: 'theme',
                             },
                         },
                     },
                 },
+                {
+                    path: 'theme',
+                },
             ],
         });
-        if (!themeDocument) {
+
+        if (!testDocument) {
             throw NOT_FOUND;
         }
 
-        const testDocument: TestDocument | null =
-                  themeDocument?.tests.length > 1
-                  ? themeDocument.tests.find((test) => test._id.toString() === testId)
-                  : themeDocument.tests[0];
-        if (!testDocument) {
-            throw NOT_FOUND;
+        const themes = new Map<string, ThemeDocument>();
+        for (let i = 0; i < testDocument.questions.length; i++) {
+            for (let j = 0; j < testDocument.questions[i].question.themes.length; j++) {
+                const theme = testDocument.questions[i].question.themes[j].theme;
+                themes.set(theme.publicId, theme);
+            }
         }
 
         if (userId) {
@@ -138,22 +142,16 @@ export class MongoTestsService implements ITestsService {
             return {
                 ...this._testConverter.to(testDocument),
                 shortResult: this._testPassingShortConverter.to(testPassings),
-                theme      : this._themeShortConverter.to(themeDocument),
-                themes     : testDocument.questions.reduce((acc, question) => {
-                    acc = acc.concat(question.question.themes.map((themeToQuestion) => this._themeShortConverter.to(themeToQuestion.theme)));
-                    return acc;
-                }, []),
+                theme      : this._themeShortConverter.to(testDocument.theme),
+                themes     : [ ...themes ].map(([ id, theme ]) => this._themeShortConverter.to(theme)),
             };
         } else {
             return Object.assign(
                 this._testConverter.to(testDocument),
                 {
                     shortResult: null,
-                    theme      : this._themeShortConverter.to(themeDocument),
-                    themes     : testDocument.questions.reduce((acc, question) => {
-                        acc = acc.concat(question.question.themes.map((themeToQuestion) => this._themeShortConverter.to(themeToQuestion.theme)));
-                        return acc;
-                    }, []),
+                    theme      : this._themeShortConverter.to(testDocument.theme),
+                    themes     : [ ...themes ].map(([ id, theme ]) => this._themeShortConverter.to(theme)),
                 },
             );
         }

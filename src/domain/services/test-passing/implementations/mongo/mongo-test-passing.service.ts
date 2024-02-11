@@ -222,15 +222,126 @@ export class MongoTestPassingService implements ITestPassingService {
         };
     }
 
-    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<TestPassingProcess & TestPassingType> {
-        throw new Error('Method not implemented.');
+    async setAnswer (userId: string, testPassingId: string, questionId: string, answerId: string): Promise<boolean> {
+        const runningTest: TestRunningDocument | null = await this._testRunningRepository.findOne({
+            userId, testPassingId,
+        }, {}, {
+            populate: {
+                path    : 'testPassing',
+                populate: {
+                    path    : 'questions',
+                    populate: {
+                        path    : 'question',
+                        populate: {
+                            path: 'answers',
+                        },
+                    },
+                },
+            },
+        });
+
+        if (!runningTest) {
+            return false;
+        }
+
+        for (let i = 0; i < runningTest.testPassing.questions.length; i++) {
+            const question: TestPassingQuestionDocument = runningTest.testPassing.questions[i];
+            if (question._id.toString() === questionId) {
+                for (let j = 0; j < question.question.answers.length; j++) {
+                    const answer: QuestionAnswerDocument = question.question.answers[j];
+                    if (answer._id.toString() === answerId) {
+                        await question.updateOne({
+                            answerId: answer._id,
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
     }
 
     async getById (userId: string, testPassingId: string): Promise<TestPassingProcess & TestPassingType> {
-        throw new Error('Method not implemented.');
+        const testPassing: TestPassingDocument = await this._testPassingRepository.findOne({
+            userId,
+            _id: testPassingId,
+        }, {}, {
+            populate: [
+                {
+                    path    : 'questions',
+                    populate: {
+                        path    : 'question',
+                        populate: {
+                            path: 'answers',
+                        },
+                    },
+                },
+                {
+                    path: 'test',
+                },
+            ],
+        });
+
+        return {
+            ...this._testPassingConverter.to(testPassing),
+            ...this._testPassingProcessConverter.to(testPassing),
+        };
     }
 
     async getResultById (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
-        throw new Error('Method not implemented.');
+        const testPassing: TestPassingDocument | null = await this._testPassingRepository.findOne({
+            userId,
+            _id: testPassingId,
+        }, {}, {
+            populate: [
+                {
+                    path    : 'questions',
+                    populate: {
+                        path    : 'question',
+                        populate: [
+                            {
+                                path: 'answers',
+                            },
+                            {
+                                path    : 'themes',
+                                populate: {
+                                    path: 'theme',
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    path: 'test',
+                },
+                {
+                    path: 'user',
+                },
+            ],
+        });
+
+        const themes: ThemeDocument[] = testPassing.questions.reduce((acc, question) => {
+            acc.push(...question.question.themes.map((theme) => theme.theme));
+            return acc;
+        }, []);
+
+        // Если не закончено
+        if (testPassing.status === 'process') {
+            testPassing.questions.forEach((question) => {
+                question.question.answers.forEach((answer) => {
+                    answer.correct     = false;
+                    answer.description = '';
+                });
+            });
+        }
+
+        return {
+            ...this._testPassingConverter.to(testPassing),
+            ...this._testPassingResultsConverter.to(testPassing),
+            user  : this._userConverter.to(testPassing.user),
+            test  : this._testConverter.to(testPassing.test),
+            themes: themes.map(this._themeShortConverter.to.bind(this._themeShortConverter)),
+        };
     }
 }

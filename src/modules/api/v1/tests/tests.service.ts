@@ -9,7 +9,13 @@ import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 import { TestType } from '@/domain/services/test/test.types';
-import { TestShortResult } from '@/domain/services/tests/tests.types';
+import {
+    TestQuestionsThemesShort,
+    TestShortResult,
+    TestThemeShort,
+} from '@/domain/services/tests/tests.types';
+import { With } from '@/domain/types';
+import { TestModel } from '@/db/mongoose/test/test.model';
 
 
 @Injectable()
@@ -18,11 +24,13 @@ export class TestsService {
 
     constructor (
         @InjectModel('ThemeModel') private readonly _themeRepository: Model<ThemeModel>,
+        @InjectModel('TestModel') private readonly _testRepository: Model<TestModel>,
         @InjectModel('TestPassingModel') private readonly _testPassingRepository: Model<TestPassingModel>,
         private readonly _converter: MongoConverterService,
     ) {
         this._testsService = new MongoTestsService(
             this._themeRepository,
+            this._testRepository,
             this._testPassingRepository,
             this._converter.test,
             this._converter.testPassingShort,
@@ -30,9 +38,9 @@ export class TestsService {
         );
     }
 
-    async getById (themeId: string, testId: string, userId?: string): Promise<TestType & TestShortResult> {
+    async getById (testId: string, userId?: string): Promise<With<TestType, [ TestShortResult, TestThemeShort, TestQuestionsThemesShort ]>> {
         try {
-            return await this._testsService.getOneTestByIds(themeId, testId, userId);
+            return await this._testsService.getOneTestByIds(testId, userId);
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
@@ -42,6 +50,7 @@ export class TestsService {
         try {
             return await this._testsService.getTestListByThemeId(themeId, userId);
         } catch (e) {
+            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }

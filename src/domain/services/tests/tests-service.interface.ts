@@ -11,7 +11,7 @@ import {
 
 
 export interface ITestsService {
-    getOneTestByIds (themeId: string, testId: string, userId?: string): Promise<With<TestType, [ TestShortResult, TestThemeShort, TestQuestionsThemesShort ]>>;
+    getOneTestByIds (testId: string, userId?: string): Promise<With<TestType, [ TestShortResult, TestThemeShort, TestQuestionsThemesShort ]>>;
 
     getTestListByThemeId (themeId: string, userId?: string): Promise<With<ThemeShortType, [ ThemeTestsWithShortResults ]>[]>;
 }
