@@ -206,17 +206,12 @@ export class MongoTestPassingService implements ITestPassingService {
 
         // Переписать testPassing
         const testPassing: TestPassingDocument = runningTest.testPassing;
-        await testPassing.updateOne({
-            rightAnswers,
-            finishTime,
-            result,
-            status: 'finished',
-        });
+        testPassing.rightAnswers               = rightAnswers;
+        testPassing.finishTime                 = finishTime;
+        testPassing.result                     = result;
+        testPassing.status                     = 'finished';
 
-        testPassing.rightAnswers = rightAnswers;
-        testPassing.finishTime   = finishTime;
-        testPassing.result       = result;
-        testPassing.status       = 'finished';
+        await testPassing.save();
 
         return {
             ...this._testPassingConverter.to(testPassing),
