@@ -27,11 +27,7 @@ export class MongoTestPassingResultConverter implements IConverter<TestPassingDo
     to (from: TestPassingDocument): TestPassingResults {
         return {
             questions   : from.questions.map(this._questionConverter.to.bind(this._questionConverter)),
-            result      : this._getTestResult(from.rightAnswers, {
-                perfect: from.test.perfectScore,
-                satis  : from.test.satisfactoryScore,
-                unsatis: from.test.unsatisfactoryScore,
-            }),
+            result      : from.result,
             finishTime  : from.finishTime,
             rightAnswers: from.rightAnswers,
         };

@@ -9,7 +9,7 @@ import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import {
-    TestPassingResult,
+    TestPassingResult, TestPassingResults,
     TestPassingState,
 } from '@/domain/services/test-passing/test-passing.types';
 
@@ -30,6 +30,9 @@ export class TestPassingModel {
 
     @Prop({ type: String, default: 'process' as TestPassingState })
     status: TestPassingState;
+
+    @Prop({ type: String, default: 'no-result' as TestPassingResult })
+    result: TestPassingResult;
 
     @Prop({ type: Number, default: Date.now() })
     startTime: number;

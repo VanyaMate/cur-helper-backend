@@ -52,6 +52,7 @@ export class MongoTestPassingService implements ITestPassingService {
         private readonly _testConverter: IConverter<TestDocument, TestShortType>,
         private readonly _userConverter: IConverter<UserDocument, UserType>,
         private readonly _themeShortConverter: IConverter<ThemeDocument, ThemeShortType>,
+        private readonly _getTestPassingResult: GetTestPassingResult,
     ) {
     }
 
@@ -194,21 +195,27 @@ export class MongoTestPassingService implements ITestPassingService {
                 }
             }
         });
+        const result: TestPassingResult = this._getTestPassingResult(rightAnswers, {
+            perfect: runningTest.testPassing.test.perfectScore,
+            satis  : runningTest.testPassing.test.satisfactoryScore,
+            unsatis: runningTest.testPassing.test.unsatisfactoryScore,
+        });
 
         // Удалить runningDocument
         await runningTest.deleteOne();
-
 
         // Переписать testPassing
         const testPassing: TestPassingDocument = runningTest.testPassing;
         await testPassing.updateOne({
             rightAnswers,
             finishTime,
+            result,
             status: 'finished',
         });
 
         testPassing.rightAnswers = rightAnswers;
         testPassing.finishTime   = finishTime;
+        testPassing.result       = result;
         testPassing.status       = 'finished';
 
         return {

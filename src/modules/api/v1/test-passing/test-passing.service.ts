@@ -50,6 +50,7 @@ export class TestPassingService implements ITestPassingService {
             this._converter.test,
             this._converter.user,
             this._converter.themeShort,
+            getTestPassingResult,
         );
     }
 
