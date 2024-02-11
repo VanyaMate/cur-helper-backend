@@ -58,7 +58,6 @@ export class AuthService {
             this._cookieService.set(response, jwt);
             return user;
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }

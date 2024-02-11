@@ -8,7 +8,8 @@ export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery
 
         Object.entries(from).forEach(([ key, value ]) => {
             if (value.type === 'match') {
-                filter[key === 'id' ? '_id' : key] = { $regexp: new RegExp(`${ value.value }`) };
+                filter[key === 'id' ? '_id'
+                                    : key] = { $regexp: new RegExp(`${ value.value }`) };
             } else {
                 filter[key === 'id' ? '_id' : key] = value.value;
             }
@@ -16,7 +17,8 @@ export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery
 
         return filter;
     }
-;
+    ;
+
     from (to: FilterQuery<any>): Filter<any> {
         throw new Error('Method not implemented.');
     }

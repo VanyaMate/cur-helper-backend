@@ -34,7 +34,10 @@ import {
     GetTestPassingResult,
 } from '@/domain/converters/test-passing-result/test-passing-result.types';
 import { UserType } from '@/domain/services/user/user.types';
-import { TestType } from '@/domain/services/test/test.types';
+import { TestShortType, TestType } from '@/domain/services/test/test.types';
+import { IConverter } from '@/domain/service.types';
+import { UserDocument } from '@/db/mongoose/user/user.model';
+import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 
 
 export class MongoTestPassingService implements ITestPassingService {
@@ -43,7 +46,12 @@ export class MongoTestPassingService implements ITestPassingService {
         private readonly _testRunningRepository: Model<TestRunningModel>,
         private readonly _testPassingQuestionRepository: Model<TestPassingQuestionModel>,
         private readonly _testRepository: Model<TestModel>,
-        private readonly _testPassingResultGetter: GetTestPassingResult,
+        private readonly _testPassingConverter: IConverter<TestPassingDocument, TestPassingType>,
+        private readonly _testPassingProcessConverter: IConverter<TestPassingDocument, TestPassingProcess>,
+        private readonly _testPassingResultsConverter: IConverter<TestPassingDocument, TestPassingResults>,
+        private readonly _testConverter: IConverter<TestDocument, TestShortType>,
+        private readonly _userConverter: IConverter<UserDocument, UserType>,
+        private readonly _themeShortConverter: IConverter<ThemeDocument, ThemeShortType>,
     ) {
     }
 
@@ -75,30 +83,8 @@ export class MongoTestPassingService implements ITestPassingService {
         // TODO: Converter
         if (runningTest) {
             return {
-                id           : runningTest.testPassing._id.toString(),
-                isPrivate    : runningTest.testPassing.isPrivate,
-                status       : runningTest.testPassing.status,
-                startTime    : runningTest.testPassing.startTime,
-                questions    : runningTest.testPassing.questions.map(
-                    ({ question: testQuestion, answerId }) => ({
-                        id         : testQuestion._id.toString(),
-                        title      : testQuestion.title,
-                        description: testQuestion.description,
-                        body       : testQuestion.body,
-                        complexity : testQuestion.complexity,
-                        answers    : testQuestion.answers.map((answer) => ({
-                            id         : answer.id,
-                            title      : answer.title,
-                            enabled    : answer.enabled,
-                            description: '',
-                            correct    : false,
-                        })),
-                        enabled    : testQuestion.enabled,
-                        points     : testQuestion.points,
-                        selectId   : answerId ? answerId.toString() : null,
-                    }),
-                ),
-                remainingTime: runningTest.testPassing.startTime - Date.now() + runningTest.testPassing.test.timeToPass,
+                ...this._testPassingConverter.to(runningTest.testPassing),
+                ...this._testPassingProcessConverter.to(runningTest.testPassing),
             };
         } else {
             const testDocument: TestDocument                            = await this._testRepository.findOne({ _id: testId }, {}, {
@@ -120,42 +106,37 @@ export class MongoTestPassingService implements ITestPassingService {
                     answerId  : null,
                 })),
             );
-            const testPassing: TestPassingDocument                      = await this._testPassingRepository.create({
+
+            const emptyTestPassing: TestPassingDocument = await this._testPassingRepository.create({
                 userId,
                 testId,
                 startTime   : Date.now(),
                 questionsIds: generatedTestQuestions.map((question) => question._id),
             });
-            // TODO: Дополнительно дается 5 секунд ко времени
-            const testRunning: TestRunningDocument                      = await this._testRunningRepository.create({
-                testPassingId: testPassing._id,
-                userId       : userId,
-                testId       : testId,
-                finishTime   : Date.now() + testDocument.timeToPass + 5000,
+
+            const testPassing: TestPassingDocument = await emptyTestPassing.populate({
+                path    : 'questions',
+                populate: {
+                    path    : 'question',
+                    populate: {
+                        path: 'answers',
+                    },
+                },
             });
+
+            testPassing.test = testDocument;
+
+            // TODO: Дополнительно дается 5 секунд ко времени
+            const testRunning: TestRunningDocument = await this._testRunningRepository
+                .create({
+                    testPassingId: testPassing._id,
+                    userId       : userId,
+                    testId       : testId,
+                    finishTime   : Date.now() + testDocument.timeToPass + 5000,
+                });
             return {
-                id           : testPassing._id.toString(),
-                isPrivate    : testPassing.isPrivate,
-                status       : testPassing.status,
-                startTime    : testPassing.startTime,
-                questions    : generatedQuestions.map((testQuestion) => ({
-                    id         : testQuestion._id.toString(),
-                    title      : testQuestion.title,
-                    description: testQuestion.description,
-                    body       : testQuestion.body,
-                    complexity : testQuestion.complexity,
-                    answers    : testQuestion.answers.map((answer) => ({
-                        id         : answer.id,
-                        title      : answer.title,
-                        enabled    : answer.enabled,
-                        description: '',
-                        correct    : false,
-                    })),
-                    enabled    : testQuestion.enabled,
-                    points     : testQuestion.points,
-                    selectId   : null,
-                })),
-                remainingTime: testDocument.timeToPass,
+                ...this._testPassingConverter.to(testPassing),
+                ...this._testPassingProcessConverter.to(testPassing),
             };
         }
     }
@@ -163,7 +144,7 @@ export class MongoTestPassingService implements ITestPassingService {
     async finish (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
         const runningTest: TestRunningDocument = await this._testRunningRepository.findOne({
             userId,
-            testPassingId: testPassingId,
+            testPassingId,
         }, {}, {
             populate: {
                 path    : 'testPassing',
@@ -194,19 +175,19 @@ export class MongoTestPassingService implements ITestPassingService {
                 ],
             },
         });
-        console.log('BEFORE', runningTest);
         if (!runningTest) {
             throw NOT_FOUND;
         }
-        console.log('AFTER');
-        const finishTime: number = Date.now();
-        let rightAnswers: number = 0;
+        const finishTime: number      = Date.now();
+        let rightAnswers: number      = 0;
+        const themes: ThemeDocument[] = [];
 
         // Перебрать все ответы, узнать сколько правильно
         runningTest.testPassing.questions.forEach((questionPassing) => {
             const answer: QuestionAnswerDocument | undefined = questionPassing.question.answers.find(
                 (answer) => questionPassing.answerId?.toString() === answer._id.toString(),
             );
+            themes.push(...questionPassing.question.themes.map((theme) => theme.theme));
             if (answer) {
                 if (answer.correct) {
                     rightAnswers += 1;
@@ -226,49 +207,16 @@ export class MongoTestPassingService implements ITestPassingService {
             status: 'finished',
         });
 
-        console.log(testPassing.questions);
-        console.log(testPassing.questions[0].question.answers);
-
-        // TODO: Continue..
+        testPassing.rightAnswers = rightAnswers;
+        testPassing.finishTime   = finishTime;
+        testPassing.status       = 'finished';
 
         return {
-            id       : testPassing._id.toString(),
-            isPrivate: testPassing.isPrivate,
-            status   : 'finished',
-            startTime: testPassing.startTime,
-            questions: testPassing.questions.map(
-                ({ question: testQuestion, answerTime }) => ({
-                    id         : testQuestion._id.toString(),
-                    title      : testQuestion.title,
-                    description: testQuestion.description,
-                    body       : testQuestion.body,
-                    complexity : testQuestion.complexity,
-                    answers    : testQuestion.answers.map((answer) => ({
-                        id         : answer.id,
-                        title      : answer.title,
-                        enabled    : answer.enabled,
-                        description: '',
-                        correct    : false,
-                    })),
-                    enabled    : testQuestion.enabled,
-                    points     : testQuestion.points,
-                    selectId   : null,
-                    answerTime : answerTime,
-                    timeSpent  : 0,
-                    // TODO: Ну в общем да
-                    themes: testQuestion.themes.map((theme) => theme.theme) as unknown as ThemeShortType[],
-                }),
-            ),
-            rightAnswers,
-            finishTime,
-            user     : testPassing.user as unknown as UserType,
-            test     : testPassing.test as unknown as TestType,
-            themes   : [],
-            result   : this._testPassingResultGetter(rightAnswers, {
-                perfect: testPassing.test.perfectScore,
-                satis  : testPassing.test.satisfactoryScore,
-                unsatis: testPassing.test.unsatisfactoryScore,
-            }),
+            ...this._testPassingConverter.to(testPassing),
+            ...this._testPassingResultsConverter.to(testPassing),
+            user  : this._userConverter.to(testPassing.user),
+            test  : this._testConverter.to(testPassing.test),
+            themes: themes.map(this._themeShortConverter.to.bind(this._themeShortConverter)),
         };
     }
 

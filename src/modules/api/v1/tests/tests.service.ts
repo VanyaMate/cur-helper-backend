@@ -42,7 +42,6 @@ export class TestsService {
         try {
             return await this._testsService.getTestListByThemeId(themeId, userId);
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }

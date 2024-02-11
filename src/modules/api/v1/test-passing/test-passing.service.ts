@@ -25,6 +25,7 @@ import {
 import {
     getTestPassingResult,
 } from '@/domain/converters/test-passing-result/implementations/getTestPassingResult';
+import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 
 
 @Injectable()
@@ -36,13 +37,19 @@ export class TestPassingService implements ITestPassingService {
         @InjectModel('TestRunningModel') private readonly _testRunningRepository: Model<TestRunningModel>,
         @InjectModel('TestPassingQuestionModel') private readonly _testPassingQuestionRepository: Model<TestPassingQuestionModel>,
         @InjectModel('TestModel') private readonly _testRepository: Model<TestModel>,
+        public readonly _converter: MongoConverterService,
     ) {
         this._testPassingService = new MongoTestPassingService(
             this._testPassingRepository,
             this._testRunningRepository,
             this._testPassingQuestionRepository,
             this._testRepository,
-            getTestPassingResult,
+            this._converter.testPassing,
+            this._converter.testPassingProcess,
+            this._converter.testResult,
+            this._converter.test,
+            this._converter.user,
+            this._converter.themeShort,
         );
     }
 
@@ -58,7 +65,6 @@ export class TestPassingService implements ITestPassingService {
         try {
             return await this._testPassingService.finish(userId, testPassingId);
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
