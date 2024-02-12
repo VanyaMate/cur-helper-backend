@@ -81,14 +81,15 @@ export class MongoTestPassingService implements ITestPassingService {
             },
         });
 
-        // TODO: Converter
         if (runningTest) {
+            console.log('running test');
             return {
                 ...this._testPassingConverter.to(runningTest.testPassing),
                 ...this._testPassingProcessConverter.to(runningTest.testPassing),
             };
         } else {
-            const testDocument: TestDocument                            = await this._testRepository.findOne({ _id: testId }, {}, {
+            console.log('create test', testId);
+            const testDocument: TestDocument = await this._testRepository.findOne({ _id: testId }, {}, {
                 populate: {
                     path    : 'questions',
                     populate: {
@@ -99,6 +100,11 @@ export class MongoTestPassingService implements ITestPassingService {
                     },
                 },
             });
+
+            if (!testDocument) {
+                throw NOT_FOUND;
+            }
+
             // TODO: Validate : Если достаточно вопросов и всё такое
             const generatedQuestions: QuestionDocument[]                = testDocument.questions.map((question) => question.question);
             const generatedTestQuestions: TestPassingQuestionDocument[] = await this._testPassingQuestionRepository.create(

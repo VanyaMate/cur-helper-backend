@@ -136,7 +136,7 @@ export class MongoTestsService implements ITestsService {
             const testPassings: TestPassingDocument | null = await this._testPassingRepository.findOne({
                 userId: userId,
                 testId: testDocument._id,
-            }, {}, { populate: [ 'questions', 'test' ] }).sort({ finishTime: -1 }).exec();
+            }, {}, { populate: [ 'questions', 'test' ] }).sort({ startTime: -1 }).exec();
 
             // TODO: Delete ctrl c ctrl v
             return {
