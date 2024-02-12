@@ -12,6 +12,7 @@ export class CookieAuthService implements ICookieAuthService {
         response.cookie(this._COOKIE_NAME, data, {
             maxAge  : this._MONTH,
             httpOnly: true,
+            sameSite: 'none',
         });
     }
 
