@@ -13,7 +13,7 @@ export class CookieAuthService implements ICookieAuthService {
             maxAge  : this._MONTH,
             httpOnly: true,
             sameSite: 'none',
-            secure  : false,
+            secure  : true,
         });
     }
 
