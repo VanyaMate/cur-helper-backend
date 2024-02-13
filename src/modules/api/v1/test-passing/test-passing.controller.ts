@@ -55,19 +55,19 @@ export class TestPassingController {
         );
     }
 
-    @Get('/passing/:id')
+    @Get('passing/:testPassingId')
     @UseGuards(ForVerifiedUser)
     getPassingById (
-        @Param('id') id: string,
+        @Param('testPassingId') id: string,
         @Req() request: Request,
     ) {
         return this._testPassingService.getById(request['user'].id, id);
     }
 
-    @Get('/result/:id')
+    @Get('result/:testPassingId')
     @UseGuards(ForVerifiedUser)
     getResultById (
-        @Param('id') id: string,
+        @Param('testPassingId') id: string,
         @Req() request: Request,
     ) {
         return this._testPassingService.getResultById(request['user'].id, id);

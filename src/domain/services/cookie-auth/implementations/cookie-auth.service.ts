@@ -5,14 +5,14 @@ import { Response, Request } from 'express';
 
 
 export class CookieAuthService implements ICookieAuthService {
-    private readonly _COOKIE_NAME: string = 'AUTH_TOKEN';
+    private readonly _COOKIE_NAME: string = 'Authorization';
     private readonly _MONTH: number       = 1000 * 60 * 60 * 24 * 30;
 
     set (response: Response, data: string): void {
         response.cookie(this._COOKIE_NAME, data, {
             maxAge  : this._MONTH,
             httpOnly: true,
-            sameSite: 'none',
+            sameSite: 'lax',
             secure  : true,
         });
     }
