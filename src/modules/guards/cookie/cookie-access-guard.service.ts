@@ -10,7 +10,7 @@ import { JwtUserType } from '@/domain/services/jwt/jwt-user-data.types';
 
 
 @Injectable()
-export class AccessGuard implements CanActivate {
+export class CookieAccessGuard implements CanActivate {
     constructor (
         private readonly _cookieAuthService: CookieAuthService,
         private readonly _jwtService: JwtService,

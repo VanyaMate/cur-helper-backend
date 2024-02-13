@@ -1,22 +1,13 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    HttpException,
-    HttpStatus,
-    Injectable,
-} from '@nestjs/common';
-import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
-import { JwtService } from '@/modules/api/v1/auth/jwt.service';
-import { UserService } from '@/modules/api/v1/user/user.service';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtUserType } from '@/domain/services/jwt/jwt-user-data.types';
 import { UserType } from '@/domain/services/user/user.types';
+import { JwtService } from '@/modules/api/v1/auth/jwt.service';
+import { UserService } from '@/modules/api/v1/user/user.service';
 
 
-@Injectable()
-export class ForVerifiedUser implements CanActivate {
+export class HeaderVerifiedUserGuard implements CanActivate {
     constructor (
-        private readonly _cookieAuthService: CookieAuthService,
         private readonly _jwtService: JwtService,
         private readonly _userService: UserService,
     ) {
@@ -24,7 +15,7 @@ export class ForVerifiedUser implements CanActivate {
 
     async canActivate (context: ExecutionContext): Promise<boolean> {
         const request: Request = context.switchToHttp().getRequest();
-        const token: string    = this._cookieAuthService.get(request);
+        const token: string    = request.headers.authorization;
         if (!token) {
             throw new HttpException('No access', HttpStatus.FORBIDDEN);
         }

@@ -9,8 +9,10 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { TestPassingService } from '@/modules/api/v1/test-passing/test-passing.service';
-import { ForVerifiedUser } from '@/modules/guards/for-verified-user.guard';
 import { Request } from 'express';
+import {
+    HeaderVerifiedUserGuard,
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/test-passing')
@@ -20,7 +22,7 @@ export class TestPassingController {
 
     // TODO: Возможно перенести в :params
     @Post()
-    @UseGuards(ForVerifiedUser)
+    @UseGuards(HeaderVerifiedUserGuard)
     create (
         @Body() testPassingCreateData: { testId: string },
         @Req() request: Request,
@@ -29,7 +31,7 @@ export class TestPassingController {
     }
 
     @Post('finish')
-    @UseGuards(ForVerifiedUser)
+    @UseGuards(HeaderVerifiedUserGuard)
     finish (
         @Body() testPassingFinishData: { testPassingId: string },
         @Req() request: Request,
@@ -38,7 +40,7 @@ export class TestPassingController {
     }
 
     @Patch()
-    @UseGuards(ForVerifiedUser)
+    @UseGuards(HeaderVerifiedUserGuard)
     setAnswer (
         @Body() testPassingAnswerData: {
             testPassingId: string,
@@ -56,7 +58,7 @@ export class TestPassingController {
     }
 
     @Get('passing/:testPassingId')
-    @UseGuards(ForVerifiedUser)
+    @UseGuards(HeaderVerifiedUserGuard)
     getPassingById (
         @Param('testPassingId') id: string,
         @Req() request: Request,
@@ -65,7 +67,7 @@ export class TestPassingController {
     }
 
     @Get('result/:testPassingId')
-    @UseGuards(ForVerifiedUser)
+    @UseGuards(HeaderVerifiedUserGuard)
     getResultById (
         @Param('testPassingId') id: string,
         @Req() request: Request,

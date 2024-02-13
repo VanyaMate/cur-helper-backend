@@ -24,6 +24,7 @@ import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
 import { Response } from 'express';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
 import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service';
+import { UserAuthType } from '@/modules/api/v1/auth/auth-response.types';
 
 
 @Injectable()
@@ -46,7 +47,7 @@ export class AuthService {
         );
     }
 
-    async registration (registrationData: RegistrationDataType, response: Response): Promise<UserType> {
+    async registration (registrationData: RegistrationDataType, response: Response): Promise<UserAuthType> {
         try {
             await this._dtoValidator.validate(new RegistrationDto(registrationData));
             const user: UserType = await this._authService.registration(registrationData);
@@ -55,14 +56,14 @@ export class AuthService {
                 userId: user.id,
                 code,
             });
-            this._cookieService.set(response, jwt);
-            return user;
+            // this._cookieService.set(response, jwt);
+            return { user, token: jwt };
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
 
-    async login (loginData: LoginDataType, response: Response): Promise<UserType> {
+    async login (loginData: LoginDataType, response: Response): Promise<UserAuthType> {
         try {
             await this._dtoValidator.validate(new LoginDto(loginData));
             const user: UserType = await this._authService.login(loginData);
@@ -71,15 +72,15 @@ export class AuthService {
                 userId: user.id,
                 code,
             });
-            this._cookieService.set(response, jwt);
-            return user;
+            // this._cookieService.set(response, jwt);
+            return { user, token: jwt };
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
 
     async logout (response: Response): Promise<boolean> {
-        await this._cookieService.remove(response);
+        // await this._cookieService.remove(response);
         return true;
     }
 }
