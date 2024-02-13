@@ -18,7 +18,7 @@ export class UserMiddleware implements NestMiddleware {
             const token: string = this._cookieAuthService.get(request);
             if (!token) {
                 // TODO: TEmp
-                request['user-jwt-data'] = { userId: '65c2dcccbe17e25e6a5205ca' };
+                // request['user-jwt-data'] = { userId: '65c2dcccbe17e25e6a5205ca' };
                 next();
                 return;
             }
