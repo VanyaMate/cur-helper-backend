@@ -48,10 +48,8 @@ export class TestsService {
 
     async getListById (themeId: string, userId?: string) {
         try {
-            console.log(userId);
             return await this._testsService.getTestListByThemeId(themeId, userId);
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
