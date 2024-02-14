@@ -7,6 +7,7 @@ import {
     MongoPublicThemesService,
 } from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
 
 
 @Injectable()
@@ -15,21 +16,24 @@ export class ThemesService {
 
     constructor (
         @InjectModel('ThemeModel') private readonly _mongoThemeRepository: Model<ThemeModel>,
+        @InjectModel('TestPassingModel') private readonly _testPassingModel: Model<TestPassingModel>,
         private readonly _mongoConverter: MongoConverterService,
     ) {
         this._themesService = new MongoPublicThemesService(
             this._mongoThemeRepository,
+            this._testPassingModel,
             this._mongoConverter.question,
             this._mongoConverter.test,
             this._mongoConverter.theme,
             this._mongoConverter.themesChildren,
             this._mongoConverter.themeShort,
+            this._mongoConverter.testPassingShort,
         );
     }
 
-    async getFullDataByPublicId (publicId: string) {
+    async getFullDataByPublicId (publicId: string, userId?: string) {
         try {
-            return await this._themesService.getThemeFullDataByPublicId(publicId);
+            return await this._themesService.getThemeFullDataByPublicId(publicId, userId);
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }

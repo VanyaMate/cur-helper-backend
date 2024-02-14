@@ -57,7 +57,6 @@ export class MongoTestPassingService implements ITestPassingService {
     }
 
     async start (userId: string, testId: string): Promise<TestPassingProcess & TestPassingType> {
-        // TODO: Add converters
         const runningTest: TestRunningDocument = await this._testRunningRepository.findOne({
             userId,
             testId,
@@ -82,13 +81,11 @@ export class MongoTestPassingService implements ITestPassingService {
         });
 
         if (runningTest) {
-            console.log('running test');
             return {
                 ...this._testPassingConverter.to(runningTest.testPassing),
                 ...this._testPassingProcessConverter.to(runningTest.testPassing),
             };
         } else {
-            console.log('create test', testId);
             const testDocument: TestDocument = await this._testRepository.findOne({ _id: testId }, {}, {
                 populate: {
                     path    : 'questions',
@@ -141,6 +138,8 @@ export class MongoTestPassingService implements ITestPassingService {
                     testId       : testId,
                     finishTime   : Date.now() + testDocument.timeToPass + 5000,
                 });
+
+            console.log(testRunning);
             return {
                 ...this._testPassingConverter.to(testPassing),
                 ...this._testPassingProcessConverter.to(testPassing),

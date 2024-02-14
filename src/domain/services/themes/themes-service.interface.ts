@@ -2,14 +2,14 @@ import {
     ThemeBreadcrumb,
     ThemeChildren, ThemeNext, ThemePrev,
     ThemeRecursiveChildren,
-    ThemeTests,
+    ThemeTests, ThemeTestsWithShortResults,
 } from '@/domain/services/themes/themes.types';
 import { With } from '@/domain/types';
 import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
 
 
 export interface IThemesService {
-    getThemeFullDataByPublicId (publicId: string): Promise<With<ThemeType, [ ThemeChildren, ThemeTests, ThemeBreadcrumb, ThemeNext, ThemePrev ]>>;
+    getThemeFullDataByPublicId (publicId: string, userId?: string): Promise<With<ThemeType, [ ThemeChildren, ThemeTestsWithShortResults, ThemeBreadcrumb, ThemeNext, ThemePrev ]>>;
 
     getThemeListById (publicId: string): Promise<With<ThemeShortType, [ ThemeRecursiveChildren ]> & ThemeBreadcrumb>;
 

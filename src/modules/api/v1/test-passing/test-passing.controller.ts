@@ -57,7 +57,7 @@ export class TestPassingController {
         );
     }
 
-    @Get('passing/:testPassingId')
+    @Get('/passing/:testPassingId')
     @UseGuards(HeaderVerifiedUserGuard)
     getPassingById (
         @Param('testPassingId') id: string,
@@ -66,7 +66,7 @@ export class TestPassingController {
         return this._testPassingService.getById(request['user'].id, id);
     }
 
-    @Get('result/:testPassingId')
+    @Get('/result/:testPassingId')
     @UseGuards(HeaderVerifiedUserGuard)
     getResultById (
         @Param('testPassingId') id: string,

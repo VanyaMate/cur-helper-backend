@@ -1,5 +1,6 @@
-import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Req } from '@nestjs/common';
 import { ThemesService } from '@/modules/api/v1/themes/themes.service';
+import { Request } from 'express';
 
 
 @Controller('/api/v1/themes')
@@ -21,7 +22,8 @@ export class ThemesController {
     @Get(':id')
     async getFullByPublicId (
         @Param('id') id: string,
+        @Req() request: Request,
     ) {
-        return this._themesService.getFullDataByPublicId(id);
+        return this._themesService.getFullDataByPublicId(id, request['user-jwt-data']?.userId);
     }
 }
