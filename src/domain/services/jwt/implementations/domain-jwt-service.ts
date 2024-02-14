@@ -1,5 +1,5 @@
 import { IJwtService } from '@/domain/services/jwt/jwt-service.interface';
-import { verify, sign } from 'jsonwebtoken';
+import { verify, sign, decode } from 'jsonwebtoken';
 
 
 export type JwtVerifyFunction = typeof verify;

@@ -8,7 +8,7 @@ export class TestsController {
     constructor (private readonly _testsService: TestsService) {
     }
 
-    @Get(':id')
+    @Get('/one/:id')
     getById (
         @Param('id') id: string,
         @Req() request: Request,
@@ -16,16 +16,16 @@ export class TestsController {
         return this._testsService.getById(id, request['user-jwt-data']?.userId);
     }
 
-    @Get(':themeId')
+    @Get('/theme/:themeId')
     getByThemeId (
         @Param('themeId') themeId: string,
         @Req() request: Request,
     ) {
-        return this._testsService.getListById(themeId, request['user-jwt-data']?.userId);
+        return this._testsService.getListById(themeId ?? '', request['user-jwt-data']?.userId);
     }
 
 
-    @Get()
+    @Get('/list')
     getList (
         @Req() request: Request,
     ) {

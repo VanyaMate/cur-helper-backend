@@ -6,7 +6,7 @@ import { JwtService } from '@/modules/api/v1/auth/jwt.service';
 
 
 @Injectable()
-export class UserMiddleware implements NestMiddleware {
+export class UserCookieMiddleware implements NestMiddleware {
     constructor (
         private readonly _cookieAuthService: CookieAuthService,
         private readonly _jwtService: JwtService,
