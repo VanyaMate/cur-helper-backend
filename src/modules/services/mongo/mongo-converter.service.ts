@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Filter, IConverter } from '@/domain/service.types';
-import { FilterQuery } from 'mongoose';
 import {
     MongoFilterConverter,
 } from '@/domain/converters/mongo/mongo-filter.converter';
 import { MongoThemeConverter } from '@/domain/converters/mongo/mongo-theme.converter';
-import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
 import { MongoTestConverter } from '@/domain/converters/mongo/mongo-test.converter';
 import {
     MongoQuestionAnswerConverter,
@@ -14,45 +10,18 @@ import {
 import {
     MongoQuestionConverter,
 } from '@/domain/converters/mongo/mongo-question.converter';
-import { TestDocument } from '@/db/mongoose/test/test.model';
-import { TestType } from '@/domain/services/test/test.types';
 import {
-    QuestionAnswerDocument,
-} from '@/db/mongoose/question-answer/question-answer.model';
-import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
-import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import {
-    QuestionResult,
-    QuestionSelect, QuestionThemes,
-    QuestionType,
-} from '@/domain/services/question/question.types';
-import {
-    MongoThemesChildrenConverter, ThemeChildrenConverterType,
+    MongoThemesChildrenConverter,
 } from '@/domain/converters/mongo/mongo-themes-children.converter';
-import {
-    ThemeChildren,
-    ThemeRecursiveChildren,
-} from '@/domain/services/themes/themes.types';
 import {
     MongoThemeShortConverter,
 } from '@/domain/converters/mongo/mongo-theme-short.converter';
-import { With } from '@/domain/types';
-import { UserDocument } from '@/db/mongoose/user/user.model';
-import { UserType } from '@/domain/services/user/user.types';
-import { RoleDocument } from '@/db/mongoose/role/role.model';
-import { RoleType } from '@/domain/services/role/role.types';
 import {
     MongoUserTypeConverter,
 } from '@/domain/converters/mongo/mongo-user-type.converter';
 import {
     MongoRoleConverter,
 } from '@/domain/services/role/implementations/mongo/mongo-role.converter';
-import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
-import {
-    TestPassingProcess, TestPassingResults,
-    TestPassingShortInfo,
-    TestPassingType,
-} from '@/domain/services/test-passing/test-passing.types';
 import {
     MongoTestPassingShortConverter,
 } from '@/domain/converters/mongo/mongo-test-passing-short.converter';
@@ -66,9 +35,6 @@ import {
     MongoTestPassingProcessConverter,
 } from '@/domain/converters/mongo/mongo-test-passing-process.converter';
 import {
-    TestPassingQuestionDocument,
-} from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import {
     MongoTestPassingQuestionConverter,
 } from '@/domain/converters/mongo/mongo-test-passing-question.converter';
 import {
@@ -76,7 +42,6 @@ import {
 } from '@/domain/converters/mongo/mongo-test-passing-question-answer.converter';
 import {
     MongoTestPassingResultQuestionAnswerConverter,
-    TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
 import {
     MongoTestPassingResultQuestionConverter,
@@ -85,11 +50,14 @@ import {
     MongoTestPassingResultConverter,
 } from '@/domain/converters/mongo/mongo-test-passing-result.converter';
 import {
+    IMongoAdminQuestionShortConverter,
+    IMongoAdminTestShortConverter,
+    IMongoAdminThemeShortConverter,
     IMongoFilterConverter,
     IMongoQuestionAnswerConverter,
     IMongoQuestionAnswerPassingConverter,
     IMongoQuestionConverter,
-    IMongoQuestionPassingConverter,
+    IMongoQuestionPassingConverter, IMongoQuestionShortConverter,
     IMongoRoleConverter,
     IMongoTestConverter,
     IMongoTestPassingConverter,
@@ -97,12 +65,27 @@ import {
     IMongoTestPassingShortConverter,
     IMongoTestResultConverter,
     IMongoTestResultQuestionAnswerConverter,
-    IMongoTestResultQuestionConverter,
+    IMongoTestResultQuestionConverter, IMongoTestShortConverter,
     IMongoThemeConverter,
     IMongoThemesChildrenConverter,
     IMongoThemeShortConverter,
     IMongoUserConverter,
 } from '@/domain/converters/mongo/mongo-converters.types';
+import {
+    MongoAdminThemeShortConverter,
+} from '@/domain/converters/mongo/mongo-admin-theme-short.converter';
+import {
+    MongoTestShortConverter,
+} from '@/domain/converters/mongo/mongo-test-short.converter';
+import {
+    MongoQuestionShortConverter,
+} from '@/domain/converters/mongo/mongo-question-short.converter';
+import {
+    MongoAdminTestShortConverter,
+} from '@/domain/converters/mongo/mongo-admin-test-short.converter';
+import {
+    MongoAdminQuestionShortConverter,
+} from '@/domain/converters/mongo/mongo-admin-question-short.converter';
 
 
 @Injectable()
@@ -113,8 +96,10 @@ export class MongoConverterService {
     public readonly role: IMongoRoleConverter;
     public readonly themeShort: IMongoThemeShortConverter;
     public readonly test: IMongoTestConverter;
+    public readonly testShort: IMongoTestShortConverter;
     public readonly questionAnswerPassing: IMongoQuestionAnswerPassingConverter;
     public readonly question: IMongoQuestionConverter;
+    public readonly questionShort: IMongoQuestionShortConverter;
     public readonly questionAnswer: IMongoQuestionAnswerConverter;
     public readonly questionPassing: IMongoQuestionPassingConverter;
     public readonly themesChildren: IMongoThemesChildrenConverter;
@@ -124,15 +109,20 @@ export class MongoConverterService {
     public readonly testResult: IMongoTestResultConverter;
     public readonly testResultQuestion: IMongoTestResultQuestionConverter;
     public readonly testResultQuestionAnswer: IMongoTestResultQuestionAnswerConverter;
+    public readonly adminThemeShort: IMongoAdminThemeShortConverter;
+    public readonly adminTestShort: IMongoAdminTestShortConverter;
+    public readonly adminQuestionShort: IMongoAdminQuestionShortConverter;
 
     constructor () {
         this.filter                   = new MongoFilterConverter();
         this.theme                    = new MongoThemeConverter();
         this.themeShort               = new MongoThemeShortConverter();
         this.test                     = new MongoTestConverter();
+        this.testShort                = new MongoTestShortConverter();
         this.questionAnswerPassing    = new MongoTestPassingQuestionAnswerConverter();
         this.questionAnswer           = new MongoQuestionAnswerConverter();
         this.question                 = new MongoQuestionConverter(this.questionAnswer);
+        this.questionShort            = new MongoQuestionShortConverter();
         this.questionPassing          = new MongoTestPassingQuestionConverter(this.questionAnswerPassing);
         this.themesChildren           = new MongoThemesChildrenConverter(this.themeShort);
         this.role                     = new MongoRoleConverter();
@@ -143,5 +133,8 @@ export class MongoConverterService {
         this.testResultQuestionAnswer = new MongoTestPassingResultQuestionAnswerConverter();
         this.testResultQuestion       = new MongoTestPassingResultQuestionConverter(this.testResultQuestionAnswer, this.themeShort);
         this.testResult               = new MongoTestPassingResultConverter(getTestPassingResult, this.testResultQuestion);
+        this.adminThemeShort          = new MongoAdminThemeShortConverter();
+        this.adminTestShort           = new MongoAdminTestShortConverter();
+        this.adminQuestionShort       = new MongoAdminQuestionShortConverter();
     }
 }

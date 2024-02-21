@@ -13,6 +13,7 @@ import { TestPassingModule } from '@/modules/api/v1/test-passing/test-passing.mo
 import { AuthModule } from '@/modules/api/v1/auth/auth.module';
 import { UserModule } from '@/modules/api/v1/user/user.module';
 import { TestsModule } from '@/modules/api/v1/tests/tests.module';
+import { AdminThemesModule } from '@/modules/api/v1/admin/themes/admin-themes.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { TestsModule } from '@/modules/api/v1/tests/tests.module';
         AuthModule,
         UserModule,
         TestsModule,
+        AdminThemesModule,
     ],
 })
 export class ApiV1Module {

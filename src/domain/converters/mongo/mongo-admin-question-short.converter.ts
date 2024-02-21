@@ -1,19 +1,21 @@
 import { IConverter } from '@/domain/service.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { QuestionShortType } from '@/domain/services/question/question.types';
+import { AdminQuestionShortType } from '@/domain/services/question/question.types';
 
 
-export class MongoQuestionShortConverter implements IConverter<QuestionDocument, QuestionShortType> {
-    to (from: QuestionDocument): QuestionShortType {
+export class MongoAdminQuestionShortConverter implements IConverter<QuestionDocument, AdminQuestionShortType> {
+    to (from: QuestionDocument): AdminQuestionShortType {
         return {
             id         : from._id.toString(),
             title      : from.title,
             description: from.description,
+            enabled    : from.enabled,
             complexity : from.complexity,
         };
     }
 
-    from (to: QuestionShortType): QuestionDocument {
+    from (to: AdminQuestionShortType): QuestionDocument {
         throw new Error('Method not implemented.');
     }
+
 }

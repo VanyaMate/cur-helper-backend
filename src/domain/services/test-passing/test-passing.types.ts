@@ -8,6 +8,7 @@ import {
 } from '@/domain/services/question/question.types';
 import { Status } from '@/domain/enums';
 import { ThemeShortType } from '@/domain/services/theme/theme.types';
+import { ThemeQuestionsAmount } from '@/domain/services/themes/themes.types';
 
 
 export type TestPassingResult =
@@ -39,12 +40,13 @@ export type TestPassingResults = {
     questions: With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes ]>[];
 }
 
-export type TestPassingResultsShort = {
-    result: TestPassingResult;
-    rightAnswers: number;
-    finishTime: number;
-    questions: QuestionShortType[];
-}
+export type TestPassingResultsShort =
+    {
+        result: TestPassingResult;
+        rightAnswers: number;
+        finishTime: number;
+        questionsAmount: number;
+    };
 
 export type TestPassingTestShort = {
     test: TestShortType;

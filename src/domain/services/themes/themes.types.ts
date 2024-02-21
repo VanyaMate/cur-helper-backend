@@ -1,7 +1,10 @@
 import { With } from '@/domain/types';
 import { ThemeShortType } from '@/domain/services/theme/theme.types';
 import { TestShortType, TestType } from '@/domain/services/test/test.types';
-import { QuestionType } from '@/domain/services/question/question.types';
+import {
+    QuestionShortType,
+    QuestionType,
+} from '@/domain/services/question/question.types';
 import { TestShortResult } from '@/domain/services/tests/tests.types';
 
 
@@ -39,4 +42,12 @@ export type ThemeTestsWithShortResults = {
 
 export type ThemeQuestions = {
     questions: QuestionType[];
+}
+
+export type ThemeQuestionsAmount = {
+    questionsAmount: number;
+}
+
+export type ThemeQuestionsShort = {
+    questions: QuestionShortType[];
 }

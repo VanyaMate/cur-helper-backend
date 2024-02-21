@@ -7,15 +7,20 @@ import { UserType } from '@/domain/services/user/user.types';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
 import { RoleType } from '@/domain/services/role/role.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { TestType } from '@/domain/services/test/test.types';
+import {
+    AdminTestShortType,
+    TestShortType,
+    TestType,
+} from '@/domain/services/test/test.types';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
 import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
 import {
+    AdminQuestionShortType,
     QuestionResult,
-    QuestionSelect, QuestionThemes,
+    QuestionSelect, QuestionShortType, QuestionThemes,
     QuestionType,
 } from '@/domain/services/question/question.types';
 import {
@@ -35,6 +40,7 @@ import {
 import {
     TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
+import { AdminThemeShortType } from '@vanyamate/cur-helper-types';
 
 
 export type IMongoFilterConverter = IConverter<Filter<any>, FilterQuery<any>>;
@@ -43,8 +49,10 @@ export type IMongoUserConverter = IConverter<UserDocument, UserType>;
 export type IMongoRoleConverter = IConverter<RoleDocument, RoleType>;
 export type IMongoThemeShortConverter = IConverter<ThemeDocument, ThemeShortType>;
 export type IMongoTestConverter = IConverter<TestDocument, TestType>;
+export type IMongoTestShortConverter = IConverter<TestDocument, TestShortType>;
 export type IMongoQuestionAnswerPassingConverter = IConverter<QuestionAnswerDocument, QuestionAnswerType>;
 export type IMongoQuestionConverter = IConverter<QuestionDocument, QuestionType>;
+export type IMongoQuestionShortConverter = IConverter<QuestionDocument, QuestionShortType>;
 export type IMongoQuestionAnswerConverter = IConverter<QuestionAnswerDocument, QuestionAnswerType>;
 export type IMongoQuestionPassingConverter = IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect ]>>;
 export type IMongoThemesChildrenConverter = IConverter<ThemeChildrenConverterType, With<ThemeShortType, [ ThemeRecursiveChildren ]>[]>;
@@ -54,3 +62,6 @@ export type IMongoTestPassingProcessConverter = IConverter<TestPassingDocument, 
 export type IMongoTestResultConverter = IConverter<TestPassingDocument, TestPassingResults>;
 export type IMongoTestResultQuestionConverter = IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes ]>>;
 export type IMongoTestResultQuestionAnswerConverter = IConverter<TestPassingResultQuestionAnswerProps, QuestionAnswerType>;
+export type IMongoAdminThemeShortConverter = IConverter<ThemeDocument, AdminThemeShortType>;
+export type IMongoAdminTestShortConverter = IConverter<TestDocument, AdminTestShortType>;
+export type IMongoAdminQuestionShortConverter = IConverter<QuestionDocument, AdminQuestionShortType>;

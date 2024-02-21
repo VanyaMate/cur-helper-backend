@@ -65,5 +65,5 @@ TestSchema.virtual('theme', {
     ref         : 'ThemeModel',
     localField  : 'themeId',
     foreignField: '_id',
-    justOne     : false,
+    justOne     : true,
 });

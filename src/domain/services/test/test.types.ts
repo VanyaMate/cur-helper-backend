@@ -17,3 +17,4 @@ export type TestType = {
 export type TestCreateType = Create<TestType, 'themeId' | 'title'>;
 export type TestUpdateType = Partial<TestType>;
 export type TestShortType = Pick<TestType, 'id' | 'themeId' | 'title'>;
+export type AdminTestShortType = Pick<TestType, 'id' | 'themeId' | 'title' | 'enabled'>

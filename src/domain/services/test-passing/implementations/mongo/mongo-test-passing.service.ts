@@ -139,7 +139,6 @@ export class MongoTestPassingService implements ITestPassingService {
                     finishTime   : Date.now() + testDocument.timeToPass + 5000,
                 });
 
-            console.log(testRunning);
             return {
                 ...this._testPassingConverter.to(testPassing),
                 ...this._testPassingProcessConverter.to(testPassing),

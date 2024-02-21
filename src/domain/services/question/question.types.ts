@@ -30,4 +30,5 @@ export type QuestionThemes = {
 
 export type QuestionCreateType = Create<QuestionType, 'title' | 'answers'>;
 export type QuestionUpdateType = Partial<QuestionType>;
-export type QuestionShortType = Pick<QuestionType, 'id'>;
+export type QuestionShortType = Pick<QuestionType, 'id' | 'title' | 'description' | 'complexity'>;
+export type AdminQuestionShortType = Pick<QuestionType, 'id' | 'title' | 'description' | 'complexity' | 'enabled'>;
