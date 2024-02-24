@@ -10,16 +10,13 @@ import { AdminTestShortType } from '@/domain/services/test/test.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
 import { AdminQuestionShortType } from '@/domain/services/question/question.types';
 import {
-    ThemeQuestionsShort,
-    ThemeTestsShort,
-} from '@/domain/services/themes/themes.types';
-import {
     AdminThemeShortType,
     Filter,
     MultiplyResponse,
     Options,
 } from '@vanyamate/cur-helper-types';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
+import { AdminThemeType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoAdminThemesService implements IAdminThemesService {
@@ -33,7 +30,7 @@ export class MongoAdminThemesService implements IAdminThemesService {
     ) {
     }
 
-    async getOneTheme (publicId: string): Promise<ThemeQuestionsShort & ThemeTestsShort & ThemeType> {
+    async getOneTheme (publicId: string): Promise<AdminThemeType> {
         const theme: ThemeDocument | null = await this._themeRepository.findOne({ publicId }, {}, {
             populate: [
                 {

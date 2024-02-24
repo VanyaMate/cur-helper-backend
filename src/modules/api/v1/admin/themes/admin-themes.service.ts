@@ -10,7 +10,7 @@ import {
 } from '@/domain/services/admin/themes/implementations/mongo/mongo-admin-themes.service';
 import { Filter, Options } from '@/domain/service.types';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminThemeShortType } from '@vanyamate/cur-helper-types';
+import { AdminThemeShortType, AdminThemeType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()
@@ -35,7 +35,7 @@ export class AdminThemesService {
         return this._adminThemesService.getList(filter, options);
     }
 
-    public getOneById (id: string) {
+    public getOneById (id: string): Promise<AdminThemeType> {
         return this._adminThemesService.getOneTheme(id);
     }
 }

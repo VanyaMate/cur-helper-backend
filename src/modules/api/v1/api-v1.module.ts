@@ -14,6 +14,7 @@ import { AuthModule } from '@/modules/api/v1/auth/auth.module';
 import { UserModule } from '@/modules/api/v1/user/user.module';
 import { TestsModule } from '@/modules/api/v1/tests/tests.module';
 import { AdminThemesModule } from '@/modules/api/v1/admin/themes/admin-themes.module';
+import { AdminTestsModule } from '@/modules/api/v1/admin/tests/admin-tests.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { AdminThemesModule } from '@/modules/api/v1/admin/themes/admin-themes.mo
         UserModule,
         TestsModule,
         AdminThemesModule,
+        AdminTestsModule,
     ],
 })
 export class ApiV1Module {
