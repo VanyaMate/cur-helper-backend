@@ -36,10 +36,16 @@ export class MongoTestsService implements ITestsService {
     async getTestListByThemeId (themeId: string, userId?: string): Promise<(ThemeTestsWithShortResults & ThemeShortType)[]> {
         const themeDocuments: ThemeDocument[] = await this._themeRepository.find(
             themeId
-            ? { publicId: { $regex: new RegExp(`(^${themeId}-)|(^${themeId})$`) } }
-            : {}, {}, {
+            ? {
+                    publicId: { $regex: new RegExp(`(^${themeId}-)|(^${themeId})$`) },
+                    enabled : true,
+                }
+            : { enabled: true }, {}, {
                 populate : {
-                    path: 'tests',
+                    path : 'tests',
+                    match: {
+                        enabled: true,
+                    },
                 },
                 sort     : {
                     publicId: 1,

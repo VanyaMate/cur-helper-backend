@@ -132,6 +132,7 @@ export class MongoPublicThemesService implements IThemesService {
             publicId: {
                 $regex: new RegExp(`^${publicId}`),
             },
+            enabled : true,
         });
 
         const theme: ThemeDocument | null = childrenDocs.find((child) => child.publicId === publicId);
@@ -169,6 +170,7 @@ export class MongoPublicThemesService implements IThemesService {
             publicId: {
                 $regex: /^\d/,
             },
+            enabled : true,
         });
         const parentDocs: ThemeDocument[] = docs.filter((doc) => doc.publicId.match(/^\d+$/));
 
