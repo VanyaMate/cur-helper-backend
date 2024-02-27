@@ -39,12 +39,6 @@ export class QuestionModel {
     @Prop({ type: Number, default: 0 })
     points: number;
 
-    @Prop({
-        type   : [ { type: mongoose.Schema.Types.ObjectId, ref: 'QuestionAnswerModel' } ],
-        default: [],
-    })
-    answersIds: mongoose.Schema.Types.ObjectId[];
-
     tests?: QuestionToTestDocument[];
     themes?: QuestionToThemeDocument[];
     answers?: QuestionAnswerDocument[];
@@ -69,7 +63,7 @@ QuestionSchema.virtual('themes', {
 
 QuestionSchema.virtual('answers', {
     ref         : 'QuestionAnswerModel',
-    localField  : 'answersIds',
-    foreignField: '_id',
+    localField  : '_id',
+    foreignField: 'questionId',
     justOne     : false,
 });

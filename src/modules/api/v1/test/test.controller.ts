@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { TestService } from '@/modules/api/v1/test/test.service';
-import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
+import { TestCreateType, TestUpdateType } from '@vanyamate/cur-helper-types';
 
 
 @Controller('/api/v1/test')

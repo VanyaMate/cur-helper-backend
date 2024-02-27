@@ -8,14 +8,9 @@ import { Model } from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
-import { TestType } from '@/domain/services/test/test.types';
-import {
-    TestQuestionsThemesShort,
-    TestShortResult,
-    TestThemeShort,
-} from '@/domain/services/tests/tests.types';
 import { With } from '@/domain/types';
 import { TestModel } from '@/db/mongoose/test/test.model';
+import { TestQuestionsThemesShort, TestShortResult, TestThemeShort, TestType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

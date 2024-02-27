@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { JwtUserType } from '@/domain/services/jwt/jwt-user-data.types';
 import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
+import { JwtUserType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

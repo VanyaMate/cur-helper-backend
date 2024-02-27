@@ -4,11 +4,7 @@ import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
 import { ITestService } from '@/domain/services/test/test-service.interface';
-import {
-    TestCreateType,
-    TestType,
-    TestUpdateType,
-} from '@/domain/services/test/test.types';
+import { TestCreateType, TestType, TestUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestService implements ITestService {

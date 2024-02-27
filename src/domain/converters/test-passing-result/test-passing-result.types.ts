@@ -1,4 +1,4 @@
-import { TestPassingResult } from '@/domain/services/test-passing/test-passing.types';
+import { TestPassingResult } from '@vanyamate/cur-helper-types';
 
 
 export type TestPassingResultGrade = {

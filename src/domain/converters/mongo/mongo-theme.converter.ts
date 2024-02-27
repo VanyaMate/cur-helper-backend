@@ -1,6 +1,6 @@
 import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeType } from '@/domain/services/theme/theme.types';
+import { ThemeType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoThemeConverter implements IConverter<ThemeDocument, ThemeType> {

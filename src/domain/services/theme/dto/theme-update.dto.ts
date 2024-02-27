@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { Dto } from '@/domain/dto';
-import { ThemeUpdateType } from '@/domain/services/theme/theme.types';
+import { ThemeUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export class ThemeUpdateDto extends Dto<ThemeUpdateType> implements ThemeUpdateType {

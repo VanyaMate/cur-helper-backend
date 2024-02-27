@@ -1,10 +1,7 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from '@/modules/api/v1/auth/auth.service';
-import {
-    LoginDataType,
-    RegistrationDataType,
-} from '@/domain/services/authentication/authentication.types';
 import { Response } from 'express';
+import { LoginDataType, RegistrationDataType } from '@vanyamate/cur-helper-types';
 
 
 @Controller('/api/v1/auth')

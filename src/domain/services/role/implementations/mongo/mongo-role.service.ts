@@ -1,9 +1,9 @@
 import { Filter, IConverter } from '@/domain/service.types';
 import { IRoleService } from '@/domain/services/role/role-service.interface';
-import { RoleCreateType, RoleType } from '../../role.types';
 import { FilterQuery, Model } from 'mongoose';
 import { RoleDocument, RoleModel } from '@/db/mongoose/role/role.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
+import { RoleCreateType, RoleType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoRoleService implements IRoleService {

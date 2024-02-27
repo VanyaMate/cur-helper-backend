@@ -1,8 +1,8 @@
 import { IConverter } from '@/domain/service.types';
 import { UserDocument } from '@/db/mongoose/user/user.model';
-import { UserType } from '@/domain/services/user/user.types';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
-import { RoleType } from '@/domain/services/role/role.types';
+import { UserType } from '@vanyamate/cur-helper-types';
+import { RoleType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoUserTypeConverter implements IConverter<UserDocument, UserType> {

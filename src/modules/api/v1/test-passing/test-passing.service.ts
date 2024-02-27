@@ -14,18 +14,10 @@ import {
     MongoTestPassingService,
 } from '@/domain/services/test-passing/implementations/mongo/mongo-test-passing.service';
 import {
-    TestPassingProcess,
-    TestPassingType,
-    TestPassingResult,
-    TestPassingResults,
-    TestPassingTestShort,
-    TestPassingThemes,
-    TestPassingUserShort,
-} from '@/domain/services/test-passing/test-passing.types';
-import {
     getTestPassingResult,
 } from '@/domain/converters/test-passing-result/implementations/getTestPassingResult';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import { TestPassingProcess, TestPassingType, TestPassingTestShort, TestPassingThemes, TestPassingUserShort, TestPassingResults } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()
@@ -61,7 +53,7 @@ export class TestPassingService implements ITestPassingService {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
-
+c
     async finish (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
         try {
             return await this._testPassingService.finish(userId, testPassingId);

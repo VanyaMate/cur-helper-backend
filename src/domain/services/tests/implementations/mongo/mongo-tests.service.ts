@@ -1,10 +1,4 @@
-import { TestType } from '@/domain/services/test/test.types';
 import { ITestsService } from '@/domain/services/tests/tests-service.interface';
-import {
-    TestQuestionsThemesShort,
-    TestShortResult,
-    TestThemeShort,
-} from '../../tests.types';
 import mongoose, { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
@@ -17,9 +11,13 @@ import {
 import { IConverter } from '@/domain/service.types';
 import {
     TestPassingShortInfo,
-} from '@/domain/services/test-passing/test-passing.types';
-import { ThemeShortType } from '@/domain/services/theme/theme.types';
-import { ThemeTestsWithShortResults } from '@/domain/services/themes/themes.types';
+    ThemeShortType,
+    ThemeTestsWithShortResults,
+    TestType,
+    TestShortResult,
+    TestQuestionsThemesShort,
+    TestThemeShort,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestsService implements ITestsService {

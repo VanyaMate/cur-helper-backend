@@ -10,7 +10,7 @@ import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.
 import { HashService } from '@/modules/services/hash/hash.service';
 import { RoleModel } from '@/db/mongoose/role/role.model';
 import { Filter } from '@/domain/service.types';
-import { UserType, UserCreateType } from '@/domain/services/user/user.types';
+import { UserCreateType, UserType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

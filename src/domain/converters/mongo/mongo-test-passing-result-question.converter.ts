@@ -4,26 +4,26 @@ import {
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import { With } from '@/domain/types';
 import {
-    QuestionResult,
-    QuestionSelect, QuestionThemes,
-    QuestionType,
-} from '@/domain/services/question/question.types';
-import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
-import {
     TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeShortType } from '@/domain/services/theme/theme.types';
+import {
+    QuestionAnswers,
+    QuestionAnswerType,
+    QuestionResult,
+    QuestionSelect, QuestionThemes,
+    QuestionType, ThemeShortType,
+} from '@vanyamate/cur-helper-types';
 
 
-export class MongoTestPassingResultQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes ]>> {
+export class MongoTestPassingResultQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes, QuestionAnswers ]>> {
     constructor (
         private readonly _answerConverter: IConverter<TestPassingResultQuestionAnswerProps, QuestionAnswerType>,
         private readonly _themeShortConverter: IConverter<ThemeDocument, ThemeShortType>,
     ) {
     }
 
-    to (from: TestPassingQuestionDocument): QuestionSelect & QuestionResult & QuestionThemes & QuestionType {
+    to (from: TestPassingQuestionDocument): QuestionSelect & QuestionResult & QuestionThemes & QuestionType & QuestionAnswers {
         if (!from.question) {
             return null;
         }

@@ -1,15 +1,6 @@
 import {
     ITestPassingService,
 } from '@/domain/services/test-passing/test-passing-service.interface';
-import {
-    TestPassingProcess,
-    TestPassingType,
-    TestPassingResult,
-    TestPassingResults,
-    TestPassingTestShort,
-    TestPassingThemes,
-    TestPassingUserShort,
-} from '../../test-passing.types';
 import { Model } from 'mongoose';
 import {
     TestPassingDocument,
@@ -29,15 +20,18 @@ import { NOT_FOUND } from '@/domain/exceptions/errors';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
-import { ThemeShortType } from '@/domain/services/theme/theme.types';
 import {
     GetTestPassingResult,
 } from '@/domain/converters/test-passing-result/test-passing-result.types';
-import { UserType } from '@/domain/services/user/user.types';
-import { TestShortType, TestType } from '@/domain/services/test/test.types';
 import { IConverter } from '@/domain/service.types';
 import { UserDocument } from '@/db/mongoose/user/user.model';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
+import {
+    TestPassingProcess,
+    TestPassingResult,
+    TestPassingResults, TestPassingTestShort, TestPassingThemes,
+    TestPassingType, TestPassingUserShort, TestShortType, ThemeShortType, UserType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestPassingService implements ITestPassingService {

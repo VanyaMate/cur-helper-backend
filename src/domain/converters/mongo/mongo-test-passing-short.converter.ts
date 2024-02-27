@@ -1,19 +1,9 @@
 import { IConverter } from '@/domain/service.types';
 import {
-    TestPassingDocument,
-    TestPassingModel,
-} from '@/db/mongoose/test-passing/test-passing.model';
-import {
-    TestPassingResult,
-    TestPassingShortInfo,
-} from '@/domain/services/test-passing/test-passing.types';
-import { Document, Types } from 'mongoose';
-import { TestDocument } from '@/db/mongoose/test/test.model';
-import {
     GetTestPassingResult,
 } from '@/domain/converters/test-passing-result/test-passing-result.types';
-import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { QuestionShortType } from '@/domain/services/question/question.types';
+import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
+import { TestPassingShortInfo } from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestPassingShortConverter implements IConverter<TestPassingDocument, TestPassingShortInfo> {

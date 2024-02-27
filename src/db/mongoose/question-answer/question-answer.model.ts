@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 
 @Schema()
@@ -15,6 +15,9 @@ export class QuestionAnswerModel {
 
     @Prop({ type: Boolean, required: true })
     correct: boolean;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'QuestionModel' })
+    questionId: mongoose.Schema.Types.ObjectId;
 }
 
 export const QuestionAnswerSchema = SchemaFactory.createForClass(QuestionAnswerModel);

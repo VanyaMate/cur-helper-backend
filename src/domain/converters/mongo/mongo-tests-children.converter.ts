@@ -1,10 +1,10 @@
 import { IConverter } from '@/domain/service.types';
+import { TestDocument } from '@/db/mongoose/test/test.model';
 import {
     TestChildrenWithResults,
     TestShortResult,
-} from '@/domain/services/tests/tests.types';
-import { TestShortType } from '@/domain/services/test/test.types';
-import { TestDocument } from '@/db/mongoose/test/test.model';
+    TestShortType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestsChildrenConverter implements IConverter<any, (TestChildrenWithResults & TestShortResult & TestShortType)[]> {

@@ -1,6 +1,6 @@
 import { IConverter } from '@/domain/service.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { TestShortType } from '@/domain/services/test/test.types';
+import { TestShortType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestShortConverter implements IConverter<TestDocument, TestShortType> {

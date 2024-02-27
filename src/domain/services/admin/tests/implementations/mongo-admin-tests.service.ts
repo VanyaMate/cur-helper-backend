@@ -1,21 +1,22 @@
 import {
     IAdminTestsService,
 } from '@/domain/services/admin/tests/admin-tests-service.interface';
-import { TestType, AdminTestShortType } from '@/domain/services/test/test.types';
-import { TestThemeShort } from '@/domain/services/tests/tests.types';
 import {
     AdminTestQuestionsShort,
     Filter,
     Options,
     AdminThemeShortType,
-    MultiplyResponse, AdminTestThemeShort,
+    MultiplyResponse,
+    AdminTestThemeShort,
+    AdminQuestionShortType,
+    TestType,
+    AdminTestShortType,
 } from '@vanyamate/cur-helper-types';
 import { FilterQuery, Model } from 'mongoose';
 import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
 import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { AdminQuestionShortType } from '@/domain/services/question/question.types';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
 
 
@@ -54,7 +55,6 @@ export class MongoAdminTestsService implements IAdminTestsService {
             theme    : this._adminThemeShortConverter.to(testDocument.theme),
             questions: testDocument.questions.map(({ question }) => this._adminQuestionShortConverter.to(question)),
         };
-
     }
 
     async getList (filter: Filter<AdminTestShortType>, options: Options<AdminTestShortType>): Promise<MultiplyResponse<AdminTestShortType>> {

@@ -1,6 +1,4 @@
-import {
-    QuestionToTestType,
-} from '@/domain/services/question-to-test/question-to-test.types';
+import { QuestionToTestType } from '@vanyamate/cur-helper-types';
 
 
 export interface IQuestionToTestService {

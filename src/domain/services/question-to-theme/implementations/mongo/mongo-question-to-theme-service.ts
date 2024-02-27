@@ -1,9 +1,6 @@
 import {
     IQuestionToThemeService,
 } from '@/domain/services/question-to-theme/question-to-theme-service.interface';
-import {
-    QuestionToThemeType,
-} from '@/domain/services/question-to-theme/question-to-theme.types';
 import { Model } from 'mongoose';
 import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
@@ -12,6 +9,7 @@ import {
     QuestionToThemeModel,
 } from '@/db/mongoose/question-to-theme/question-to-theme.model';
 import { NO_VALID, NOT_FOUND } from '@/domain/exceptions/errors';
+import { QuestionToThemeType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoQuestionToThemeService implements IQuestionToThemeService {

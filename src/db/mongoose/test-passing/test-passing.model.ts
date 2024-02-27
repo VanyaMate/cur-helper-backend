@@ -1,17 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Status } from '@/domain/enums';
 import { TestDocument } from '@/db/mongoose/test/test.model';
 import { UserDocument } from '@/db/mongoose/user/user.model';
-import { raw } from '@nestjs/mongoose';
-import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question.model';
 import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import {
-    TestPassingResult, TestPassingResults,
-    TestPassingState,
-} from '@/domain/services/test-passing/test-passing.types';
+import { TestPassingResult, TestPassingState } from '@vanyamate/cur-helper-types';
 
 
 @Schema()
@@ -25,7 +19,7 @@ export class TestPassingModel {
     @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'TestModel', required: true })
     testId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: [ { type: mongoose.Schema.Types.ObjectId, name: 'QuestionModel' } ] })
+    @Prop({ type: [ { type: mongoose.Schema.Types.ObjectId, name: 'TestPassingQuestionModel' } ] })
     questionsIds: mongoose.Schema.Types.ObjectId[];
 
     @Prop({ type: String, default: 'process' as TestPassingState })

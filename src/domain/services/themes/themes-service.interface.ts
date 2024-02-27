@@ -1,11 +1,9 @@
+import { With } from '@/domain/types';
 import {
     ThemeBreadcrumb,
-    ThemeChildren, ThemeNext, ThemePrev,
-    ThemeRecursiveChildren,
-    ThemeTests, ThemeTestsWithShortResults,
-} from '@/domain/services/themes/themes.types';
-import { With } from '@/domain/types';
-import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
+    ThemeChildren, ThemeNext, ThemePrev, ThemeRecursiveChildren, ThemeShortType,
+    ThemeTestsWithShortResults, ThemeType,
+} from '@vanyamate/cur-helper-types';
 
 
 export interface IThemesService {

@@ -1,10 +1,7 @@
 import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import {
-    ThemeRecursiveChildren,
-} from '@/domain/services/themes/themes.types';
-import { ThemeShortType } from '@/domain/services/theme/theme.types';
 import { With } from '@/domain/types';
+import { ThemeRecursiveChildren, ThemeShortType } from '@vanyamate/cur-helper-types';
 
 
 export type ThemeChildrenConverterType = {

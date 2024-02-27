@@ -1,18 +1,9 @@
 import { IThemesService } from '@/domain/services/themes/themes-service.interface';
-import {
-    ThemeChildren,
-    ThemeTests,
-    ThemeBreadcrumb,
-    ThemeRecursiveChildren, ThemeNext, ThemePrev, ThemeTestsWithShortResults,
-} from '../../themes.types';
 import { Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
-import { ThemeShortType, ThemeType } from '@/domain/services/theme/theme.types';
 import { IConverter } from '@/domain/service.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { QuestionType } from '@/domain/services/question/question.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { TestType } from '@/domain/services/test/test.types';
 import {
     ThemeChildrenConverterType,
 } from '@/domain/converters/mongo/mongo-themes-children.converter';
@@ -23,7 +14,19 @@ import {
     TestPassingDocument,
     TestPassingModel,
 } from '@/db/mongoose/test-passing/test-passing.model';
-import { TestPassingShortInfo } from '@/domain/services/test-passing/test-passing.types';
+import {
+    QuestionType,
+    TestPassingShortInfo,
+    TestType,
+    ThemeBreadcrumb,
+    ThemeChildren,
+    ThemeNext,
+    ThemePrev,
+    ThemeRecursiveChildren,
+    ThemeShortType,
+    ThemeTestsWithShortResults,
+    ThemeType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoPublicThemesService implements IThemesService {

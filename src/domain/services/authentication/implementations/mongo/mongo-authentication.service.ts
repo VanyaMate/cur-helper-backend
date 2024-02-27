@@ -1,14 +1,15 @@
 import {
     IAuthenticationService,
 } from '@/domain/services/authentication/authentication-service.interface';
-import {
-    UserType,
-} from '@/domain/services/user/user.types';
-import { RegistrationDataType, LoginDataType } from '../../authentication.types';
 import { Model } from 'mongoose';
 import { UserDocument, UserModel } from '@/db/mongoose/user/user.model';
 import { IHashService } from '@/domain/services/hash/hash-service.interface';
 import { IConverter } from '@/domain/service.types';
+import {
+    LoginDataType,
+    RegistrationDataType,
+    UserType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoAuthenticationService implements IAuthenticationService {

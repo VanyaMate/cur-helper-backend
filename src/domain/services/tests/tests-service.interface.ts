@@ -1,13 +1,10 @@
-import { TestType } from '@/domain/services/test/test.types';
 import { With } from '@/domain/types';
 import {
     TestQuestionsThemesShort,
     TestShortResult, TestThemeShort,
-} from '@/domain/services/tests/tests.types';
-import { ThemeShortType } from '@/domain/services/theme/theme.types';
-import {
+    TestType, ThemeShortType,
     ThemeTestsWithShortResults,
-} from '@/domain/services/themes/themes.types';
+} from '@vanyamate/cur-helper-types';
 
 
 export interface ITestsService {

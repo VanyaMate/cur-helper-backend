@@ -2,11 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
     IAuthenticationService,
 } from '@/domain/services/authentication/authentication-service.interface';
-import {
-    RegistrationDataType,
-    LoginDataType,
-} from '@/domain/services/authentication/authentication.types';
-import { UserType } from '@/domain/services/user/user.types';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '@/db/mongoose/user/user.model';
@@ -25,6 +20,11 @@ import { Response } from 'express';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
 import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service';
 import { UserAuthType } from '@/modules/api/v1/auth/auth-response.types';
+import {
+    LoginDataType,
+    RegistrationDataType,
+    UserType,
+} from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

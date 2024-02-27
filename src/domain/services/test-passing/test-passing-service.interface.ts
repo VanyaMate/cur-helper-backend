@@ -1,13 +1,9 @@
+import { With } from '@/domain/types';
 import {
     TestPassingProcess,
-    TestPassingResult,
-    TestPassingResults,
-    TestPassingTestShort,
-    TestPassingThemes,
-    TestPassingType,
-    TestPassingUserShort,
-} from '@/domain/services/test-passing/test-passing.types';
-import { With } from '@/domain/types';
+    TestPassingResults, TestPassingTestShort, TestPassingThemes,
+    TestPassingType, TestPassingUserShort,
+} from '@vanyamate/cur-helper-types';
 
 
 export interface ITestPassingService {

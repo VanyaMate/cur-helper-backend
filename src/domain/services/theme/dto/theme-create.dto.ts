@@ -1,6 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Dto } from '@/domain/dto';
-import { ThemeCreateType } from '@/domain/services/theme/theme.types';
+import { ThemeCreateType } from '@vanyamate/cur-helper-types';
 
 
 export class ThemeCreateDto extends Dto<ThemeCreateType> implements ThemeCreateType {

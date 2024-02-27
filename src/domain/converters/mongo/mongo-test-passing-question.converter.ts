@@ -3,20 +3,24 @@ import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import { With } from '@/domain/types';
-import { QuestionSelect, QuestionType } from '@/domain/services/question/question.types';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
-import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
+import {
+    QuestionAnswers,
+    QuestionAnswerType,
+    QuestionSelect,
+    QuestionType,
+} from '@vanyamate/cur-helper-types';
 
 
-export class MongoTestPassingQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect ]>> {
+export class MongoTestPassingQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionAnswers ]>> {
     constructor (
         private readonly _testPassingAnswerConverter: IConverter<QuestionAnswerDocument, QuestionAnswerType>,
     ) {
     }
 
-    to (from: TestPassingQuestionDocument): QuestionSelect & QuestionType {
+    to (from: TestPassingQuestionDocument): QuestionSelect & QuestionType & QuestionAnswers {
         return {
             id         : from._id.toString(),
             title      : from.question.title,

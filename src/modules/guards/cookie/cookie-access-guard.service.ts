@@ -5,8 +5,7 @@ import { JwtService } from '@/modules/api/v1/auth/jwt.service';
 import { Reflector } from '@nestjs/core';
 import { AccessFor } from '@/modules/decorators/access-for.decorator';
 import { UserService } from '@/modules/api/v1/user/user.service';
-import { UserType } from '@/domain/services/user/user.types';
-import { JwtUserType } from '@/domain/services/jwt/jwt-user-data.types';
+import { JwtUserType, UserType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

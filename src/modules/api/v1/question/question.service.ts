@@ -10,13 +10,10 @@ import { IQuestionService } from '@/domain/services/question/question-service.in
 import {
     MongoQuestionService,
 } from '@/domain/services/question/implementations/mongo/mongo-question-service';
-import {
-    QuestionCreateType,
-    QuestionUpdateType,
-} from '@/domain/services/question/question.types';
 import { QuestionCreateDto } from '@/domain/services/question/dto/question-create.dto';
 import { QuestionUpdateDto } from '@/domain/services/question/dto/question-update.dto';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import { QuestionCreateType, QuestionUpdateType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

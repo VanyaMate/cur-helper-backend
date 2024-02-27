@@ -2,7 +2,6 @@ import { IConverter } from '@/domain/service.types';
 import {
     TestPassingDocument,
 } from '@/db/mongoose/test-passing/test-passing.model';
-import { TestPassingResults } from '@/domain/services/test-passing/test-passing.types';
 import {
     GetTestPassingResult,
 } from '@/domain/converters/test-passing-result/test-passing-result.types';
@@ -12,9 +11,11 @@ import {
 import { With } from '@/domain/types';
 import {
     QuestionResult,
-    QuestionSelect, QuestionThemes,
+    QuestionSelect,
+    QuestionThemes,
     QuestionType,
-} from '@/domain/services/question/question.types';
+    TestPassingResults,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestPassingResultConverter implements IConverter<TestPassingDocument, TestPassingResults> {

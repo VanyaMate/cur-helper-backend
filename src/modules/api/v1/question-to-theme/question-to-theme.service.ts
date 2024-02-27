@@ -12,9 +12,7 @@ import {
 import {
     IQuestionToThemeService,
 } from '@/domain/services/question-to-theme/question-to-theme-service.interface';
-import {
-    QuestionToThemeType,
-} from '@/domain/services/question-to-theme/question-to-theme.types';
+import { QuestionToThemeType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

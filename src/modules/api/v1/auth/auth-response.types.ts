@@ -1,4 +1,7 @@
-import { UserType } from '@/domain/services/user/user.types';export type UserAuthType = {
+import { UserType } from '@vanyamate/cur-helper-types';
+
+
+export type UserAuthType = {
     user: UserType;
     token: string;
 }

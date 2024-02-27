@@ -1,7 +1,6 @@
 import { Dto } from '@/domain/dto';
 import { Complexity } from '@/domain/enums';
 import {
-    IsArray,
     IsBoolean,
     IsNotEmpty,
     IsNumber,
@@ -9,13 +8,9 @@ import {
     IsString, Validate,
 } from 'class-validator';
 import {
-    IsQuestionAnswers,
-} from '@/domain/validators/class-validator/is-question-answers.validator';
-import {
     IsQuestionComplexity,
 } from '@/domain/validators/class-validator/is-question-complexity.validator';
-import { QuestionUpdateType } from '@/domain/services/question/question.types';
-import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
+import { QuestionUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export class QuestionUpdateDto extends Dto<QuestionUpdateType> implements QuestionUpdateType {
@@ -23,11 +18,6 @@ export class QuestionUpdateDto extends Dto<QuestionUpdateType> implements Questi
     @IsOptional()
     @IsNotEmpty()
     title?: string;
-
-    @IsArray()
-    @IsOptional()
-    @Validate(IsQuestionAnswers)
-    answers?: QuestionAnswerType[];
 
     @IsBoolean()
     @IsOptional()

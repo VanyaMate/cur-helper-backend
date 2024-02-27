@@ -6,10 +6,9 @@ import {
     Injectable,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtUserType } from '@/domain/services/jwt/jwt-user-data.types';
-import { UserType } from '@/domain/services/user/user.types';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
 import { UserService } from '@/modules/api/v1/user/user.service';
+import { JwtUserType, UserType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

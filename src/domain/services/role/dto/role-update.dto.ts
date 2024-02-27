@@ -1,5 +1,5 @@
 import { Dto } from '@/domain/dto';
-import { RoleType, RoleUpdateType } from '@/domain/services/role/role.types';
+import { RoleUpdateType } from '@vanyamate/cur-helper-types';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 

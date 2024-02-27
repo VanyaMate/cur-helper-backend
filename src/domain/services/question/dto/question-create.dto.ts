@@ -9,23 +9,15 @@ import {
     IsString, Validate,
 } from 'class-validator';
 import {
-    IsQuestionAnswers,
-} from '@/domain/validators/class-validator/is-question-answers.validator';
-import {
     IsQuestionComplexity,
 } from '@/domain/validators/class-validator/is-question-complexity.validator';
-import { QuestionCreateType } from '@/domain/services/question/question.types';
-import { QuestionAnswerType } from '@/domain/services/answer/question-answer.types';
+import { QuestionCreateType } from '@vanyamate/cur-helper-types';
 
 
 export class QuestionCreateDto extends Dto<QuestionCreateType> implements QuestionCreateType {
     @IsString()
     @IsNotEmpty()
     title: string;
-
-    @IsArray()
-    @Validate(IsQuestionAnswers)
-    answers: QuestionAnswerType[];
 
     @IsBoolean()
     @IsOptional()

@@ -1,6 +1,4 @@
-import {
-    AuthorizationRightsType,
-} from '@/domain/services/authorization/authorization.types';
+import { AuthorizationRightsType } from '@vanyamate/cur-helper-types';
 
 
 export interface IAuthorizationService {

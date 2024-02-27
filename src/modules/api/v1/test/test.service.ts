@@ -10,10 +10,10 @@ import { ITestService } from '@/domain/services/test/test-service.interface';
 import {
     MongoTestService,
 } from '@/domain/services/test/implementations/mongo/mongo-test-service';
-import { TestCreateType, TestUpdateType } from '@/domain/services/test/test.types';
 import { TestCreateDto } from '@/domain/services/test/dto/test-create.dto';
 import { TestUpdateDto } from '@/domain/services/test/dto/test-update.dto';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import { TestCreateType, TestUpdateType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

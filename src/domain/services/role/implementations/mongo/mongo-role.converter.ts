@@ -1,6 +1,6 @@
 import { IConverter } from '@/domain/service.types';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
-import { RoleType } from '@/domain/services/role/role.types';
+import { RoleType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoRoleConverter implements IConverter<RoleDocument, RoleType> {

@@ -9,10 +9,10 @@ import {
 import {
     MongoThemeService,
 } from '@/domain/services/theme/implementations/mongoose/mongo-theme-service';
-import { ThemeCreateType, ThemeUpdateType } from '@/domain/services/theme/theme.types';
 import { ThemeCreateDto } from '@/domain/services/theme/dto/theme-create.dto';
 import { ThemeUpdateDto } from '@/domain/services/theme/dto/theme-update.dto';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import { ThemeCreateType, ThemeUpdateType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

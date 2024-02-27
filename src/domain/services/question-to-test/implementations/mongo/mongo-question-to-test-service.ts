@@ -9,9 +9,7 @@ import {
 } from '@/db/mongoose/question-to-test/question-to-test.model';
 import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
 import { NO_VALID, NOT_FOUND } from '@/domain/exceptions/errors';
-import {
-    QuestionToTestType,
-} from '@/domain/services/question-to-test/question-to-test.types';
+import { QuestionToTestType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoQuestionToTestService implements IQuestionToTestService {

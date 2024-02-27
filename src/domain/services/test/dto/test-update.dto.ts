@@ -1,6 +1,6 @@
 import { Dto } from '@/domain/dto';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
-import { TestUpdateType } from '@/domain/services/test/test.types';
+import { TestUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export class TestUpdateDto extends Dto<TestUpdateType> implements TestUpdateType {

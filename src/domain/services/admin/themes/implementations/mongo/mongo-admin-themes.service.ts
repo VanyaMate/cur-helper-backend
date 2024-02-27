@@ -4,16 +4,15 @@ import {
 } from '@/domain/services/admin/themes/admin-themes-service.interface';
 import { FilterQuery, Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
-import { ThemeType } from '@/domain/services/theme/theme.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { AdminTestShortType } from '@/domain/services/test/test.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { AdminQuestionShortType } from '@/domain/services/question/question.types';
 import {
+    AdminQuestionShortType,
+    AdminTestShortType,
     AdminThemeShortType,
     Filter,
     MultiplyResponse,
-    Options,
+    Options, ThemeType,
 } from '@vanyamate/cur-helper-types';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
 import { AdminThemeType } from '@vanyamate/cur-helper-types';

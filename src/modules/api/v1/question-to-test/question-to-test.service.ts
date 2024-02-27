@@ -12,9 +12,7 @@ import {
 import {
     MongoQuestionToTestService,
 } from '@/domain/services/question-to-test/implementations/mongo/mongo-question-to-test-service';
-import {
-    QuestionToTestType,
-} from '@/domain/services/question-to-test/question-to-test.types';
+import { QuestionToTestType } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()
