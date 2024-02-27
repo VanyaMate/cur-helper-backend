@@ -13,6 +13,7 @@ export class MongoQuestionAnswerConverter implements IConverter<QuestionAnswerDo
             title      : from.title,
             description: from.description,
             correct    : from.correct,
+            questionId : from.questionId.toString(),
         };
     }
 

@@ -13,6 +13,7 @@ export class MongoTestPassingQuestionAnswerConverter implements IConverter<Quest
             enabled    : from.enabled,
             description: '',
             correct    : false,
+            questionId : from.questionId.toString(),
         };
     }
 

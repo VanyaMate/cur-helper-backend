@@ -11,6 +11,7 @@ export class QuestionAnswerController {
     ) {
     }
 
+    // TODO: Update to DTO
     @Post()
     create (
         @Body() answerCreateDto: any,
@@ -18,7 +19,7 @@ export class QuestionAnswerController {
         return this._questionAnswerService.create(answerCreateDto);
     }
 
-    @Patch()
+    @Patch(':id')
     update () {
 
     }

@@ -15,6 +15,9 @@ import { UserModule } from '@/modules/api/v1/user/user.module';
 import { TestsModule } from '@/modules/api/v1/tests/tests.module';
 import { AdminThemesModule } from '@/modules/api/v1/admin/themes/admin-themes.module';
 import { AdminTestsModule } from '@/modules/api/v1/admin/tests/admin-tests.module';
+import {
+    QuestionAnswerModule,
+} from '@/modules/api/v1/question-answer/question-answer.module';
 
 
 @Module({
@@ -31,6 +34,7 @@ import { AdminTestsModule } from '@/modules/api/v1/admin/tests/admin-tests.modul
         TestsModule,
         AdminThemesModule,
         AdminTestsModule,
+        QuestionAnswerModule,
     ],
 })
 export class ApiV1Module {

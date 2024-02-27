@@ -20,6 +20,7 @@ export class MongoTestPassingResultQuestionAnswerConverter implements IConverter
             description: selected ? from.answer.description : '',
             enabled    : from.answer.enabled,
             correct    : selected ? from.answer.correct : false,
+            questionId : from.answer.questionId.toString(),
         };
     }
 
