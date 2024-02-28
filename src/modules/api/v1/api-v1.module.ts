@@ -18,6 +18,9 @@ import { AdminTestsModule } from '@/modules/api/v1/admin/tests/admin-tests.modul
 import {
     QuestionAnswerModule,
 } from '@/modules/api/v1/question-answer/question-answer.module';
+import {
+    AdminQuestionsModule,
+} from '@/modules/api/v1/admin/questions/admin-questions.module';
 
 
 @Module({
@@ -35,6 +38,7 @@ import {
         AdminThemesModule,
         AdminTestsModule,
         QuestionAnswerModule,
+        AdminQuestionsModule,
     ],
 })
 export class ApiV1Module {
