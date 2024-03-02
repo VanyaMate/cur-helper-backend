@@ -5,7 +5,7 @@ import { QuestionDocument, QuestionModel } from '@/db/mongoose/question/question
 
 
 @Schema({
-    toJSON: {
+    toJSON  : {
         virtuals: true,
     },
 })

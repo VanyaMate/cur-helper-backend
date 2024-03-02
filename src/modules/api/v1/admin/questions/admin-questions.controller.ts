@@ -14,10 +14,19 @@ export class AdminQuestionsController {
         return this._adminQuestionService.findMany();
     }
 
+    @Get('/unlinked-for-test/:testId')
+    findManyUnlinkedForTest (
+        @Param('testId') id: string,
+    ) {
+        return this._adminQuestionService.findManyUnlinkedForTest(id);
+    }
+
     @Get('/:id')
     findOneById (
         @Param('id') id: string,
     ) {
         return this._adminQuestionService.findOne(id);
     }
+
+
 }

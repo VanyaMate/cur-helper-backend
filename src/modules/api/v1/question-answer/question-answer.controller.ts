@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import {
     QuestionAnswerService,
 } from '@/modules/api/v1/question-answer/question-answer.service';
@@ -20,16 +20,14 @@ export class QuestionAnswerController {
     }
 
     @Patch(':id')
-    update () {
-
+    update (
+        @Param('id') id: string,
+        @Body() answerUpdateDto: any,
+    ) {
+        return this._questionAnswerService.update(id, answerUpdateDto);
     }
 
-    @Get()
-    read () {
-
-    }
-
-    @Delete()
+    @Delete(':id')
     delete () {
 
     }
