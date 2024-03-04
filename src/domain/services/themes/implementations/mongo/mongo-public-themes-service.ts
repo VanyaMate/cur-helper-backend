@@ -53,7 +53,7 @@ export class MongoPublicThemesService implements IThemesService {
                 return acc;
             }, [ ids[0] ]);
 
-        const [ doc, childrenDocs, breadcrumbs ]: [ ThemeDocument, ThemeDocument[], ThemeDocument[] ] = await Promise.all([
+        const [ doc, childrenDocs, breadcrumbs, next, prev ]: [ ThemeDocument, ThemeDocument[], ThemeDocument[], ThemeDocument, ThemeDocument ] = await Promise.all([
             this._mongoThemeRepository.findOne({ publicId }, {}, {
                 populate: [
                     {
@@ -61,6 +61,7 @@ export class MongoPublicThemesService implements IThemesService {
                         options: {
                             limit: 3,
                         },
+                        match  : { enabled: true },
                     },
                 ],
             }),
@@ -68,10 +69,39 @@ export class MongoPublicThemesService implements IThemesService {
                 publicId: {
                     $regex: new RegExp(`^${publicId}-\\d+$`),
                 },
+                enabled : true,
             }),
             this._mongoThemeRepository.find({
                 publicId: {
                     $in: parentIds.slice(0, parentIds.length - 1),
+                },
+            }),
+            this._mongoThemeRepository.findOne({
+                publicId: {
+                    $gt: publicId,
+                },
+                enabled : true,
+            }, {}, {
+                sort     : {
+                    publicId: 1,
+                },
+                collation: {
+                    locale         : 'en',
+                    numericOrdering: true,
+                },
+            }),
+            this._mongoThemeRepository.findOne({
+                publicId: {
+                    $lt: publicId,
+                },
+                enabled : true,
+            }, {}, {
+                sort     : {
+                    publicId: -1,
+                },
+                collation: {
+                    locale         : 'en',
+                    numericOrdering: true,
                 },
             }),
         ]);
@@ -115,8 +145,8 @@ export class MongoPublicThemesService implements IThemesService {
                 }),
                 breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
                 children  : childrenDocs.map(this._themeShortConverter.to),
-                next      : null,   // TODO: ссылка на 1 дочернюю тему или следующую или после текущего родителя (рекурсивно)
-                prev      : null,   // TODO: ссылка на предыдущую тему или родителя
+                next      : next ? this._themeShortConverter.to(next) : null,
+                prev      : prev ? this._themeShortConverter.to(prev) : null,
             };
         }
 
@@ -125,8 +155,8 @@ export class MongoPublicThemesService implements IThemesService {
             tests     : doc.tests.map((test) => (Object.assign(this._testConverter.to(test), { shortResult: null }))),
             breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
             children  : childrenDocs.map(this._themeShortConverter.to),
-            next      : null,   // TODO: ссылка на 1 дочернюю тему или следующую или после текущего родителя (рекурсивно)
-            prev      : null,   // TODO: ссылка на предыдущую тему или родителя
+            next      : next ? this._themeShortConverter.to(next) : null,
+            prev      : prev ? this._themeShortConverter.to(prev) : null,
         };
     }
 
