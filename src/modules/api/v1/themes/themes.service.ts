@@ -22,12 +22,9 @@ export class ThemesService {
         this._themesService = new MongoPublicThemesService(
             this._mongoThemeRepository,
             this._testPassingModel,
-            this._mongoConverter.question,
-            this._mongoConverter.test,
-            this._mongoConverter.theme,
-            this._mongoConverter.themesChildren,
-            this._mongoConverter.themeShort,
-            this._mongoConverter.testPassingShort,
+            this._mongoConverter.themeFull,
+            this._mongoConverter.themeChildren,
+            this._mongoConverter.themeRecursive,
         );
     }
 

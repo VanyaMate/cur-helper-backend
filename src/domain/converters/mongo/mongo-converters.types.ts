@@ -14,8 +14,8 @@ import {
     TestPassingShortInfo,
     TestPassingType,
     TestShortType,
-    TestType,
-    ThemeRecursiveChildren,
+    TestType, ThemeChildrenType, ThemeFullType,
+    ThemeRecursiveChildren, ThemeRecursiveType,
     ThemeShortType,
     ThemeType,
     UserType,
@@ -35,11 +35,20 @@ import {
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import {
     ThemeChildrenConverterType,
-} from '@/domain/converters/mongo/mongo-themes-children.converter';
+} from '@/domain/converters/mongo/mongo-theme-recursive-children.converter';
 import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
 import {
     TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
+import {
+    ThemeListConverterDocumentsType,
+} from '@/domain/converters/mongo/composite/theme/mongo-theme-recursive.converter';
+import {
+    ThemeFullTypeConverterDocumentsType,
+} from '@/domain/converters/mongo/composite/theme/mongo-theme-full-type.converter';
+import {
+    ThemeListByIdConverterDocumentsType,
+} from '@/domain/converters/mongo/composite/theme/mongo-theme-children.converter';
 
 
 export type IMongoFilterConverter = IConverter<Filter<any>, FilterQuery<any>>;
@@ -54,7 +63,10 @@ export type IMongoQuestionConverter = IConverter<QuestionDocument, QuestionType>
 export type IMongoQuestionShortConverter = IConverter<QuestionDocument, QuestionShortType>;
 export type IMongoQuestionAnswerConverter = IConverter<QuestionAnswerDocument, QuestionAnswerType>;
 export type IMongoQuestionPassingConverter = IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionAnswers ]>>;
-export type IMongoThemesChildrenConverter = IConverter<ThemeChildrenConverterType, With<ThemeShortType, [ ThemeRecursiveChildren ]>[]>;
+export type IMongoThemeRecursiveChildrenConverter = IConverter<ThemeChildrenConverterType, ThemeRecursiveChildren>;
+export type IMongoThemeChildrenConverter = IConverter<ThemeListByIdConverterDocumentsType, ThemeChildrenType>;
+export type IMongoThemeRecursiveConverter = IConverter<ThemeListConverterDocumentsType, ThemeRecursiveType[]>;
+export type IMongoThemeFullConverter = IConverter<ThemeFullTypeConverterDocumentsType, ThemeFullType>;
 export type IMongoTestPassingShortConverter = IConverter<TestPassingDocument, TestPassingShortInfo>;
 export type IMongoTestPassingConverter = IConverter<TestPassingDocument, TestPassingType>;
 export type IMongoTestPassingProcessConverter = IConverter<TestPassingDocument, TestPassingProcess>;

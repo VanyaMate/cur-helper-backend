@@ -1,15 +1,14 @@
-import { With } from '@/domain/types';
 import {
-    ThemeBreadcrumb,
-    ThemeChildren, ThemeNext, ThemePrev, ThemeRecursiveChildren, ThemeShortType,
-    ThemeTestsWithShortResults, ThemeType,
+    ThemeChildrenType,
+    ThemeFullType,
+    ThemeRecursiveType,
 } from '@vanyamate/cur-helper-types';
 
 
 export interface IThemesService {
-    getThemeFullDataByPublicId (publicId: string, userId?: string): Promise<With<ThemeType, [ ThemeChildren, ThemeTestsWithShortResults, ThemeBreadcrumb, ThemeNext, ThemePrev ]>>;
+    getThemeFullDataByPublicId (publicId: string, userId?: string): Promise<ThemeFullType>;
 
-    getThemeListById (publicId: string): Promise<With<ThemeShortType, [ ThemeRecursiveChildren ]> & ThemeBreadcrumb>;
+    getThemeListById (publicId: string): Promise<ThemeChildrenType>;
 
-    getThemesList (): Promise<With<ThemeShortType, [ ThemeRecursiveChildren ]>[]>;
+    getThemesList (): Promise<ThemeRecursiveType[]>;
 }
