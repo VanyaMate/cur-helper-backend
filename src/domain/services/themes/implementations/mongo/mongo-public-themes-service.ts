@@ -43,95 +43,21 @@ export class MongoPublicThemesService implements IThemesService {
     }
 
     async getThemeFullDataByPublicId (publicId: string, userId?: string): Promise<ThemeChildren & ThemeTestsWithShortResults & ThemeBreadcrumb & ThemeType & ThemeNext & ThemePrev> {
-        // TODO: Оптимизация запросов
-        // TODO: Оптимизация кода
-        const ids: string[]       = publicId.split('-');
-        const parentIds: string[] = ids
-            .splice(1, ids.length - 1)
-            .reduce((acc, id) => {
-                acc.push(`${ acc[acc.length - 1] }-${ id }`);
-                return acc;
-            }, [ ids[0] ]);
-
-        const [ doc, childrenDocs, breadcrumbs, next, prev ]: [ ThemeDocument, ThemeDocument[], ThemeDocument[], ThemeDocument, ThemeDocument ] = await Promise.all([
-            this._mongoThemeRepository.findOne({ publicId }, {}, {
-                populate: [
-                    {
-                        path   : 'tests',
-                        options: {
-                            limit: 3,
-                        },
-                        match  : { enabled: true },
-                    },
-                ],
-            }),
-            this._mongoThemeRepository.find({
-                publicId: {
-                    $regex: new RegExp(`^${publicId}-\\d+$`),
-                },
-                enabled : true,
-            }),
-            this._mongoThemeRepository.find({
-                publicId: {
-                    $in: parentIds.slice(0, parentIds.length - 1),
-                },
-            }),
-            this._mongoThemeRepository.findOne({
-                publicId: {
-                    $gt: publicId,
-                },
-                enabled : true,
-            }, {}, {
-                sort     : {
-                    publicId: 1,
-                },
-                collation: {
-                    locale         : 'en',
-                    numericOrdering: true,
-                },
-            }),
-            this._mongoThemeRepository.findOne({
-                publicId: {
-                    $lt: publicId,
-                },
-                enabled : true,
-            }, {}, {
-                sort     : {
-                    publicId: -1,
-                },
-                collation: {
-                    locale         : 'en',
-                    numericOrdering: true,
-                },
-            }),
+        const [ theme, childrenThemes, breadcrumbsThemes, nextTheme, prevTheme ] = await Promise.all([
+            this._getThemeWithTests(publicId),
+            this._getChildrenOfTheme(publicId),
+            this._getBreadcrumbOfTheme(publicId),
+            this._getNextThemeOf(publicId),
+            this._getPrevThemeOf(publicId),
         ]);
 
+        // TODO: Add converter
         if (userId) {
-            const latestTestResults: {
-                _id: ObjectId,
-                latestTestResult: TestPassingDocument | null
-            }[] = await this._testPassingRepository.aggregate([
-                {
-                    $match: {
-                        testId: { $in: doc.tests.map((test) => test._id) },
-                        userId: new ObjectId(userId),
-                    },
-                },
-                { $sort: { testId: 1, startTime: -1 } },
-                {
-                    $group: {
-                        _id             : '$testId',
-                        latestTestResult: { $first: '$$ROOT' },
-                    },
-                },
-            ]) as unknown as {
-                _id: ObjectId,
-                latestTestResult: TestPassingDocument | null
-            }[];
+            const latestTestResults = await this._getLatestResultOfTest(theme.tests, userId);
 
             return {
-                ...this._themeConverter.to(doc),
-                tests     : doc.tests.map((test) => {
+                ...this._themeConverter.to(theme),
+                tests     : theme.tests.map((test) => {
                     const latestResult: TestPassingDocument | null = latestTestResults.find((result) => result._id.toString() === test._id.toString())?.latestTestResult;
                     return {
                         ...this._testConverter.to(test),
@@ -143,51 +69,34 @@ export class MongoPublicThemesService implements IThemesService {
                             ),
                     };
                 }),
-                breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
-                children  : childrenDocs.map(this._themeShortConverter.to),
-                next      : next ? this._themeShortConverter.to(next) : null,
-                prev      : prev ? this._themeShortConverter.to(prev) : null,
+                breadcrumb: breadcrumbsThemes.map(this._themeShortConverter.to),
+                children  : childrenThemes.map(this._themeShortConverter.to),
+                next      : nextTheme ? this._themeShortConverter.to(nextTheme) : null,
+                prev      : prevTheme ? this._themeShortConverter.to(prevTheme) : null,
             };
         }
 
         return {
-            ...this._themeConverter.to(doc),
-            tests     : doc.tests.map((test) => (Object.assign(this._testConverter.to(test), { shortResult: null }))),
-            breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
-            children  : childrenDocs.map(this._themeShortConverter.to),
-            next      : next ? this._themeShortConverter.to(next) : null,
-            prev      : prev ? this._themeShortConverter.to(prev) : null,
+            ...this._themeConverter.to(theme),
+            tests     : theme.tests.map((test) => Object.assign(this._testConverter.to(test), { shortResult: null })),
+            breadcrumb: breadcrumbsThemes.map(this._themeShortConverter.to),
+            children  : childrenThemes.map(this._themeShortConverter.to),
+            next      : nextTheme ? this._themeShortConverter.to(nextTheme) : null,
+            prev      : prevTheme ? this._themeShortConverter.to(prevTheme) : null,
         };
     }
 
     async getThemeListById (publicId: string): Promise<ThemeBreadcrumb & With<ThemeShortType, [ ThemeRecursiveChildren ]>> {
-        const childrenDocs: ThemeDocument[] = await this._mongoThemeRepository.find({
-            publicId: {
-                $regex: new RegExp(`^${publicId}`),
-            },
-            enabled : true,
-        });
-
-        const theme: ThemeDocument | null = childrenDocs.find((child) => child.publicId === publicId);
+        const childrenDocs: ThemeDocument[] = await this._getThemeWithChildren(publicId);
+        const theme: ThemeDocument | null   = childrenDocs.find((child) => child.publicId === publicId);
 
         if (!childrenDocs.length || !theme) {
             throw NOT_FOUND;
         }
 
-        const ids: string[]       = publicId.split('-');
-        const parentIds: string[] = ids
-            .splice(1, ids.length - 1)
-            .reduce((acc, id) => {
-                acc.push(`${ acc[acc.length - 1] }-${ id }`);
-                return acc;
-            }, [ ids[0] ]);
+        const breadcrumbs: ThemeDocument[] = await this._getBreadcrumbOfTheme(publicId);
 
-        const breadcrumbs: ThemeDocument[] = await this._mongoThemeRepository.find({
-            publicId: {
-                $in: parentIds.slice(0, parentIds.length - 1),
-            },
-        });
-
+        // TODO: Add converter
         return {
             ...this._themeShortConverter.to(theme),
             breadcrumb: breadcrumbs.map(this._themeShortConverter.to),
@@ -199,20 +108,135 @@ export class MongoPublicThemesService implements IThemesService {
     }
 
     async getThemesList (): Promise<(ThemeRecursiveChildren & ThemeShortType)[]> {
-        const docs: ThemeDocument[]       = await this._mongoThemeRepository.find({
+        const themes: ThemeDocument[]       = await this._getAllThemes();
+        const parentThemes: ThemeDocument[] = this._getParentThemesByList(themes);
+
+        // TODO: Add converter
+        return parentThemes.map((doc) => ({
+            ...this._themeShortConverter.to(doc),
+            children: this._themeRecursiveChildrenConverter.to({
+                children : themes,
+                currentId: doc.publicId,
+            }),
+        }));
+    }
+
+    private _getParentThemesByList (themesList: ThemeDocument[]): ThemeDocument[] {
+        return themesList.filter((theme) => theme.publicId.match(/^\d+$/));
+    }
+
+    private async _getAllThemes (): Promise<ThemeDocument[]> {
+        return this._mongoThemeRepository.find({
             publicId: {
                 $regex: /^\d/,
             },
             enabled : true,
         });
-        const parentDocs: ThemeDocument[] = docs.filter((doc) => doc.publicId.match(/^\d+$/));
+    }
 
-        return parentDocs.map((doc) => ({
-            ...this._themeShortConverter.to(doc),
-            children: this._themeRecursiveChildrenConverter.to({
-                children : docs,
-                currentId: doc.publicId,
-            }),
-        }));
+    private async _getThemeWithTests (publicId: string): Promise<ThemeDocument> {
+        return this._mongoThemeRepository.findOne({ publicId }, {}, {
+            populate: [
+                {
+                    path   : 'tests',
+                    options: {
+                        limit: 3,
+                    },
+                    match  : { enabled: true },
+                },
+            ],
+        });
+    }
+
+    private async _getThemeWithChildren (publicId: string): Promise<ThemeDocument[]> {
+        return this._mongoThemeRepository.find({
+            publicId: {
+                $regex: new RegExp(`^${publicId}`),
+            },
+            enabled : true,
+        });
+    }
+
+    private async _getChildrenOfTheme (publicId: string): Promise<ThemeDocument[]> {
+        return this._mongoThemeRepository.find({
+            publicId: {
+                $regex: new RegExp(`^${publicId}-\\d+$`),
+            },
+            enabled : true,
+        });
+    }
+
+    private _getSplittedId (publicId: string): string[] {
+        const ids: string[] = publicId.split('-');
+        return ids
+            .splice(1, ids.length - 1)
+            .reduce((acc, id) => {
+                acc.push(`${ acc[acc.length - 1] }-${ id }`);
+                return acc;
+            }, [ ids[0] ]);
+    }
+
+    private async _getBreadcrumbOfTheme (publicId: string): Promise<ThemeDocument[]> {
+        const parentIds: string[] = this._getSplittedId(publicId);
+        return this._mongoThemeRepository.find({
+            publicId: {
+                $in: parentIds.slice(0, parentIds.length - 1),
+            },
+        });
+    }
+
+    private async _getNextThemeOf (publicId: string): Promise<ThemeDocument> {
+        return this._mongoThemeRepository.findOne({
+            publicId: {
+                $gt: publicId,
+            },
+            enabled : true,
+        }, {}, {
+            sort     : {
+                publicId: 1,
+            },
+            collation: {
+                locale         : 'en',
+                numericOrdering: true,
+            },
+        });
+    }
+
+    private async _getPrevThemeOf (publicId: string): Promise<ThemeDocument> {
+        return this._mongoThemeRepository.findOne({
+            publicId: {
+                $lt: publicId,
+            },
+            enabled : true,
+        }, {}, {
+            sort     : {
+                publicId: -1,
+            },
+            collation: {
+                locale         : 'en',
+                numericOrdering: true,
+            },
+        });
+    }
+
+    private async _getLatestResultOfTest (tests: TestDocument[], userId: string) {
+        return this._testPassingRepository.aggregate([
+            {
+                $match: {
+                    testId: { $in: tests.map((test) => test._id) },
+                    userId: new ObjectId(userId),
+                },
+            },
+            { $sort: { testId: 1, startTime: -1 } },
+            {
+                $group: {
+                    _id             : '$testId',
+                    latestTestResult: { $first: '$$ROOT' },
+                },
+            },
+        ]) as unknown as {
+            _id: ObjectId,
+            latestTestResult: TestPassingDocument | null
+        }[];
     }
 }
