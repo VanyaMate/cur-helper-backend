@@ -1,9 +1,9 @@
-import { ErrorCode, ErrorType } from '@vanyamate/cur-helper-types';
+import { ErrorCode, ErrorMessageType, ErrorType } from '@vanyamate/cur-helper-types';
 
 
-export const NoValidDataError: ErrorType = (...messages: string[]) => {
+export const NoValidDataError: ErrorType = (errors: ErrorMessageType[]) => {
     return {
-        messages,
+        errors,
         code: ErrorCode.NO_VALID_DATA,
     };
 };

@@ -1,9 +1,9 @@
-import { ErrorCode, ErrorType } from '@vanyamate/cur-helper-types';
+import { ErrorCode, ErrorMessageType, ErrorType } from '@vanyamate/cur-helper-types';
 
 
-export const NotFoundError: ErrorType = (...messages: string[]) => {
+export const NotFoundError: ErrorType = (errors: ErrorMessageType[]) => {
     return {
-        messages,
+        errors,
         code: ErrorCode.NOT_FOUND,
     };
 };

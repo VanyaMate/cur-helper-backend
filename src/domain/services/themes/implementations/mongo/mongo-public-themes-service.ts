@@ -49,7 +49,12 @@ export class MongoPublicThemesService implements IThemesService {
         ]);
 
         if (!theme) {
-            throw this._errorCaller.notFound(`Тема ${ publicId } не найдена`);
+            throw this._errorCaller.notFound([
+                {
+                    target  : 'Поиск',
+                    messages: [ `Тема ${ publicId } не найдена` ],
+                },
+            ]);
         }
 
         const latestTestResults = await this._getLatestResultOfTest(theme.tests, userId);
@@ -67,7 +72,12 @@ export class MongoPublicThemesService implements IThemesService {
         const theme: ThemeDocument | null = children.find((child) => child.publicId === publicId);
 
         if (!children.length || !theme) {
-            throw this._errorCaller.notFound(`Тема ${ publicId } не найдена`);
+            throw this._errorCaller.notFound([
+                {
+                    target  : 'Поиск',
+                    messages: [ `Тема ${ publicId } не найдена` ],
+                },
+            ]);
         }
 
         return this._themeChildrenConverter.to({ children, theme, breadcrumb });

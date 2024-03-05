@@ -9,6 +9,7 @@ import { ErrorMessageType } from '@vanyamate/cur-helper-types';
 import {
     ErrorTypeConverter,
 } from '@/modules/services/error/error-type-converter.service';
+import { ErrorResponseType } from '@vanyamate/cur-helper-types/types/error';
 
 
 @Catch()
@@ -18,21 +19,26 @@ export class HttpExceptionFilter implements ExceptionFilter {
     ) {
     }
 
-    catch (exception: ErrorMessageType, host: ArgumentsHost) {
+    catch (exception: ErrorResponseType, host: ArgumentsHost) {
         const ctx      = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-        if (exception.messages && exception.code) {
+        if (exception.errors && exception.code) {
             const code: HttpStatus = this._errorTypeConverter.to(exception.code);
             response
                 .status(code)
                 .json({
-                    messages: exception.messages,
+                    errors: exception.errors,
                 });
         } else {
             response
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    message: 'INTERNAL_SERVER_ERROR',
+                    errors: [
+                        {
+                            target  : 'server',
+                            messages: [ 'INTERNAL_SERVER_ERROR' ],
+                        },
+                    ],
                 });
         }
     }

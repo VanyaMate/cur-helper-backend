@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ThemeModel } from '@/db/mongoose/theme/theme.model';
-import { IThemesService } from '@/domain/services/themes/themes-service.interface';
 import {
     MongoPublicThemesService,
 } from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
