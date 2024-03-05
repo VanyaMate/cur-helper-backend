@@ -11,12 +11,12 @@ export class ThemesController {
 
     @Get('list')
     async getList () {
-        return this._themesService.getList();
+        return this._themesService.getThemesList();
     }
 
     @Get('list/:id')
     async getListById (@Param('id') id: string) {
-        return await this._themesService.getListById(id);
+        return this._themesService.getThemeListById(id);
     }
 
     @Get(':id')
@@ -24,6 +24,6 @@ export class ThemesController {
         @Param('id') id: string,
         @Req() request: Request,
     ) {
-        return this._themesService.getFullDataByPublicId(id, request['user-jwt-data']?.userId);
+        return this._themesService.getThemeFullDataByPublicId(id, request['user-jwt-data']?.userId);
     }
 }

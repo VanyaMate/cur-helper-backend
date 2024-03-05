@@ -1,5 +1,4 @@
 import { Dto } from '@/domain/dto';
-import { Complexity } from '@/domain/enums';
 import {
     IsBoolean,
     IsNotEmpty,
@@ -10,7 +9,7 @@ import {
 import {
     IsQuestionComplexity,
 } from '@/domain/validators/class-validator/is-question-complexity.validator';
-import { QuestionUpdateType } from '@vanyamate/cur-helper-types';
+import { Complexity, QuestionUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export class QuestionUpdateDto extends Dto<QuestionUpdateType> implements QuestionUpdateType {

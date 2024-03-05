@@ -9,22 +9,30 @@ import {
 } from '@/modules/services/mongo/schedule/mongo-test-passing-time-check-schedule';
 import { HashService } from '@/modules/services/hash/hash.service';
 import { TestPassingModule } from '@/modules/api/v1/test-passing/test-passing.module';
+import { ErrorCallerService } from '@/modules/services/error/error-caller.service';
+import {
+    ErrorTypeConverter,
+} from '@/modules/services/error/error-type-converter.service';
 
 
 @Module({
-    imports  : [
+    imports: [
         MongoModelsModule,
     ],
     providers: [
         DtoValidatorService,
         MongoConverterService,
         HashService,
+        ErrorCallerService,
+        ErrorTypeConverter,
     ],
-    exports  : [
+    exports: [
         DtoValidatorService,
         MongoModelsModule,
         MongoConverterService,
         HashService,
+        ErrorCallerService,
+        ErrorTypeConverter,
     ],
 })
 export class ServicesModule {

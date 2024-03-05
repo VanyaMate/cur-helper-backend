@@ -1,6 +1,6 @@
-import { IConverter } from '@/domain/service.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
 import {
+    IConverter,
     TestChildrenWithResults,
     TestShortResult,
     TestShortType,

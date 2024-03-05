@@ -1,9 +1,9 @@
+import { Complexity } from '@vanyamate/cur-helper-types';
 import {
     ValidationArguments,
     ValidatorConstraint,
     ValidatorConstraintInterface,
 } from 'class-validator';
-import { Complexity } from '@/domain/enums';
 
 
 @ValidatorConstraint({ name: 'IsQuestionAnswers', async: false })

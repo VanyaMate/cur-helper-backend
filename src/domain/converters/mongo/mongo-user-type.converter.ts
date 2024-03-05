@@ -1,7 +1,6 @@
-import { IConverter } from '@/domain/service.types';
 import { UserDocument } from '@/db/mongoose/user/user.model';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
-import { UserType } from '@vanyamate/cur-helper-types';
+import { IConverter, UserType } from '@vanyamate/cur-helper-types';
 import { RoleType } from '@vanyamate/cur-helper-types';
 
 

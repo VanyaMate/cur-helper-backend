@@ -1,7 +1,5 @@
 import { Dto } from '@/domain/dto';
-import { Complexity } from '@/domain/enums';
 import {
-    IsArray,
     IsBoolean,
     IsNotEmpty,
     IsNumber,
@@ -11,7 +9,7 @@ import {
 import {
     IsQuestionComplexity,
 } from '@/domain/validators/class-validator/is-question-complexity.validator';
-import { QuestionCreateType } from '@vanyamate/cur-helper-types';
+import { Complexity, QuestionCreateType } from '@vanyamate/cur-helper-types';
 
 
 export class QuestionCreateDto extends Dto<QuestionCreateType> implements QuestionCreateType {

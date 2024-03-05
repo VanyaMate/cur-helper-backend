@@ -4,8 +4,8 @@ import {
 import { Model } from 'mongoose';
 import { UserDocument, UserModel } from '@/db/mongoose/user/user.model';
 import { IHashService } from '@/domain/services/hash/hash-service.interface';
-import { IConverter } from '@/domain/service.types';
 import {
+    IConverter,
     LoginDataType,
     RegistrationDataType,
     UserType,

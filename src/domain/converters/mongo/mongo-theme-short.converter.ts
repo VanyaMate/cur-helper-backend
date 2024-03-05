@@ -1,6 +1,5 @@
-import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { ThemeShortType } from '@vanyamate/cur-helper-types';
+import { IConverter, ThemeShortType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoThemeShortConverter implements IConverter<ThemeDocument, ThemeShortType> {

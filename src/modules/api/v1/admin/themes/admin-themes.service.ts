@@ -8,9 +8,12 @@ import {
 import {
     MongoAdminThemesService,
 } from '@/domain/services/admin/themes/implementations/mongo/mongo-admin-themes.service';
-import { Filter, Options } from '@/domain/service.types';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminThemeShortType, AdminThemeType } from '@vanyamate/cur-helper-types';
+import {
+    AdminThemeShortType,
+    AdminThemeType, Filter,
+    Options,
+} from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

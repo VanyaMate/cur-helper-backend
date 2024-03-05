@@ -1,11 +1,15 @@
-import { Filter, IConverter } from '@/domain/service.types';
 import { IUserService } from '@/domain/services/user/user-service.interface';
 import { FilterQuery, Model } from 'mongoose';
 import { UserDocument, UserModel } from '@/db/mongoose/user/user.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
 import { IHashService } from '@/domain/services/hash/hash-service.interface';
 import { RoleDocument, RoleModel } from '@/db/mongoose/role/role.model';
-import { UserCreateType, UserType } from '@vanyamate/cur-helper-types';
+import {
+    Filter,
+    IConverter,
+    UserCreateType,
+    UserType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoUserService implements IUserService {

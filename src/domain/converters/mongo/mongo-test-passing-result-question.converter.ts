@@ -1,18 +1,17 @@
-import { IConverter } from '@/domain/service.types';
 import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import { With } from '@/domain/types';
 import {
     TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import {
+    IConverter,
     QuestionAnswers,
     QuestionAnswerType,
     QuestionResult,
     QuestionSelect, QuestionThemes,
-    QuestionType, ThemeShortType,
+    QuestionType, ThemeShortType, With,
 } from '@vanyamate/cur-helper-types';
 
 

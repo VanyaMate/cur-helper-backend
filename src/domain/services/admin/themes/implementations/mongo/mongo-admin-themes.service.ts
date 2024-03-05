@@ -1,4 +1,3 @@
-import { IConverter } from '@/domain/service.types';
 import {
     IAdminThemesService,
 } from '@/domain/services/admin/themes/admin-themes-service.interface';
@@ -10,7 +9,7 @@ import {
     AdminQuestionShortType,
     AdminTestShortType,
     AdminThemeShortType,
-    Filter,
+    Filter, IConverter,
     MultiplyResponse,
     Options, ThemeType,
 } from '@vanyamate/cur-helper-types';

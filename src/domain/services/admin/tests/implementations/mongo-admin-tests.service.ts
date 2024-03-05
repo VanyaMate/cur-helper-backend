@@ -10,11 +10,10 @@ import {
     AdminTestThemeShort,
     AdminQuestionShortType,
     TestType,
-    AdminTestShortType,
+    AdminTestShortType, IConverter,
 } from '@vanyamate/cur-helper-types';
 import { FilterQuery, Model } from 'mongoose';
 import { TestDocument, TestModel } from '@/db/mongoose/test/test.model';
-import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';

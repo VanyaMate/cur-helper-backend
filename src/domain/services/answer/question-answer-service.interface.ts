@@ -1,8 +1,7 @@
-import { ICRUD } from '@/domain/service.types';
 import {
     QuestionAnswerType,
     QuestionAnswerCreateType,
-    QuestionAnswerUpdateType,
+    QuestionAnswerUpdateType, ICRUD,
 } from '@vanyamate/cur-helper-types';
 
 

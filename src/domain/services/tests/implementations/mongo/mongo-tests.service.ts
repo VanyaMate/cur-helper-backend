@@ -8,7 +8,6 @@ import {
     TestPassingDocument,
     TestPassingModel,
 } from '@/db/mongoose/test-passing/test-passing.model';
-import { IConverter } from '@/domain/service.types';
 import {
     TestPassingShortInfo,
     ThemeShortType,
@@ -16,7 +15,7 @@ import {
     TestType,
     TestShortResult,
     TestQuestionsThemesShort,
-    TestThemeShort,
+    TestThemeShort, IConverter,
 } from '@vanyamate/cur-helper-types';
 
 

@@ -1,5 +1,5 @@
-import { ICRUD } from '@/domain/service.types';
 import {
+    ICRUD,
     QuestionCreateType,
     QuestionType,
     QuestionUpdateType,

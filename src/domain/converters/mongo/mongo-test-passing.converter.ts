@@ -1,8 +1,7 @@
-import { IConverter } from '@/domain/service.types';
 import {
     TestPassingDocument,
 } from '@/db/mongoose/test-passing/test-passing.model';
-import { TestPassingType } from '@vanyamate/cur-helper-types';
+import { IConverter, TestPassingType } from '@vanyamate/cur-helper-types';
 
 
 export class MongoTestPassingConverter implements IConverter<TestPassingDocument, TestPassingType> {

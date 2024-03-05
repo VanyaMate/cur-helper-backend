@@ -23,10 +23,10 @@ import {
 import {
     GetTestPassingResult,
 } from '@/domain/converters/test-passing-result/test-passing-result.types';
-import { IConverter } from '@/domain/service.types';
 import { UserDocument } from '@/db/mongoose/user/user.model';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import {
+    IConverter,
     TestPassingProcess,
     TestPassingResult,
     TestPassingResults, TestPassingTestShort, TestPassingThemes,

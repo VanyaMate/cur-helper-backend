@@ -1,8 +1,7 @@
-import { With } from '@/domain/types';
 import {
     TestPassingProcess,
     TestPassingResults, TestPassingTestShort, TestPassingThemes,
-    TestPassingType, TestPassingUserShort,
+    TestPassingType, TestPassingUserShort, With,
 } from '@vanyamate/cur-helper-types';
 
 

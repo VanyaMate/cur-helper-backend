@@ -1,5 +1,4 @@
-import { ICRUD } from '@/domain/service.types';
-import { UserCreateType, UserType, UserUpdateType } from '@vanyamate/cur-helper-types';
+import { ICRUD, UserCreateType, UserType, UserUpdateType } from '@vanyamate/cur-helper-types';
 
 
 export interface IUserService extends ICRUD<UserType, UserCreateType, UserUpdateType, string> {

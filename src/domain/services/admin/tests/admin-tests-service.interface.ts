@@ -1,8 +1,7 @@
-import { With } from '@/domain/types';
 import {
     AdminTestQuestionsShort, AdminTestShortType, AdminTestThemeShort,
     Filter,
-    MultiplyResponse, Options, TestType,
+    MultiplyResponse, Options, TestType, With,
 } from '@vanyamate/cur-helper-types';
 
 

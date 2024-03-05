@@ -8,47 +8,24 @@ import {
 } from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
 import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
+import { ErrorCallerService } from '@/modules/services/error/error-caller.service';
 
 
 @Injectable()
-export class ThemesService {
-    private readonly _themesService: IThemesService;
-
+export class ThemesService extends MongoPublicThemesService {
     constructor (
-        @InjectModel('ThemeModel') private readonly _mongoThemeRepository: Model<ThemeModel>,
-        @InjectModel('TestPassingModel') private readonly _testPassingModel: Model<TestPassingModel>,
-        private readonly _mongoConverter: MongoConverterService,
+        @InjectModel('ThemeModel') readonly mongoThemeRepository: Model<ThemeModel>,
+        @InjectModel('TestPassingModel') readonly testPassingModel: Model<TestPassingModel>,
+        readonly mongoConverter: MongoConverterService,
+        readonly errorCaller: ErrorCallerService,
     ) {
-        this._themesService = new MongoPublicThemesService(
-            this._mongoThemeRepository,
-            this._testPassingModel,
-            this._mongoConverter.themeFull,
-            this._mongoConverter.themeChildren,
-            this._mongoConverter.themeRecursive,
+        super(
+            errorCaller,
+            mongoThemeRepository,
+            testPassingModel,
+            mongoConverter.themeFull,
+            mongoConverter.themeChildren,
+            mongoConverter.themeRecursive,
         );
-    }
-
-    async getFullDataByPublicId (publicId: string, userId?: string) {
-        try {
-            return await this._themesService.getThemeFullDataByPublicId(publicId, userId);
-        } catch (e) {
-            throw new HttpException(e, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    async getListById (publicId: string) {
-        try {
-            return await this._themesService.getThemeListById(publicId);
-        } catch (e) {
-            throw new HttpException(e, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    async getList () {
-        try {
-            return await this._themesService.getThemesList();
-        } catch (e) {
-            throw new HttpException(e, HttpStatus.BAD_REQUEST);
-        }
     }
 }

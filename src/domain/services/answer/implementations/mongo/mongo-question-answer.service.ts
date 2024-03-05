@@ -1,8 +1,8 @@
-import { Filter } from '@/domain/service.types';
 import {
     IQuestionAnswerService,
 } from '@/domain/services/answer/question-answer-service.interface';
 import {
+    Filter,
     IConverter,
     QuestionAnswerCreateType,
     QuestionAnswerType,

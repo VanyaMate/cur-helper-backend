@@ -1,9 +1,12 @@
-import { IConverter } from '@/domain/service.types';
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
-import { QuestionAnswerType, QuestionType } from '@vanyamate/cur-helper-types';
+import {
+    IConverter,
+    QuestionAnswerType,
+    QuestionType,
+} from '@vanyamate/cur-helper-types';
 
 
 export class MongoQuestionConverter implements IConverter<QuestionDocument, QuestionType> {

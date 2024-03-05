@@ -1,5 +1,5 @@
-import { Filter, IConverter } from '@/domain/service.types';
 import { FilterQuery } from 'mongoose';
+import { Filter, IConverter } from '@vanyamate/cur-helper-types';
 
 
 export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery<any>> {

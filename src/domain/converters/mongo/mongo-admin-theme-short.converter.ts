@@ -1,6 +1,5 @@
-import { IConverter } from '@/domain/service.types';
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { AdminThemeShortType } from '@vanyamate/cur-helper-types';
+import { AdminThemeShortType, IConverter } from '@vanyamate/cur-helper-types';
 
 
 export class MongoAdminThemeShortConverter implements IConverter<ThemeDocument, AdminThemeShortType> {

@@ -2,36 +2,38 @@ import {
     ExceptionFilter,
     Catch,
     ArgumentsHost,
-    HttpException,
     HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { NOT_FOUND } from '@/domain/exceptions/errors';
+import { Response } from 'express';
+import { ErrorMessageType } from '@vanyamate/cur-helper-types';
+import {
+    ErrorTypeConverter,
+} from '@/modules/services/error/error-type-converter.service';
 
 
-@Catch(HttpException)
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-    catch (exception: HttpException, host: ArgumentsHost) {
-        const ctx          = host.switchToHttp();
-        const response     = ctx.getResponse<Response>();
-        const request      = ctx.getRequest<Request>();
-        const message      = exception.getResponse();
-        let status: number = HttpStatus.BAD_REQUEST;
+    constructor (
+        private readonly _errorTypeConverter: ErrorTypeConverter,
+    ) {
+    }
 
-        switch (message) {
-            case NOT_FOUND:
-                status = HttpStatus.NOT_FOUND;
-                break;
-            default:
+    catch (exception: ErrorMessageType, host: ArgumentsHost) {
+        const ctx      = host.switchToHttp();
+        const response = ctx.getResponse<Response>();
+        if (exception.messages && exception.code) {
+            const code: HttpStatus = this._errorTypeConverter.to(exception.code);
+            response
+                .status(code)
+                .json({
+                    messages: exception.messages,
+                });
+        } else {
+            response
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .json({
+                    message: 'INTERNAL_SERVER_ERROR',
+                });
         }
-
-        response
-            .status(status)
-            .json({
-                statusCode: status,
-                message   : message ? (message['message'] ?? message) : message,
-                timestamp : new Date().toISOString(),
-                path      : request.url,
-            });
     }
 }

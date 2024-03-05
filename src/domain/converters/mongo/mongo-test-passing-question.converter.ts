@@ -1,16 +1,15 @@
-import { IConverter } from '@/domain/service.types';
 import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import { With } from '@/domain/types';
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
 import {
+    IConverter,
     QuestionAnswers,
     QuestionAnswerType,
     QuestionSelect,
-    QuestionType,
+    QuestionType, With,
 } from '@vanyamate/cur-helper-types';
 
 

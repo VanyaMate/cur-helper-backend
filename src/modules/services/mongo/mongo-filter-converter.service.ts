@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Filter, IConverter } from '@/domain/service.types';
 import { FilterQuery } from 'mongoose';
 import {
     MongoFilterConverter,
 } from '@/domain/converters/mongo/mongo-filter.converter';
+import { Filter, IConverter } from '@vanyamate/cur-helper-types';
 
 
 @Injectable()

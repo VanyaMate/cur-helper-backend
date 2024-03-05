@@ -1,18 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { Complexity } from '@/domain/enums';
+import { HydratedDocument } from 'mongoose';
 import {
     QuestionAnswerDocument,
-    QuestionAnswerModel,
 } from '@/db/mongoose/question-answer/question-answer.model';
 import {
     QuestionToTestDocument,
-    QuestionToTestModel,
 } from '@/db/mongoose/question-to-test/question-to-test.model';
 import {
     QuestionToThemeDocument,
-    QuestionToThemeModel,
 } from '@/db/mongoose/question-to-theme/question-to-theme.model';
+import { Complexity } from '@vanyamate/cur-helper-types';
 
 
 @Schema({

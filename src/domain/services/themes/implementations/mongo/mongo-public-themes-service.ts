@@ -1,7 +1,6 @@
 import { IThemesService } from '@/domain/services/themes/themes-service.interface';
 import { Model } from 'mongoose';
 import { ThemeDocument, ThemeModel } from '@/db/mongoose/theme/theme.model';
-import { IConverter } from '@/domain/service.types';
 import { TestDocument } from '@/db/mongoose/test/test.model';
 import { NOT_FOUND } from '@/domain/exceptions/errors';
 import { ObjectId } from 'mongodb';
@@ -10,6 +9,7 @@ import {
     TestPassingModel,
 } from '@/db/mongoose/test-passing/test-passing.model';
 import {
+    IConverter, IErrorCaller,
     ThemeChildrenType, ThemeFullType, ThemeRecursiveType,
 } from '@vanyamate/cur-helper-types';
 import {
@@ -30,6 +30,7 @@ export type LatestTestResultType = {
 
 export class MongoPublicThemesService implements IThemesService {
     constructor (
+        private readonly _errorCaller: IErrorCaller,
         private readonly _themeRepository: Model<ThemeModel>,
         private readonly _testPassingRepository: Model<TestPassingModel>,
         private readonly _themeFullConverter: IConverter<ThemeFullTypeConverterDocumentsType, ThemeFullType>,
@@ -47,6 +48,10 @@ export class MongoPublicThemesService implements IThemesService {
             this._getPrevThemeOf(publicId),
         ]);
 
+        if (!theme) {
+            throw this._errorCaller.notFound(`Тема ${ publicId } не найдена`);
+        }
+
         const latestTestResults = await this._getLatestResultOfTest(theme.tests, userId);
 
         return this._themeFullConverter.to({
@@ -62,7 +67,7 @@ export class MongoPublicThemesService implements IThemesService {
         const theme: ThemeDocument | null = children.find((child) => child.publicId === publicId);
 
         if (!children.length || !theme) {
-            throw NOT_FOUND;
+            throw this._errorCaller.notFound(`Тема ${ publicId } не найдена`);
         }
 
         return this._themeChildrenConverter.to({ children, theme, breadcrumb });
