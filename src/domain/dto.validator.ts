@@ -1,4 +1,5 @@
 import { validate, ValidationError } from 'class-validator';
+import { IErrorCaller } from '@vanyamate/cur-helper-types';
 
 
 export interface IValidator {
@@ -6,16 +7,20 @@ export interface IValidator {
 }
 
 export class DtoValidator implements IValidator {
+    constructor (
+        private readonly _errorCaller: IErrorCaller,
+    ) {
+    }
+
     async validate<DtoType extends object> (data: DtoType): Promise<boolean> {
-        try {
-            const errors: ValidationError[] = await validate(data);
-            if (errors.length) {
-                throw errors;
-            } else {
-                return true;
-            }
-        } catch (e) {
-            throw e;
+        const errors: ValidationError[] = await validate(data);
+        if (errors.length) {
+            throw this._errorCaller.noValidData(errors.map((error) => ({
+                target  : error.property,
+                messages: Object.keys(error.constraints).map((key) => error.constraints[key]),
+            })));
+        } else {
+            return true;
         }
     }
 }
