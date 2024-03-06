@@ -1,8 +1,11 @@
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
 import { IConverter, ThemeShortType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoThemeShortConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoThemeShortConverter implements IConverter<ThemeDocument, ThemeShortType> {
+export class MongoThemeShortConverter implements IMongoThemeShortConverter {
     to (from: ThemeDocument): ThemeShortType {
         return {
             publicId   : from.publicId,

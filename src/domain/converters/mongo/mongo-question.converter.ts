@@ -1,18 +1,13 @@
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
 import {
-    QuestionAnswerDocument,
-} from '@/db/mongoose/question-answer/question-answer.model';
-import {
-    IConverter,
-    QuestionAnswerType,
     QuestionType,
 } from '@vanyamate/cur-helper-types';
+import {
+    IMongoQuestionConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoQuestionConverter implements IConverter<QuestionDocument, QuestionType> {
-    constructor (private readonly _mongoQuestionAnswerConverter: IConverter<QuestionAnswerDocument, QuestionAnswerType>) {
-    }
-
+export class MongoQuestionConverter implements IMongoQuestionConverter {
     to (from: QuestionDocument): QuestionType {
         return {
             id         : from._id.toString(),

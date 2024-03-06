@@ -4,6 +4,9 @@ import {
     ThemeRecursiveChildren,
     ThemeShortType,
 } from '@vanyamate/cur-helper-types';
+import {
+    IMongoThemeRecursiveChildrenConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
 export type ThemeChildrenConverterType = {
@@ -11,7 +14,7 @@ export type ThemeChildrenConverterType = {
     children: ThemeDocument[];
 }
 
-export class MongoThemeRecursiveChildrenConverter implements IConverter<ThemeChildrenConverterType, ThemeRecursiveChildren> {
+export class MongoThemeRecursiveChildrenConverter implements IMongoThemeRecursiveChildrenConverter {
     constructor (private readonly _themeShortConverter: IConverter<ThemeDocument, ThemeShortType>) {
     }
 

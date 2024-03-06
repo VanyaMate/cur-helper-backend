@@ -1,8 +1,9 @@
 import { FilterQuery } from 'mongoose';
-import { Filter, IConverter } from '@vanyamate/cur-helper-types';
+import { Filter } from '@vanyamate/cur-helper-types';
+import { IMongoFilterConverter } from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoFilterConverter implements IConverter<Filter<any>, FilterQuery<any>> {
+export class MongoFilterConverter implements IMongoFilterConverter {
     to (from: Filter<any>): FilterQuery<any> {
         const filter: FilterQuery<any> = {};
 

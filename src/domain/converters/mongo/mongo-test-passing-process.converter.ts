@@ -2,19 +2,16 @@ import {
     TestPassingDocument,
 } from '@/db/mongoose/test-passing/test-passing.model';
 import {
-    TestPassingQuestionDocument,
-} from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import {
-    IConverter,
-    QuestionAnswers,
-    QuestionSelect,
-    QuestionType, TestPassingProcess, With,
+    TestPassingProcess,
 } from '@vanyamate/cur-helper-types';
+import {
+    IMongoQuestionConverter, IMongoTestPassingProcessConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestPassingProcessConverter implements IConverter<TestPassingDocument, TestPassingProcess> {
+export class MongoTestPassingProcessConverter implements IMongoTestPassingProcessConverter {
     constructor (
-        private readonly _questionConverter: IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionAnswers ]>>,
+        private readonly _questionConverter: IMongoQuestionConverter,
     ) {
     }
 

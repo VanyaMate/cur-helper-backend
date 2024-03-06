@@ -1,8 +1,9 @@
 import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import { IConverter, ThemeType } from '@vanyamate/cur-helper-types';
+import { ThemeType } from '@vanyamate/cur-helper-types';
+import { IMongoThemeConverter } from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoThemeConverter implements IConverter<ThemeDocument, ThemeType> {
+export class MongoThemeConverter implements IMongoThemeConverter {
     to (from: ThemeDocument): ThemeType {
         return {
             id         : from._id.toString(),

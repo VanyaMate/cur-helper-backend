@@ -10,9 +10,9 @@ import {
     QuestionShortType,
     QuestionThemes,
     QuestionType,
-    RoleType, TestPassingProcess, TestPassingResults,
+    RoleType, TestFullType, TestListType, TestPassingProcess, TestPassingResults,
     TestPassingShortInfo,
-    TestPassingType,
+    TestPassingType, TestShortResult,
     TestShortType,
     TestType, ThemeChildrenType, ThemeFullType,
     ThemeRecursiveChildren, ThemeRecursiveType,
@@ -49,7 +49,26 @@ import {
 import {
     ThemeListByIdConverterDocumentsType,
 } from '@/domain/converters/mongo/composite/theme/mongo-theme-children.converter';
+import {
+    LatestTestResultType,
+} from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
 
+
+export type MongoTestWithLatestResultsDataType = {
+    tests: TestDocument[];
+    latestResults: LatestTestResultType[];
+}
+
+export type MongoTestListDataType = {
+    themes: ThemeDocument[],
+    latestTestResults: LatestTestResultType[];
+}
+
+export type MongoTestFullDataType = {
+    test: TestDocument,
+    testPassing: TestPassingDocument | null,
+    themes: Map<string, ThemeDocument>,
+}
 
 export type IMongoFilterConverter = IConverter<Filter<any>, FilterQuery<any>>;
 export type IMongoThemeConverter = IConverter<ThemeDocument, ThemeType>;
@@ -76,3 +95,6 @@ export type IMongoTestResultQuestionAnswerConverter = IConverter<TestPassingResu
 export type IMongoAdminThemeShortConverter = IConverter<ThemeDocument, AdminThemeShortType>;
 export type IMongoAdminTestShortConverter = IConverter<TestDocument, AdminTestShortType>;
 export type IMongoAdminQuestionShortConverter = IConverter<QuestionDocument, AdminQuestionShortType>;
+export type IMongoTestWithLatestResultsConverter = IConverter<MongoTestWithLatestResultsDataType, With<TestType, [ TestShortResult ]>[]>
+export type IMongoTestListConverter = IConverter<MongoTestListDataType, TestListType[]>;
+export type IMongoTestFullDataConverter = IConverter<MongoTestFullDataType, TestFullType>;

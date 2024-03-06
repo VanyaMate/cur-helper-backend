@@ -1,7 +1,10 @@
 import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
-import { IConverter, QuestionAnswerType } from '@vanyamate/cur-helper-types';
+import { QuestionAnswerType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoTestResultQuestionAnswerConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
 export type TestPassingResultQuestionAnswerProps = {
@@ -9,7 +12,7 @@ export type TestPassingResultQuestionAnswerProps = {
     answer: QuestionAnswerDocument;
 }
 
-export class MongoTestPassingResultQuestionAnswerConverter implements IConverter<TestPassingResultQuestionAnswerProps, QuestionAnswerType> {
+export class MongoTestPassingResultQuestionAnswerConverter implements IMongoTestResultQuestionAnswerConverter {
     to (from: TestPassingResultQuestionAnswerProps): QuestionAnswerType {
         const selected: boolean = from.answer._id.toString() === from.selectedId;
 

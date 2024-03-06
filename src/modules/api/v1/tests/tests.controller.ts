@@ -13,7 +13,7 @@ export class TestsController {
         @Param('id') id: string,
         @Req() request: Request,
     ) {
-        return this._testsService.getById(id, request['user-jwt-data']?.userId);
+        return this._testsService.getOneTestByIds(id, request['user-jwt-data']?.userId);
     }
 
     @Get('/theme/:themeId')
@@ -21,7 +21,7 @@ export class TestsController {
         @Param('themeId') themeId: string,
         @Req() request: Request,
     ) {
-        return this._testsService.getListById(themeId ?? '', request['user-jwt-data']?.userId);
+        return this._testsService.getTestListByThemeId(themeId ?? '', request['user-jwt-data']?.userId);
     }
 
 
@@ -29,6 +29,6 @@ export class TestsController {
     getList (
         @Req() request: Request,
     ) {
-        return this._testsService.getListById('', request['user-jwt-data']?.userId);
+        return this._testsService.getTestListByThemeId('', request['user-jwt-data']?.userId);
     }
 }

@@ -1,8 +1,11 @@
 import { QuestionDocument } from '@/db/mongoose/question/question.model';
-import { AdminQuestionShortType, IConverter } from '@vanyamate/cur-helper-types';
+import { AdminQuestionShortType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoAdminQuestionShortConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoAdminQuestionShortConverter implements IConverter<QuestionDocument, AdminQuestionShortType> {
+export class MongoAdminQuestionShortConverter implements IMongoAdminQuestionShortConverter {
     to (from: QuestionDocument): AdminQuestionShortType {
         return {
             id         : from._id.toString(),

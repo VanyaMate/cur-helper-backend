@@ -2,23 +2,21 @@ import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import {
-    TestPassingResultQuestionAnswerProps,
-} from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
-import { ThemeDocument } from '@/db/mongoose/theme/theme.model';
-import {
-    IConverter,
     QuestionAnswers,
-    QuestionAnswerType,
     QuestionResult,
     QuestionSelect, QuestionThemes,
-    QuestionType, ThemeShortType, With,
+    QuestionType,
 } from '@vanyamate/cur-helper-types';
+import {
+    IMongoTestResultQuestionAnswerConverter,
+    IMongoTestResultQuestionConverter, IMongoThemeShortConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestPassingResultQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes, QuestionAnswers ]>> {
+export class MongoTestPassingResultQuestionConverter implements IMongoTestResultQuestionConverter {
     constructor (
-        private readonly _answerConverter: IConverter<TestPassingResultQuestionAnswerProps, QuestionAnswerType>,
-        private readonly _themeShortConverter: IConverter<ThemeDocument, ThemeShortType>,
+        private readonly _answerConverter: IMongoTestResultQuestionAnswerConverter,
+        private readonly _themeShortConverter: IMongoThemeShortConverter,
     ) {
     }
 

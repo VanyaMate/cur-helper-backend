@@ -2,9 +2,10 @@ import { UserDocument } from '@/db/mongoose/user/user.model';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
 import { IConverter, UserType } from '@vanyamate/cur-helper-types';
 import { RoleType } from '@vanyamate/cur-helper-types';
+import { IMongoUserConverter } from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoUserTypeConverter implements IConverter<UserDocument, UserType> {
+export class MongoUserTypeConverter implements IMongoUserConverter {
     constructor (
         private readonly _roleConverter: IConverter<RoleDocument, RoleType>,
     ) {

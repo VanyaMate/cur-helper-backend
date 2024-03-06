@@ -75,6 +75,8 @@ import {
     IMongoThemeRecursiveConverter,
     IMongoThemeFullConverter,
     IMongoThemeChildrenConverter,
+    IMongoTestWithLatestResultsConverter,
+    IMongoTestListConverter, IMongoTestFullDataConverter,
 } from '@/domain/converters/mongo/mongo-converters.types';
 import {
     MongoAdminThemeShortConverter,
@@ -100,6 +102,15 @@ import {
 import {
     MongoThemeFullTypeConverter,
 } from '@/domain/converters/mongo/composite/theme/mongo-theme-full-type.converter';
+import {
+    MongoTestWithLatestResultConverter,
+} from '@/domain/converters/mongo/test/mongo-test-with-latest-result.converter';
+import {
+    MongoTestListConverter,
+} from '@/domain/converters/mongo/composite/test/mongo-test-list.converter';
+import {
+    MongoTestFullDataConvertert,
+} from '@/domain/converters/mongo/composite/test/mongo-test-full-data.convertert';
 
 
 @Injectable()
@@ -129,32 +140,40 @@ export class MongoConverterService {
     public readonly adminThemeShort: IMongoAdminThemeShortConverter;
     public readonly adminTestShort: IMongoAdminTestShortConverter;
     public readonly adminQuestionShort: IMongoAdminQuestionShortConverter;
+    public readonly testWithLatestResults: IMongoTestWithLatestResultsConverter;
+    public readonly testList: IMongoTestListConverter;
+    public readonly testFullData: IMongoTestFullDataConverter;
 
     constructor () {
-        this.filter                   = new MongoFilterConverter();
+        this.filter = new MongoFilterConverter();
+
         this.theme                    = new MongoThemeConverter();
         this.themeShort               = new MongoThemeShortConverter();
         this.test                     = new MongoTestConverter();
         this.testShort                = new MongoTestShortConverter();
-        this.questionAnswerPassing    = new MongoTestPassingQuestionAnswerConverter();
         this.questionAnswer           = new MongoQuestionAnswerConverter();
-        this.question                 = new MongoQuestionConverter(this.questionAnswer);
+        this.questionAnswerPassing    = new MongoTestPassingQuestionAnswerConverter();
+        this.question                 = new MongoQuestionConverter();
         this.questionShort            = new MongoQuestionShortConverter();
-        this.questionPassing          = new MongoTestPassingQuestionConverter(this.questionAnswerPassing);
-        this.themeRecursiveChildren   = new MongoThemeRecursiveChildrenConverter(this.themeShort);
-        this.themeChildren            = new MongoThemeChildrenConverter(this.themeShort, this.themeRecursiveChildren);
-        this.themeRecursive           = new MongoThemeRecursiveConverter(this.themeShort, this.themeRecursiveChildren);
-        this.role                     = new MongoRoleConverter();
-        this.user                     = new MongoUserTypeConverter(this.role);
-        this.testPassingShort         = new MongoTestPassingShortConverter(getTestPassingResult);
-        this.testPassing              = new MongoTestPassingConverter();
-        this.testPassingProcess       = new MongoTestPassingProcessConverter(this.questionPassing);
         this.testResultQuestionAnswer = new MongoTestPassingResultQuestionAnswerConverter();
-        this.testResultQuestion       = new MongoTestPassingResultQuestionConverter(this.testResultQuestionAnswer, this.themeShort);
-        this.testResult               = new MongoTestPassingResultConverter(getTestPassingResult, this.testResultQuestion);
-        this.themeFull                = new MongoThemeFullTypeConverter(this.test, this.theme, this.themeShort, this.testPassingShort);
         this.adminThemeShort          = new MongoAdminThemeShortConverter();
         this.adminTestShort           = new MongoAdminTestShortConverter();
+        this.role                     = new MongoRoleConverter();
         this.adminQuestionShort       = new MongoAdminQuestionShortConverter();
+        this.testPassing              = new MongoTestPassingConverter();
+
+        this.themeRecursiveChildren = new MongoThemeRecursiveChildrenConverter(this.themeShort);
+        this.themeChildren          = new MongoThemeChildrenConverter(this.themeShort, this.themeRecursiveChildren);
+        this.themeRecursive         = new MongoThemeRecursiveConverter(this.themeShort, this.themeRecursiveChildren);
+        this.testPassingShort       = new MongoTestPassingShortConverter(getTestPassingResult);
+        this.themeFull              = new MongoThemeFullTypeConverter(this.test, this.theme, this.themeShort, this.testPassingShort);
+        this.testFullData           = new MongoTestFullDataConvertert(this.test, this.themeShort, this.testPassingShort);
+        this.testList               = new MongoTestListConverter(this.themeShort, this.test, this.testPassingShort);
+        this.testPassingProcess     = new MongoTestPassingProcessConverter(this.question);
+        this.testResultQuestion     = new MongoTestPassingResultQuestionConverter(this.testResultQuestionAnswer, this.themeShort);
+        this.testResult             = new MongoTestPassingResultConverter(this.testResultQuestion);
+        this.testWithLatestResults  = new MongoTestWithLatestResultConverter(this.test, this.testPassingShort);
+        this.questionPassing        = new MongoTestPassingQuestionConverter(this.questionAnswerPassing);
+        this.user                   = new MongoUserTypeConverter(this.role);
     }
 }

@@ -16,41 +16,25 @@ import {
     TestType,
     With,
 } from '@vanyamate/cur-helper-types';
+import { ErrorCallerService } from '@/modules/services/error/error-caller.service';
 
 
 @Injectable()
-export class TestsService {
-    private readonly _testsService: ITestsService;
-
+export class TestsService extends MongoTestsService {
     constructor (
-        @InjectModel('ThemeModel') private readonly _themeRepository: Model<ThemeModel>,
-        @InjectModel('TestModel') private readonly _testRepository: Model<TestModel>,
-        @InjectModel('TestPassingModel') private readonly _testPassingRepository: Model<TestPassingModel>,
-        private readonly _converter: MongoConverterService,
+        @InjectModel('ThemeModel') readonly themeRepository: Model<ThemeModel>,
+        @InjectModel('TestModel') readonly testRepository: Model<TestModel>,
+        @InjectModel('TestPassingModel') readonly testPassingRepository: Model<TestPassingModel>,
+        readonly converter: MongoConverterService,
+        readonly errorCaller: ErrorCallerService,
     ) {
-        this._testsService = new MongoTestsService(
-            this._themeRepository,
-            this._testRepository,
-            this._testPassingRepository,
-            this._converter.test,
-            this._converter.testPassingShort,
-            this._converter.themeShort,
+        super(
+            errorCaller,
+            themeRepository,
+            testRepository,
+            testPassingRepository,
+            converter.testList,
+            converter.testFullData,
         );
-    }
-
-    async getById (testId: string, userId?: string): Promise<With<TestType, [ TestShortResult, TestThemeShort, TestQuestionsThemesShort ]>> {
-        try {
-            return await this._testsService.getOneTestByIds(testId, userId);
-        } catch (e) {
-            throw new HttpException(e, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    async getListById (themeId: string, userId?: string) {
-        try {
-            return await this._testsService.getTestListByThemeId(themeId, userId);
-        } catch (e) {
-            throw new HttpException(e, HttpStatus.BAD_REQUEST);
-        }
     }
 }

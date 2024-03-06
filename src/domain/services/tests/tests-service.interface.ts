@@ -1,13 +1,8 @@
-import {
-    TestQuestionsThemesShort,
-    TestShortResult, TestThemeShort,
-    TestType, ThemeShortType,
-    ThemeTestsWithShortResults, With,
-} from '@vanyamate/cur-helper-types';
+import { TestFullType, TestListType } from '@vanyamate/cur-helper-types';
 
 
 export interface ITestsService {
-    getOneTestByIds (testId: string, userId?: string): Promise<With<TestType, [ TestShortResult, TestThemeShort, TestQuestionsThemesShort ]>>;
+    getOneTestByIds (testId: string, userId?: string): Promise<TestFullType>;
 
-    getTestListByThemeId (themeId: string, userId?: string): Promise<With<ThemeShortType, [ ThemeTestsWithShortResults ]>[]>;
+    getTestListByThemeId (themeId: string, userId?: string): Promise<TestListType[]>;
 }

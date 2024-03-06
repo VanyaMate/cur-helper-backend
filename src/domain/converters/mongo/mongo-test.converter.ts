@@ -1,8 +1,9 @@
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { IConverter, TestType } from '@vanyamate/cur-helper-types';
+import { TestType } from '@vanyamate/cur-helper-types';
+import { IMongoTestConverter } from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestConverter implements IConverter<TestDocument, TestType> {
+export class MongoTestConverter implements IMongoTestConverter {
     to (from: TestDocument): TestType {
         return {
             id                 : from._id.toString(),

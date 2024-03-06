@@ -2,20 +2,19 @@ import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
 import {
-    QuestionAnswerDocument,
-} from '@/db/mongoose/question-answer/question-answer.model';
-import {
-    IConverter,
     QuestionAnswers,
-    QuestionAnswerType,
     QuestionSelect,
-    QuestionType, With,
+    QuestionType,
 } from '@vanyamate/cur-helper-types';
+import {
+    IMongoQuestionAnswerPassingConverter,
+    IMongoQuestionPassingConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestPassingQuestionConverter implements IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionAnswers ]>> {
+export class MongoTestPassingQuestionConverter implements IMongoQuestionPassingConverter {
     constructor (
-        private readonly _testPassingAnswerConverter: IConverter<QuestionAnswerDocument, QuestionAnswerType>,
+        private readonly _testPassingAnswerConverter: IMongoQuestionAnswerPassingConverter,
     ) {
     }
 
@@ -33,7 +32,7 @@ export class MongoTestPassingQuestionConverter implements IConverter<TestPassing
         };
     }
 
-    from (to: QuestionSelect & QuestionType): TestPassingQuestionDocument {
+    from (to: QuestionSelect & QuestionType & QuestionAnswers): TestPassingQuestionDocument {
         throw new Error('Method not implemented.');
     }
 }

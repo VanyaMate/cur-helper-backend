@@ -1,8 +1,11 @@
 import { TestDocument } from '@/db/mongoose/test/test.model';
-import { AdminTestShortType, IConverter } from '@vanyamate/cur-helper-types';
+import { AdminTestShortType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoAdminTestShortConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoAdminTestShortConverter implements IConverter<TestDocument, AdminTestShortType> {
+export class MongoAdminTestShortConverter implements IMongoAdminTestShortConverter {
     to (from: TestDocument): AdminTestShortType {
         return {
             id     : from._id.toString(),

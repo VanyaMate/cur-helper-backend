@@ -2,9 +2,13 @@ import {
     QuestionAnswerDocument,
 } from '@/db/mongoose/question-answer/question-answer.model';
 import { IConverter, QuestionAnswerType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoQuestionAnswerPassingConverter,
+    IMongoTestPassingConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestPassingQuestionAnswerConverter implements IConverter<QuestionAnswerDocument, QuestionAnswerType> {
+export class MongoTestPassingQuestionAnswerConverter implements IMongoQuestionAnswerPassingConverter {
     to (from: QuestionAnswerDocument): QuestionAnswerType {
         return {
             id         : from._id.toString(),

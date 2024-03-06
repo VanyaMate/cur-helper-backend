@@ -1,10 +1,13 @@
 import {
     TestPassingDocument,
 } from '@/db/mongoose/test-passing/test-passing.model';
-import { IConverter, TestPassingType } from '@vanyamate/cur-helper-types';
+import { TestPassingType } from '@vanyamate/cur-helper-types';
+import {
+    IMongoTestPassingConverter,
+} from '@/domain/converters/mongo/mongo-converters.types';
 
 
-export class MongoTestPassingConverter implements IConverter<TestPassingDocument, TestPassingType> {
+export class MongoTestPassingConverter implements IMongoTestPassingConverter {
     to (from: TestPassingDocument): TestPassingType {
         return {
             id       : from._id.toString(),
