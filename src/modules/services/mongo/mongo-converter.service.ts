@@ -169,11 +169,11 @@ export class MongoConverterService {
         this.themeFull              = new MongoThemeFullTypeConverter(this.test, this.theme, this.themeShort, this.testPassingShort);
         this.testFullData           = new MongoTestFullDataConvertert(this.test, this.themeShort, this.testPassingShort);
         this.testList               = new MongoTestListConverter(this.themeShort, this.test, this.testPassingShort);
-        this.testPassingProcess     = new MongoTestPassingProcessConverter(this.question);
+        this.questionPassing        = new MongoTestPassingQuestionConverter(this.questionAnswerPassing);
+        this.testPassingProcess     = new MongoTestPassingProcessConverter(this.questionPassing);
         this.testResultQuestion     = new MongoTestPassingResultQuestionConverter(this.testResultQuestionAnswer, this.themeShort);
         this.testResult             = new MongoTestPassingResultConverter(this.testResultQuestion);
         this.testWithLatestResults  = new MongoTestWithLatestResultConverter(this.test, this.testPassingShort);
-        this.questionPassing        = new MongoTestPassingQuestionConverter(this.questionAnswerPassing);
         this.user                   = new MongoUserTypeConverter(this.role);
     }
 }

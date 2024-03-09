@@ -5,13 +5,14 @@ import {
     TestPassingProcess,
 } from '@vanyamate/cur-helper-types';
 import {
-    IMongoQuestionConverter, IMongoTestPassingProcessConverter,
+    IMongoQuestionPassingConverter,
+    IMongoTestPassingProcessConverter,
 } from '@/domain/converters/mongo/mongo-converters.types';
 
 
 export class MongoTestPassingProcessConverter implements IMongoTestPassingProcessConverter {
     constructor (
-        private readonly _questionConverter: IMongoQuestionConverter,
+        private readonly _questionConverter: IMongoQuestionPassingConverter,
     ) {
     }
 
