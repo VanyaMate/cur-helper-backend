@@ -68,7 +68,7 @@ export class MongoAdminThemesService implements IAdminThemesService {
                 },
             }),
         ]);
-
+        
         return {
             options: options,
             count  : count,
