@@ -51,4 +51,8 @@ export class AdminQuestionsService {
     public async findManyUnlinkedForTest (testId: string) {
         return this._adminQuestionService.findManyUnlinkedForTest(testId, {}, {});
     }
+
+    public async findManyUnlinkedForTheme (themeId: string) {
+        return this._adminQuestionService.findManyUnlinkedForTheme(themeId, {}, {});
+    }
 }

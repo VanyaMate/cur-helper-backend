@@ -21,6 +21,13 @@ export class AdminQuestionsController {
         return this._adminQuestionService.findManyUnlinkedForTest(id);
     }
 
+    @Get('/unlinked-for-theme/:themeId')
+    findManyUnlinkedForTheme (
+        @Param('themeId') id: string,
+    ) {
+        return this._adminQuestionService.findManyUnlinkedForTheme(id);
+    }
+
     @Get('/:id')
     findOneById (
         @Param('id') id: string,

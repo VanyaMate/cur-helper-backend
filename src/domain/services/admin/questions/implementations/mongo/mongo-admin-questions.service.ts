@@ -77,7 +77,35 @@ export class MongoAdminQuestionsService implements IAdminQuestionsService {
     }
 
     async findManyUnlinkedForTheme (themeId: string, filter: Filter<QuestionType>, options: Options<QuestionType>): Promise<MultiplyResponse<AdminQuestionShortType>> {
-        throw new Error('Method not implemented.');
+        const linkedQuestions               = await this._questionToThemeRepository.find({ themeId }).distinct('questionId');
+        const questions: QuestionDocument[] = await this._questionRepository.find({
+            ...this._filterConverter.to(filter), _id: {
+                $nin: linkedQuestions,
+            },
+        }, {}, {
+            limit    : options.limit,
+            sort     : options.sort ? {
+                [options.sort[0]]: options.sort[1] === 'asc' ? 1 : -1,
+            } : {},
+            skip     : options.offset,
+            collation: {
+                locale         : 'en',
+                numericOrdering: true,
+            },
+            populate : {
+                path: 'tests',
+            },
+        }).exec();
+
+        return {
+            list   : questions.map((question) => this._questionShortConverter.to(question)),
+            count  : questions.length,
+            options: {
+                limit : options.limit,
+                offset: options.offset,
+                sort  : [], // TODO: Ну из-за разницы типов тут что-то нужно придумать о.о эх
+            },
+        };
     }
 
     async findOneById (id: string): Promise<QuestionFullType> {

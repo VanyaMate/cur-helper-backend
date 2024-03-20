@@ -2,6 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { AdminThemesService } from '@/modules/api/v1/admin/themes/admin-themes.service';
 
 
+
 @Controller('/api/v1/admin/themes')
 export class AdminThemesController {
     constructor (
@@ -13,6 +14,14 @@ export class AdminThemesController {
     @Get()
     getList () {
         return this._adminThemesService.getList({}, { sort: [ 'publicId', 'asc' ] });
+    }
+
+
+    @Get('/unlinked-for-question/:questionId')
+    getUnlinkedForQuestion (
+        @Param('questionId') id: string,
+    ) {
+        return this._adminThemesService.getUnlinkedForQuestion(id);
     }
 
     // TODO: Add guards

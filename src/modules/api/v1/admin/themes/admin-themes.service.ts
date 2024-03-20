@@ -14,6 +14,10 @@ import {
     AdminThemeType, Filter,
     Options,
 } from '@vanyamate/cur-helper-types';
+import { QuestionModel } from '@/db/mongoose/question/question.model';
+import {
+    QuestionToThemeModel,
+} from '@/db/mongoose/question-to-theme/question-to-theme.model';
 
 
 @Injectable()
@@ -22,10 +26,12 @@ export class AdminThemesService {
 
     constructor (
         @InjectModel('ThemeModel') private readonly _themeRepository: Model<ThemeModel>,
+        @InjectModel('QuestionToThemeModel') private readonly _questionRepository: Model<QuestionToThemeModel>,
         private readonly _converter: MongoConverterService,
     ) {
         this._adminThemesService = new MongoAdminThemesService(
             this._themeRepository,
+            this._questionRepository,
             this._converter.theme,
             this._converter.adminTestShort,
             this._converter.adminQuestionShort,
@@ -40,5 +46,9 @@ export class AdminThemesService {
 
     public getOneById (id: string): Promise<AdminThemeType> {
         return this._adminThemesService.getOneTheme(id);
+    }
+
+    public getUnlinkedForQuestion (questionId: string) {
+        return this._adminThemesService.findManyUnlinkedForQuestion(questionId, {}, {});
     }
 }
