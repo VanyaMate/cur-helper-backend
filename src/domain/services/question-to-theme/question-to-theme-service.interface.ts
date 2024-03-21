@@ -2,7 +2,11 @@ import { QuestionToThemeType } from '@vanyamate/cur-helper-types';
 
 
 export interface IQuestionToThemeService {
-    addQuestionToTest (data: QuestionToThemeType): Promise<boolean>;
+    addQuestionToTheme (data: QuestionToThemeType): Promise<boolean>;
 
-    removeQuestionFromTest (data: QuestionToThemeType): Promise<boolean>;
+    addQuestionToThemeByPublicId (data: QuestionToThemeType): Promise<boolean>;
+
+    removeQuestionFromTheme (data: QuestionToThemeType): Promise<boolean>;
+
+    removeQuestionFromThemeByPublicId (data: QuestionToThemeType): Promise<boolean>;
 }

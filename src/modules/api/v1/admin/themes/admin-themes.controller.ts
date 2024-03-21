@@ -2,7 +2,6 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { AdminThemesService } from '@/modules/api/v1/admin/themes/admin-themes.service';
 
 
-
 @Controller('/api/v1/admin/themes')
 export class AdminThemesController {
     constructor (

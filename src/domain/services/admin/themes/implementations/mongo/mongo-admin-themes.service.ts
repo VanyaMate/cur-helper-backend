@@ -34,10 +34,10 @@ export class MongoAdminThemesService implements IAdminThemesService {
     }
 
     async findManyUnlinkedForQuestion (questionId: string, filter: Filter<AdminThemeShortType>, options: Options<AdminThemeShortType>): Promise<MultiplyResponse<AdminThemeShortType>> {
-        const linkedQuestions            = await this._questionRepository.find({ questionId }).distinct('questionId');
+        const linkedThemes            = await this._questionRepository.find({ questionId }).distinct('themeId');
         const themes: ThemeDocument[] = await this._themeRepository.find({
             ...this._mongoFilterConverter.to(filter), _id: {
-                $nin: linkedQuestions,
+                $nin: linkedThemes,
             },
         }, {}, {
             limit    : options.limit,
@@ -48,9 +48,6 @@ export class MongoAdminThemesService implements IAdminThemesService {
             collation: {
                 locale         : 'en',
                 numericOrdering: true,
-            },
-            populate : {
-                path: 'tests',
             },
         }).exec();
 

@@ -15,6 +15,11 @@ export class QuestionToThemeController {
         return this._questionToTestService.add(data);
     }
 
+    @Post('/public')
+    addByPublicId (@Body() data: QuestionToThemeType) {
+        return this._questionToTestService.addByPublicId(data);
+    }
+
     @Delete()
     remove (@Body() data: QuestionToThemeType) {
         return this._questionToTestService.remove(data);

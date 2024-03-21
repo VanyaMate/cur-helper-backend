@@ -20,7 +20,7 @@ export class MongoQuestionToThemeService implements IQuestionToThemeService {
     ) {
     }
 
-    async addQuestionToTest (data: QuestionToThemeType): Promise<boolean> {
+    async addQuestionToTheme (data: QuestionToThemeType): Promise<boolean> {
         try {
             if (!data.themeId || !data.questionId) {
                 throw NO_VALID;
@@ -51,7 +51,44 @@ export class MongoQuestionToThemeService implements IQuestionToThemeService {
         }
     }
 
-    async removeQuestionFromTest (data: QuestionToThemeType): Promise<boolean> {
+    async addQuestionToThemeByPublicId (data: QuestionToThemeType): Promise<boolean> {
+        try {
+            if (!data.themeId || !data.questionId) {
+                throw NO_VALID;
+            }
+
+            const [ questionDoc, themeDoc ]: [ QuestionDocument | null, ThemeDocument | null ] = await Promise.all([
+                this._mongoQuestionRepository.findOne({ _id: data.questionId }),
+                this._mongoThemeRepository.findOne({ publicId: data.themeId }),
+            ]);
+
+            if (questionDoc && themeDoc) {
+                const linkDoc = await this._mongoQuestionToThemeRepository.findOne({
+                    themeId: themeDoc._id, questionId: questionDoc._id,
+                });
+
+                if (linkDoc) {
+                    return false;
+                }
+
+                await this._mongoQuestionToThemeRepository.create({
+                    themeId: themeDoc._id, questionId: questionDoc._id,
+                });
+                return true;
+            }
+
+            throw NOT_FOUND;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async removeQuestionFromThemeByPublicId (data: QuestionToThemeType): Promise<boolean> {
+        throw new Error('Mthod not implement');
+    }
+
+
+    async removeQuestionFromTheme (data: QuestionToThemeType): Promise<boolean> {
         if (!data.themeId || !data.questionId) {
             throw NO_VALID;
         }

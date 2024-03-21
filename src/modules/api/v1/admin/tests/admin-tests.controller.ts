@@ -22,4 +22,11 @@ export class AdminTestsController {
     getMany () {
         return this._adminTestsService.getMany();
     }
+
+    @Get('/unlinked-for-question/:questionId')
+    getUnlinkedForQuestion (
+        @Param('questionId') id: string,
+    ) {
+        return this._adminTestsService.getUnlinkedForQuestion(id);
+    }
 }

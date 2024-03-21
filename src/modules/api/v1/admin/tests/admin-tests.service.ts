@@ -9,6 +9,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TestModel } from '@/db/mongoose/test/test.model';
 import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import {
+    QuestionToTestModel,
+} from '@/db/mongoose/question-to-test/question-to-test.model';
 
 
 @Injectable()
@@ -17,10 +20,12 @@ export class AdminTestsService {
 
     constructor (
         @InjectModel('TestModel') private readonly _testRepository: Model<TestModel>,
+        @InjectModel('QuestionToTestModel') private readonly _questionToTestRepository: Model<QuestionToTestModel>,
         private readonly _converter: MongoConverterService,
     ) {
         this._adminTestsService = new MongoAdminTestsService(
             this._testRepository,
+            this._questionToTestRepository,
             this._converter.test,
             this._converter.adminTestShort,
             this._converter.adminThemeShort,
@@ -36,5 +41,9 @@ export class AdminTestsService {
     // TODO: All
     public getMany () {
         return this._adminTestsService.getList({}, {});
+    }
+
+    public getUnlinkedForQuestion (questionId: string) {
+        return this._adminTestsService.getUnlinkedForQuestion(questionId, {}, {});
     }
 }

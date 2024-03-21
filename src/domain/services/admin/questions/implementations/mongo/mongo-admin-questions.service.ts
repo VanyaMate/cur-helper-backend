@@ -60,9 +60,6 @@ export class MongoAdminQuestionsService implements IAdminQuestionsService {
                 locale         : 'en',
                 numericOrdering: true,
             },
-            populate : {
-                path: 'tests',
-            },
         }).exec();
 
         return {
@@ -91,9 +88,6 @@ export class MongoAdminQuestionsService implements IAdminQuestionsService {
             collation: {
                 locale         : 'en',
                 numericOrdering: true,
-            },
-            populate : {
-                path: 'tests',
             },
         }).exec();
 

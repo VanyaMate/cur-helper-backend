@@ -33,7 +33,7 @@ export class QuestionToThemeService {
 
     async add (data: QuestionToThemeType) {
         try {
-            return await this._questionToThemeService.addQuestionToTest(data);
+            return await this._questionToThemeService.addQuestionToTheme(data);
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
@@ -41,8 +41,17 @@ export class QuestionToThemeService {
 
     async remove (data: QuestionToThemeType) {
         try {
-            return await this._questionToThemeService.removeQuestionFromTest(data);
+            return await this._questionToThemeService.removeQuestionFromTheme(data);
         } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async addByPublicId (data: QuestionToThemeType) {
+        try {
+            return await this._questionToThemeService.addQuestionToThemeByPublicId(data);
+        } catch (e) {
+            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
