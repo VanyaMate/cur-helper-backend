@@ -65,22 +65,16 @@ export class AuthService {
 
     async login (loginData: LoginDataType, response: Response): Promise<UserAuthType> {
         try {
-            console.log('validate');
             await this._dtoValidator.validate(new LoginDto(loginData));
-            console.log('login');
             const user: UserType = await this._authService.login(loginData);
-            console.log('jwt-code');
             const code: string = await this._userJwtCodeService.createFor(user.id);
-            console.log('jwt-service');
             const jwt: string = await this._jwtService.encode({
                 userId: user.id,
                 code,
             });
-            console.log('return');
             // this._cookieService.set(response, jwt);
             return { user, token: jwt };
         } catch (e) {
-            console.log(e);
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
