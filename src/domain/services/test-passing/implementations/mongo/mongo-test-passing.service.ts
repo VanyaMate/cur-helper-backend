@@ -29,8 +29,14 @@ import {
     IConverter,
     TestPassingProcess,
     TestPassingResult,
-    TestPassingResults, TestPassingTestShort, TestPassingThemes,
-    TestPassingType, TestPassingUserShort, TestShortType, ThemeShortType, UserType,
+    TestPassingResults,
+    TestPassingTestShort,
+    TestPassingThemes,
+    TestPassingType,
+    TestPassingUserShort,
+    TestShortType,
+    ThemeShortType,
+    UserType,
 } from '@vanyamate/cur-helper-types';
 
 
@@ -51,6 +57,7 @@ export class MongoTestPassingService implements ITestPassingService {
     }
 
     async start (userId: string, testId: string): Promise<TestPassingProcess & TestPassingType> {
+        console.log('Start test with', userId, testId);
         const runningTest: TestRunningDocument = await this._testRunningRepository.findOne({
             userId,
             testId,

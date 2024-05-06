@@ -5,21 +5,44 @@ import { UserDocument } from '@/db/mongoose/user/user.model';
 import {
     TestPassingQuestionDocument,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import { TestPassingResult, TestPassingState } from '@vanyamate/cur-helper-types';
+import {
+    TestPassingResult,
+    TestPassingState,
+} from '@vanyamate/cur-helper-types';
 
 
-@Schema()
+@Schema({
+    toJSON  : {
+        virtuals: true,
+    },
+    toObject: {
+        virtuals: true,
+    },
+})
 export class TestPassingModel {
     @Prop({ type: Boolean, default: false })
     isPrivate: boolean;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'UserModel', required: true })
+    @Prop({
+        type    : mongoose.Schema.Types.ObjectId,
+        name    : 'UserModel',
+        required: true,
+    })
     userId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, name: 'TestModel', required: true })
+    @Prop({
+        type    : mongoose.Schema.Types.ObjectId,
+        name    : 'TestModel',
+        required: true,
+    })
     testId: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: [ { type: mongoose.Schema.Types.ObjectId, name: 'TestPassingQuestionModel' } ] })
+    @Prop({
+        type: [ {
+            type: mongoose.Schema.Types.ObjectId,
+            name: 'TestPassingQuestionModel',
+        } ],
+    })
     questionsIds: mongoose.Schema.Types.ObjectId[];
 
     @Prop({ type: String, default: 'process' as TestPassingState })

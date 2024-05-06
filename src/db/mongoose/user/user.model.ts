@@ -1,10 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { RoleDocument } from '@/db/mongoose/role/role.model';
+import {
+    TestPassingDocument,
+} from '@/db/mongoose/test-passing/test-passing.model';
 
 
 @Schema({
-    toJSON: {
+    toJSON  : {
+        virtuals: true,
+    },
+    toObject: {
         virtuals: true,
     },
 })
@@ -27,13 +33,18 @@ export class UserModel {
     @Prop({ type: String, default: '' })
     lastName: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RoleModel', default: null })
+    @Prop({
+        type   : mongoose.Schema.Types.ObjectId,
+        ref    : 'RoleModel',
+        default: null,
+    })
     roleId: mongoose.Schema.Types.ObjectId | null;
 
     @Prop({ type: Boolean, default: false })
     verified: boolean;
 
     role?: RoleDocument;
+    tests?: TestPassingDocument[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
@@ -44,4 +55,11 @@ UserSchema.virtual('role', {
     localField  : 'roleId',
     foreignField: '_id',
     justOne     : true,
+});
+
+UserSchema.virtual('tests', {
+    ref         : 'TestPassingModel',
+    localField  : '_id',
+    foreignField: 'userId',
+    justOne     : false,
 });

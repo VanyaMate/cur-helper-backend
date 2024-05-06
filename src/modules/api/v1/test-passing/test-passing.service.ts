@@ -1,8 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TestPassingModel } from '@/db/mongoose/test-passing/test-passing.model';
-import { TestRunningModel } from '@/db/mongoose/test-running/test-running.model';
+import {
+    TestPassingModel,
+} from '@/db/mongoose/test-passing/test-passing.model';
+import {
+    TestRunningModel,
+} from '@/db/mongoose/test-running/test-running.model';
 import {
     TestPassingQuestionModel,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
@@ -16,8 +20,17 @@ import {
 import {
     getTestPassingResult,
 } from '@/domain/converters/test-passing-result/implementations/getTestPassingResult';
-import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
-import { TestPassingProcess, TestPassingType, TestPassingTestShort, TestPassingThemes, TestPassingUserShort, TestPassingResults } from '@vanyamate/cur-helper-types';
+import {
+    MongoConverterService,
+} from '@/modules/services/mongo/mongo-converter.service';
+import {
+    TestPassingProcess,
+    TestPassingType,
+    TestPassingTestShort,
+    TestPassingThemes,
+    TestPassingUserShort,
+    TestPassingResults,
+} from '@vanyamate/cur-helper-types';
 
 
 @Injectable()
@@ -48,12 +61,13 @@ export class TestPassingService implements ITestPassingService {
 
     async start (userId: string, testId: string): Promise<TestPassingProcess & TestPassingType> {
         try {
+            console.log('TestPassingService', userId, testId);
             return await this._testPassingService.start(userId, testId);
         } catch (e) {
             throw new HttpException(e, HttpStatus.BAD_REQUEST);
         }
     }
-c
+
     async finish (userId: string, testPassingId: string): Promise<TestPassingResults & TestPassingUserShort & TestPassingThemes & TestPassingTestShort & TestPassingType> {
         try {
             return await this._testPassingService.finish(userId, testPassingId);

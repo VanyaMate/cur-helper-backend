@@ -14,6 +14,7 @@ export class MongoAdminThemeShortConverter implements IMongoAdminThemeShortConve
             description: from.description,
             enabled    : from.enabled,
             url        : from.url,
+            additional : from.additional,
         };
     }
 

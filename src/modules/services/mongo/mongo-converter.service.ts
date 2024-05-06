@@ -2,8 +2,12 @@ import { Injectable } from '@nestjs/common';
 import {
     MongoFilterConverter,
 } from '@/domain/converters/mongo/mongo-filter.converter';
-import { MongoThemeConverter } from '@/domain/converters/mongo/mongo-theme.converter';
-import { MongoTestConverter } from '@/domain/converters/mongo/mongo-test.converter';
+import {
+    MongoThemeConverter,
+} from '@/domain/converters/mongo/mongo-theme.converter';
+import {
+    MongoTestConverter,
+} from '@/domain/converters/mongo/mongo-test.converter';
 import {
     MongoQuestionAnswerConverter,
 } from '@/domain/converters/mongo/mongo-question-answer.converter';
@@ -76,7 +80,9 @@ import {
     IMongoThemeFullConverter,
     IMongoThemeChildrenConverter,
     IMongoTestWithLatestResultsConverter,
-    IMongoTestListConverter, IMongoTestFullDataConverter,
+    IMongoTestListConverter,
+    IMongoTestFullDataConverter,
+    IMongoTestResultShortConverter,
 } from '@/domain/converters/mongo/mongo-converters.types';
 import {
     MongoAdminThemeShortConverter,
@@ -111,6 +117,9 @@ import {
 import {
     MongoTestFullDataConvertert,
 } from '@/domain/converters/mongo/composite/test/mongo-test-full-data.convertert';
+import {
+    MongoTestResultShortConverter,
+} from '@/domain/converters/mongo/mongo-test-result-short.converter';
 
 
 @Injectable()
@@ -143,6 +152,7 @@ export class MongoConverterService {
     public readonly testWithLatestResults: IMongoTestWithLatestResultsConverter;
     public readonly testList: IMongoTestListConverter;
     public readonly testFullData: IMongoTestFullDataConverter;
+    public readonly testResultShort: IMongoTestResultShortConverter;
 
     constructor () {
         this.filter = new MongoFilterConverter();
@@ -162,6 +172,7 @@ export class MongoConverterService {
         this.adminQuestionShort       = new MongoAdminQuestionShortConverter();
         this.testPassing              = new MongoTestPassingConverter();
 
+        this.testResultShort        = new MongoTestResultShortConverter(this.testShort);
         this.themeRecursiveChildren = new MongoThemeRecursiveChildrenConverter(this.themeShort);
         this.themeChildren          = new MongoThemeChildrenConverter(this.themeShort, this.themeRecursiveChildren);
         this.themeRecursive         = new MongoThemeRecursiveConverter(this.themeShort, this.themeRecursiveChildren);

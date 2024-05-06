@@ -9,18 +9,25 @@ import {
 import {
     QuestionToThemeModule,
 } from '@/modules/api/v1/question-to-theme/question-to-theme.module';
-import { TestPassingModule } from '@/modules/api/v1/test-passing/test-passing.module';
+import {
+    TestPassingModule,
+} from '@/modules/api/v1/test-passing/test-passing.module';
 import { AuthModule } from '@/modules/api/v1/auth/auth.module';
 import { UserModule } from '@/modules/api/v1/user/user.module';
 import { TestsModule } from '@/modules/api/v1/tests/tests.module';
-import { AdminThemesModule } from '@/modules/api/v1/admin/themes/admin-themes.module';
-import { AdminTestsModule } from '@/modules/api/v1/admin/tests/admin-tests.module';
+import {
+    AdminThemesModule,
+} from '@/modules/api/v1/admin/themes/admin-themes.module';
+import {
+    AdminTestsModule,
+} from '@/modules/api/v1/admin/tests/admin-tests.module';
 import {
     QuestionAnswerModule,
 } from '@/modules/api/v1/question-answer/question-answer.module';
 import {
     AdminQuestionsModule,
 } from '@/modules/api/v1/admin/questions/admin-questions.module';
+import { UsersModule } from '@/modules/api/v1/users/users.module';
 
 
 @Module({
@@ -39,6 +46,7 @@ import {
         AdminTestsModule,
         QuestionAnswerModule,
         AdminQuestionsModule,
+        UsersModule,
     ],
 })
 export class ApiV1Module {

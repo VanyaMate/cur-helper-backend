@@ -5,11 +5,14 @@ import { ServicesModule } from '@/modules/services/services.module';
 import { ConfigModule } from '@nestjs/config';
 import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
-import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service';
+import {
+    UserJwtCodeService,
+} from '@/modules/api/v1/auth/user-jwt-code.service';
+import { UserModule } from '@/modules/api/v1/user/user.module';
 
 
 @Module({
-    providers  : [
+    providers: [
         AuthService,
         CookieAuthService,
         JwtService,
@@ -18,11 +21,12 @@ import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service'
     controllers: [
         AuthController,
     ],
-    imports    : [
+    imports: [
         ServicesModule,
         ConfigModule,
+        UserModule,
     ],
-    exports    : [
+    exports: [
         JwtService,
         CookieAuthService,
         UserJwtCodeService,

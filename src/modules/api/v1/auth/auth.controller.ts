@@ -1,7 +1,13 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from '@/modules/api/v1/auth/auth.service';
 import { Response } from 'express';
-import { LoginDataType, RegistrationDataType } from '@vanyamate/cur-helper-types';
+import {
+    LoginDataType,
+    RegistrationDataType,
+} from '@vanyamate/cur-helper-types';
+import {
+    HeaderVerifiedUserGuard,
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/auth')
@@ -33,7 +39,10 @@ export class AuthController {
     }
 
     @Post('refresh')
-    refresh () {
-
+    @UseGuards(HeaderVerifiedUserGuard)
+    refresh (
+        @Req() request: Request,
+    ) {
+        return this._authService.refresh(request['user'], request['jwt-code']);
     }
 }

@@ -8,7 +8,9 @@ import {
     Req,
     UseGuards,
 } from '@nestjs/common';
-import { TestPassingService } from '@/modules/api/v1/test-passing/test-passing.service';
+import {
+    TestPassingService,
+} from '@/modules/api/v1/test-passing/test-passing.service';
 import { Request } from 'express';
 import {
     HeaderVerifiedUserGuard,
@@ -27,6 +29,7 @@ export class TestPassingController {
         @Body() testPassingCreateData: { testId: string },
         @Req() request: Request,
     ) {
+        console.log('TestPassingCreateData', testPassingCreateData);
         return this._testPassingService.start(request['user'].id, testPassingCreateData.testId);
     }
 

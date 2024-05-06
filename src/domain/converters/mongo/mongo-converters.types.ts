@@ -1,5 +1,6 @@
 import {
-    AdminQuestionShortType, AdminTestShortType,
+    AdminQuestionShortType,
+    AdminTestShortType,
     AdminThemeShortType,
     Filter,
     IConverter,
@@ -10,12 +11,20 @@ import {
     QuestionShortType,
     QuestionThemes,
     QuestionType,
-    RoleType, TestFullType, TestListType, TestPassingProcess, TestPassingResults,
+    RoleType,
+    TestFullType,
+    TestListType,
+    TestPassingProcess,
+    TestPassingResults,
     TestPassingShortInfo,
-    TestPassingType, TestShortResult,
+    TestPassingType,
+    TestShortResult,
     TestShortType,
-    TestType, ThemeChildrenType, ThemeFullType,
-    ThemeRecursiveChildren, ThemeRecursiveType,
+    TestType,
+    ThemeChildrenType,
+    ThemeFullType,
+    ThemeRecursiveChildren,
+    ThemeRecursiveType,
     ThemeShortType,
     ThemeType,
     UserType,
@@ -36,7 +45,9 @@ import {
 import {
     ThemeChildrenConverterType,
 } from '@/domain/converters/mongo/mongo-theme-recursive-children.converter';
-import { TestPassingDocument } from '@/db/mongoose/test-passing/test-passing.model';
+import {
+    TestPassingDocument,
+} from '@/db/mongoose/test-passing/test-passing.model';
 import {
     TestPassingResultQuestionAnswerProps,
 } from '@/domain/converters/mongo/mongo-test-passing-result-question-answer.converter';
@@ -52,6 +63,9 @@ import {
 import {
     LatestTestResultType,
 } from '@/domain/services/themes/implementations/mongo/mongo-public-themes-service';
+import {
+    TestResultShortType,
+} from '@vanyamate/cur-helper-types/types/test-passing';
 
 
 export type MongoTestWithLatestResultsDataType = {
@@ -90,6 +104,7 @@ export type IMongoTestPassingShortConverter = IConverter<TestPassingDocument, Te
 export type IMongoTestPassingConverter = IConverter<TestPassingDocument, TestPassingType>;
 export type IMongoTestPassingProcessConverter = IConverter<TestPassingDocument, TestPassingProcess>;
 export type IMongoTestResultConverter = IConverter<TestPassingDocument, TestPassingResults>;
+export type IMongoTestResultShortConverter = IConverter<TestPassingDocument, TestResultShortType>;
 export type IMongoTestResultQuestionConverter = IConverter<TestPassingQuestionDocument, With<QuestionType, [ QuestionSelect, QuestionResult, QuestionThemes, QuestionAnswers ]>>;
 export type IMongoTestResultQuestionAnswerConverter = IConverter<TestPassingResultQuestionAnswerProps, QuestionAnswerType>;
 export type IMongoAdminThemeShortConverter = IConverter<ThemeDocument, AdminThemeShortType>;

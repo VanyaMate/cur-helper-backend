@@ -9,22 +9,30 @@ import {
     MongoAuthenticationService,
 } from '@/domain/services/authentication/implementations/mongo/mongo-authentication.service';
 import { HashService } from '@/modules/services/hash/hash.service';
-import { MongoConverterService } from '@/modules/services/mongo/mongo-converter.service';
+import {
+    MongoConverterService,
+} from '@/modules/services/mongo/mongo-converter.service';
 import {
     DtoValidatorService,
 } from '@/modules/services/dto-validator/dto-validator.service';
-import { RegistrationDto } from '@/domain/services/authentication/dto/registration.dto';
+import {
+    RegistrationDto,
+} from '@/domain/services/authentication/dto/registration.dto';
 import { LoginDto } from '@/domain/services/authentication/dto/login.dto';
 import { CookieAuthService } from '@/modules/api/v1/auth/cookie-auth.service';
 import { Response } from 'express';
 import { JwtService } from '@/modules/api/v1/auth/jwt.service';
-import { UserJwtCodeService } from '@/modules/api/v1/auth/user-jwt-code.service';
+import {
+    UserJwtCodeService,
+} from '@/modules/api/v1/auth/user-jwt-code.service';
 import { UserAuthType } from '@/modules/api/v1/auth/auth-response.types';
 import {
     LoginDataType,
     RegistrationDataType,
     UserType,
 } from '@vanyamate/cur-helper-types';
+import { IUserService } from '@/domain/services/user/user-service.interface';
+import { UserService } from '@/modules/api/v1/user/user.service';
 
 
 @Injectable()
@@ -67,8 +75,8 @@ export class AuthService {
         try {
             await this._dtoValidator.validate(new LoginDto(loginData));
             const user: UserType = await this._authService.login(loginData);
-            const code: string = await this._userJwtCodeService.createFor(user.id);
-            const jwt: string = await this._jwtService.encode({
+            const code: string   = await this._userJwtCodeService.createFor(user.id);
+            const jwt: string    = await this._jwtService.encode({
                 userId: user.id,
                 code,
             });
@@ -82,5 +90,18 @@ export class AuthService {
     async logout (response: Response): Promise<boolean> {
         // await this._cookieService.remove(response);
         return true;
+    }
+
+    async refresh (user: UserType, jwtCode: string): Promise<UserAuthType> {
+        try {
+            const jwt: string = await this._jwtService.encode({
+                userId: user.id,
+                code  : jwtCode,
+            });
+            // this._cookieService.set(response, jwt);
+            return { user, token: jwt };
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.BAD_REQUEST);
+        }
     }
 }
