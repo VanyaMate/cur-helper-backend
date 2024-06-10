@@ -6,6 +6,7 @@ import {
 import {
     QuestionToThemeService,
 } from '@/modules/api/v1/question-to-theme/question-to-theme.service';
+import { AuthModule } from '@/modules/api/v1/auth/auth.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import {
     ],
     imports    : [
         ServicesModule,
+        AuthModule,
     ],
 })
 export class QuestionToThemeModule {
