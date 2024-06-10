@@ -8,6 +8,7 @@ import {
 import {
     HeaderVerifiedUserGuard,
 } from '@/modules/guards/header/header-verified-user.guard';
+import { IsUserGuard } from '@/modules/guards/header/is-user.guard';
 
 
 @Controller('/api/v1/auth')
@@ -39,7 +40,7 @@ export class AuthController {
     }
 
     @Post('refresh')
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     refresh (
         @Req() request: Request,
     ) {

@@ -15,6 +15,7 @@ import { Request } from 'express';
 import {
     HeaderVerifiedUserGuard,
 } from '@/modules/guards/header/header-verified-user.guard';
+import { IsUserGuard } from '@/modules/guards/header/is-user.guard';
 
 
 @Controller('/api/v1/test-passing')
@@ -24,7 +25,7 @@ export class TestPassingController {
 
     // TODO: Возможно перенести в :params
     @Post()
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     create (
         @Body() testPassingCreateData: { testId: string },
         @Req() request: Request,
@@ -34,7 +35,7 @@ export class TestPassingController {
     }
 
     @Post('finish')
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     finish (
         @Body() testPassingFinishData: { testPassingId: string },
         @Req() request: Request,
@@ -43,7 +44,7 @@ export class TestPassingController {
     }
 
     @Patch()
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     setAnswer (
         @Body() testPassingAnswerData: {
             testPassingId: string,
@@ -61,7 +62,7 @@ export class TestPassingController {
     }
 
     @Get('/passing/:testPassingId')
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     getPassingById (
         @Param('testPassingId') id: string,
         @Req() request: Request,
@@ -70,7 +71,7 @@ export class TestPassingController {
     }
 
     @Get('/result/:testPassingId')
-    @UseGuards(HeaderVerifiedUserGuard)
+    @UseGuards(IsUserGuard)
     getResultById (
         @Param('testPassingId') id: string,
         @Req() request: Request,
