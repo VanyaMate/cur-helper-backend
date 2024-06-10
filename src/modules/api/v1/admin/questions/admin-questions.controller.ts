@@ -1,7 +1,10 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import {
     AdminQuestionsService,
 } from '@/modules/api/v1/admin/questions/admin-questions.service';
+import {
+    HeaderVerifiedUserGuard,
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/admin/questions')
@@ -10,11 +13,13 @@ export class AdminQuestionsController {
     }
 
     @Get('/list')
+    @UseGuards(HeaderVerifiedUserGuard)
     findMany () {
         return this._adminQuestionService.findMany();
     }
 
     @Get('/unlinked-for-test/:testId')
+    @UseGuards(HeaderVerifiedUserGuard)
     findManyUnlinkedForTest (
         @Param('testId') id: string,
     ) {
@@ -22,6 +27,7 @@ export class AdminQuestionsController {
     }
 
     @Get('/unlinked-for-theme/:themeId')
+    @UseGuards(HeaderVerifiedUserGuard)
     findManyUnlinkedForTheme (
         @Param('themeId') id: string,
     ) {
@@ -29,6 +35,7 @@ export class AdminQuestionsController {
     }
 
     @Get('/:id')
+    @UseGuards(HeaderVerifiedUserGuard)
     findOneById (
         @Param('id') id: string,
     ) {

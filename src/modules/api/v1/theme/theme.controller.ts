@@ -4,10 +4,13 @@ import {
     Get,
     Param,
     Patch,
-    Post,
+    Post, UseGuards,
 } from '@nestjs/common';
 import { ThemeService } from '@/modules/api/v1/theme/theme.service';
 import { ThemeCreateType, ThemeUpdateType } from '@vanyamate/cur-helper-types';
+import {
+    HeaderVerifiedUserGuard
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/theme')
@@ -16,6 +19,7 @@ export class ThemeController {
     }
 
     @Post()
+    @UseGuards(HeaderVerifiedUserGuard)
     createTheme (@Body() createData: ThemeCreateType) {
         return this._themeService.createTheme(createData);
     }
@@ -26,6 +30,7 @@ export class ThemeController {
     }
 
     @Patch('/:id')
+    @UseGuards(HeaderVerifiedUserGuard)
     updateById (
         @Param('id') id: string,
         @Body() updateData: ThemeUpdateType,
@@ -34,6 +39,7 @@ export class ThemeController {
     }
 
     @Delete('/:id')
+    @UseGuards(HeaderVerifiedUserGuard)
     deleteById (
         @Param('id') id: string,
     ) {

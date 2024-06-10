@@ -1,6 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    UseGuards,
+} from '@nestjs/common';
 import { QuestionService } from '@/modules/api/v1/question/question.service';
 import { QuestionCreateType, QuestionUpdateType } from '@vanyamate/cur-helper-types';
+import {
+    HeaderVerifiedUserGuard
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/question')
@@ -9,6 +21,7 @@ export class QuestionController {
     }
 
     @Post()
+    @UseGuards(HeaderVerifiedUserGuard)
     create (@Body() createData: QuestionCreateType) {
         return this._questionService.create(createData);
     }
@@ -19,6 +32,7 @@ export class QuestionController {
     }
 
     @Patch('/:id')
+    @UseGuards(HeaderVerifiedUserGuard)
     updateById (
         @Param('id') id: string,
         @Body() updateData: QuestionUpdateType,
@@ -27,6 +41,7 @@ export class QuestionController {
     }
 
     @Delete('/:id')
+    @UseGuards(HeaderVerifiedUserGuard)
     deleteById (@Param('id') id: string) {
         return this._questionService.deleteById(id);
     }

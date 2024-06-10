@@ -1,7 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    UseGuards,
+} from '@nestjs/common';
 import {
     QuestionAnswerService,
 } from '@/modules/api/v1/question-answer/question-answer.service';
+import {
+    HeaderVerifiedUserGuard
+} from '@/modules/guards/header/header-verified-user.guard';
 
 
 @Controller('/api/v1/question-answer')
@@ -13,6 +25,7 @@ export class QuestionAnswerController {
 
     // TODO: Update to DTO
     @Post()
+    @UseGuards(HeaderVerifiedUserGuard)
     create (
         @Body() answerCreateDto: any,
     ) {
@@ -20,6 +33,7 @@ export class QuestionAnswerController {
     }
 
     @Patch(':id')
+    @UseGuards(HeaderVerifiedUserGuard)
     update (
         @Param('id') id: string,
         @Body() answerUpdateDto: any,
@@ -28,6 +42,7 @@ export class QuestionAnswerController {
     }
 
     @Delete(':id')
+    @UseGuards(HeaderVerifiedUserGuard)
     delete () {
 
     }
