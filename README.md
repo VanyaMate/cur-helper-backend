@@ -1,5 +1,15 @@
 # CurHelper
 
+## Backend
+- TypeScript
+- Nest
+- Mongoose
+- MongoDB
+- Bcrypt
+- class-validator + class-transformer
+- JWT
+
+
 ### - DomainApiService
 
 Nest deps

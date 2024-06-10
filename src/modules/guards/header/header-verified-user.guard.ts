@@ -34,6 +34,6 @@ export class HeaderVerifiedUserGuard implements CanActivate {
         });
         request['jwt-code']     = data.code;
         request['user']         = user;
-        return user.verified || true; // TODO: Убрать в prod
+        return user.verified;
     }
 }
