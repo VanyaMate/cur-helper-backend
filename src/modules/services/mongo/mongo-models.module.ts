@@ -26,7 +26,10 @@ import {
 import {
     TestPassingQuestionSchema,
 } from '@/db/mongoose/test-passing-question/test-passing-question.model';
-import { UserJwtCodeSchema } from '@/db/mongoose/user-jwt-code/user-jwt-code.model';
+import {
+    UserJwtCodeSchema,
+} from '@/db/mongoose/user-jwt-code/user-jwt-code.model';
+import { NewsModel, NewsSchema } from '@/db/mongoose/news/news.model';
 
 
 @Module({
@@ -37,7 +40,10 @@ import { UserJwtCodeSchema } from '@/db/mongoose/user-jwt-code/user-jwt-code.mod
             { name: 'TestModel', schema: TestSchema },
             { name: 'TestPassingModel', schema: TestPassingSchema },
             { name: 'TestRunningModel', schema: TestRunningSchema },
-            { name: 'TestPassingQuestionModel', schema: TestPassingQuestionSchema },
+            {
+                name  : 'TestPassingQuestionModel',
+                schema: TestPassingQuestionSchema,
+            },
 
             { name: 'QuestionModel', schema: QuestionSchema },
             { name: 'QuestionAnswerModel', schema: QuestionAnswerSchema },
@@ -45,9 +51,13 @@ import { UserJwtCodeSchema } from '@/db/mongoose/user-jwt-code/user-jwt-code.mod
             { name: 'QuestionToThemeModel', schema: QuestionToThemeSchema },
 
             { name: 'UserModel', schema: UserSchema },
-            { name: 'UserVerificationCodeModel', schema: UserVerificationCodeSchema },
+            {
+                name  : 'UserVerificationCodeModel',
+                schema: UserVerificationCodeSchema,
+            },
             { name: 'UserJwtCodeModel', schema: UserJwtCodeSchema },
             { name: 'RoleModel', schema: RoleSchema },
+            { name: 'NewsModel', schema: NewsSchema },
         ]),
     ],
     exports: [

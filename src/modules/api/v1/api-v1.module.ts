@@ -28,6 +28,7 @@ import {
     AdminQuestionsModule,
 } from '@/modules/api/v1/admin/questions/admin-questions.module';
 import { UsersModule } from '@/modules/api/v1/users/users.module';
+import { NewsModule } from '@/modules/api/v1/news/news.module';
 
 
 @Module({
@@ -47,6 +48,7 @@ import { UsersModule } from '@/modules/api/v1/users/users.module';
         QuestionAnswerModule,
         AdminQuestionsModule,
         UsersModule,
+        NewsModule,
     ],
 })
 export class ApiV1Module {
